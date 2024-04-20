@@ -12,3 +12,4 @@ def test():
 
 if __name__ == "__main__":
     app.run(debug=True, port=8080)
+#server works for now, more can be added on in future if needed but dont think it will
