@@ -1,31 +1,44 @@
 "use client"
-import Navbar from "../_components/navbar";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import MenuSection from "./components/menuSection";
-import fetchMenu from "./actions"
 
-export default function Menu() {
-  const [menu, setMenu] = useState([]);
+import { useEffect, useState } from 'react';
+import ChefMenu from './components/chefMenu';
+import CustomerMenu from './components/customerMenu';
+import SurferMenu from './components/surferMenu';
+import Loading from '../_components/loading';
+import { fetchUserType } from './actions';
+
+const MenuPage = () => {
+  const [userType, setUserType] = useState(''); // State to store user type
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchMenu()
-      .then((data) => setMenu(data))
+    fetchUserType()
+      .then((data) => {
+        setUserType(data);
+        setIsLoading(false);
+      })
       .catch((error) => console.error(error));
   }, []);
 
+  // Function to render the appropriate menu component based on user type
+  const renderMenuComponent = () => {
+    switch (userType) {
+      case 'chef':
+        return <ChefMenu />;
+      case 'customer':
+        return <CustomerMenu />;
+      default:
+        return <SurferMenu />;
+    }
+  };
+
+  if (isLoading) return <Loading />;
+
   return (
-    <div className="bg-customLight">
-      <Navbar />
-      <div className="flex flex-col justify-center items-center text-customBlack">
-        <div className="text-6xl font-bold mt-20 mb-4">Menu</div>
-        <div className="border border-customBrown w-11/12 px-16 p-4">
-          <MenuSection />
-          <MenuSection />
-          <MenuSection />
-          <MenuSection />
-        </div>
-      </div>
-    </div >
+    <div>
+      {renderMenuComponent()}
+    </div>
   );
-}
+};
+
+export default MenuPage;
