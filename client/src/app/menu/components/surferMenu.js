@@ -21,7 +21,7 @@ export default function SurferMenu() {
         <div className="text-6xl font-bold mt-20 mb-4">Menu</div>
         <div className="border border-customBrown w-10/12 px-16 p-4">
           {menu.map((section, idx) => (
-            <MenuSection key={idx} title={section.sectionTitle} items={section.items} />
+            <MenuSection key={idx} title={section.sectionTitle} items={section.items} userType={"surfer"} />
           ))}
         </div>
       </div>

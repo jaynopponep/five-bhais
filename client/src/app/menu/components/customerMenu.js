@@ -18,10 +18,10 @@ export default function SurferMenu() {
     <div className="bg-customLight">
       <Navbar />
       <div className="flex flex-col justify-center items-center text-customBlack pb-16">
-        <div className="text-6xl font-bold mt-20 mb-4">Customer</div>
+        <div className="text-6xl font-bold mt-20 mb-4">Menu</div>
         <div className="border border-customBrown w-10/12 px-16 p-4">
           {menu.map((section, idx) => (
-            <MenuSection key={idx} title={section.sectionTitle} items={section.items} />
+            <MenuSection key={idx} title={section.sectionTitle} items={section.items} userType={"customer"} />
           ))}
         </div>
       </div>
