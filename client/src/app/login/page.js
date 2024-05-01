@@ -2,6 +2,8 @@
 import Navbar from "../_components/navbar";
 import Link from "next/link";
 import { useState } from "react";
+import login from "./actions";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 export default function Login() {
 
@@ -9,6 +11,8 @@ export default function Login() {
     email: "",
     password: "",
   });
+
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -20,20 +24,26 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement form submission
-    console.log("submit", formData)
-    // wait 2 seconds
-    await new Promise((r) => setTimeout(r, 2000));
-    // redirect to home page
-    window.location.href = "/";
-
+    setErrorMsg("");
+    try {
+      const user = await login(formData);
+      if (user) {
+        window.location.href = "/";
+      }
+    } catch (error) {
+      setErrorMsg(error.message || "An error occurred. Try again.")
+    }
   };
+
   return (
-    <div>
+    <div className="bg-customLight h-screen">
       <Navbar />
-      <div className="bg-customLight h-screen">
+      <div>
         <div className="flex flex-col justify-center items-center text-customBlack">
-          <div className="text-4xl font-bold mt-4 mb-2">Log In</div>
+          {errorMsg ? <Alert variant="destructive" className="w-[250px] text-center absolute top-24">
+            <AlertTitle>{errorMsg}</AlertTitle>
+          </Alert> : null}
+          <div className="text-5xl font-bold mt-20 mb-4">Log In</div>
           <form className="flex flex-col items-left w-[350px]">
             <label
               className="text-xl font-semibold text-left"
@@ -65,7 +75,7 @@ export default function Login() {
           <button onClick={handleSubmit} className="w-[350px] mt-2 h-12 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300">
             <p className="font-bold text-base md:text-xl">Log In</p>
           </button>
-          <div className="text-lg mt-3 font-semilight">Don't have an account? <span className="font-bold text-blue-600">Sign Up</span></div>
+          <div className="text-lg mt-3 font-semilight">Don't have an account? <Link href="signup" className="font-bold text-blue-600">Sign Up</Link></div>
         </div>
 
       </div>
