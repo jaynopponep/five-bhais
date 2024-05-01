@@ -33,7 +33,7 @@ export async function fetchUserType() {
       firstName: "John",
       lastName: "Doe",
       email: "jdoe@gmail.com",
-      userType: "surfer"
+      userType: "chef"
     }
     return user.userType;
   } catch (error) {

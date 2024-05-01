@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import MenuSection from "./menuSection";
 import { fetchMenu } from "../actions"
 import MenuTable from "./menuTable";
+import { CirclePlus, Trash } from 'lucide-react';
+
 
 export default function SurferMenu() {
   const [menu, setMenu] = useState([]);
@@ -24,10 +26,18 @@ export default function SurferMenu() {
     <div className="bg-customLight">
       <Navbar />
       <div className="flex flex-col justify-center items-center text-customBlack pb-16">
-        <div className="text-6xl font-bold mt-20 mb-4">Chef</div>
-        <div className="border border-customBrown w-10/12 px-16 p-4">
-          <MenuTable items={menu} />
+        <div className="text-6xl font-bold mt-20 mb-4">Manage Menu</div>
+        <div className="flex w-9/12 pb-2 text-customLight items-center">
+          <div className="flex justify-around bg-green-600 mr-4 p-2 rounded-full w-20 cursor-pointer">
+            <CirclePlus />
+            <div>New</div>
+          </div>
+          <div className="flex justify-around bg-red-600 p-2 rounded-full w-24 cursor-pointer">
+            <Trash />
+            <div>Delete</div>
+          </div>
         </div>
+        <MenuTable items={menu} />
       </div>
     </div >
   );
