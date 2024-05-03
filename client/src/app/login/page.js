@@ -3,7 +3,7 @@ import Navbar from "../_components/navbar";
 import Link from "next/link";
 import { useState } from "react";
 import login from "./actions";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Alert, AlertTitle } from "@/components/ui/alert"
 
 export default function Login() {
 
