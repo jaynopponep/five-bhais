@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ac9b8bf9-fc11-4e12-860d-896273d639a4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../server/app/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/app/api/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/app/api/users.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/app/api/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/app/db.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/app/factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../server/ini.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/signup/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/signup/actions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/server.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="backend-db" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2fW1PzVMPXJ47hBfSqrurjGnjvp" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.layout.js.executor": "Run",
+    "Node.js.navbar.js.executor": "Run",
+    "Node.js.next.config.mjs.executor": "Run",
+    "Node.js.page.js.executor": "Run",
+    "Node.js.tailwind.config.js.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "signup",
+    "last_opened_file_path": "C:/Users/Noppo/GitHub Repos/bhai-brothers-csc322/client",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\Noppo\\GitHub Repos\\bhai-brothers-csc322\\client\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="Node.js.navbar.js">
+    <configuration name="layout.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/app/layout.js" working-dir="$PROJECT_DIR$/src/app">
+      <method v="2" />
+    </configuration>
+    <configuration name="navbar.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/app/_components/navbar.js" working-dir="$PROJECT_DIR$/src/app/_components">
+      <method v="2" />
+    </configuration>
+    <configuration name="next.config.mjs" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/next.config.mjs" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
+    <configuration name="page.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/app/page.js" working-dir="$PROJECT_DIR$/src/app">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.navbar.js" />
+        <item itemvalue="Node.js.layout.js" />
+        <item itemvalue="Node.js.page.js" />
+        <item itemvalue="Node.js.next.config.mjs" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ac9b8bf9-fc11-4e12-860d-896273d639a4" name="Changes" comment="" />
+      <created>1713901999816</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1713901999816</updated>
+      <workItem from="1713902000865" duration="125000" />
+      <workItem from="1713981192287" duration="230000" />
+      <workItem from="1714581700288" duration="96000" />
+      <workItem from="1714748698617" duration="1503000" />
+      <workItem from="1714757217506" duration="23000" />
+      <workItem from="1714757246271" duration="776000" />
+      <workItem from="1714828940476" duration="34000" />
+      <workItem from="1714828980955" duration="948000" />
+      <workItem from="1714830863326" duration="7000" />
+      <workItem from="1714838990902" duration="3306000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

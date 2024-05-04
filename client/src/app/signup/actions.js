@@ -1,17 +1,15 @@
 "use server";
 
 export default async function signUp(formData) {
-  try {
-    // TODO: post req /signup endpoint when its implemented
-    const testUser = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      initialDeposit: formData.initialDeposit,
-      password: formData.password,
-    }
-    return testUser
-  } catch (error) {
-    throw error;
+  const response = await fetch('http://localhost:8080/api/v1/users/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  });
+  if (!response.ok) {
+    throw new Error('Failed to register');
   }
+  const data = await response.json();
 }
