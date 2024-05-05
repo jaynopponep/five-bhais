@@ -12,7 +12,7 @@ export default async function login(formData) {
     if (!response.ok) {
       const errorResponse = await response.json();
       console.error('Could not sign up, check endpoint request', errorResponse.message);
-      throw new Error(errorResponse.message || 'Sign up failed');
+      throw new Error(errorResponse.message || 'Sign in failed');
     }
     const data = await response.json();
     console.log(data);

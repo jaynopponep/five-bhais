@@ -58,7 +58,7 @@ def api_login():
         if success:
             return jsonify({'message': 'User logged in successfully'}), 201
         else:
-            return jsonify({'error': 'Login Unsuccessful'}), 400
+            return jsonify({'error': 'Login Unsuccessful'}), 405
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

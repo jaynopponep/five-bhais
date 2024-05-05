@@ -140,20 +140,19 @@ def login():
         loginDetails = request.get_json()
         email = loginDetails["email"]
         password = loginDetails["password"]
+        print("Login details: ", email, password)
 
-        login_data = {
-            "email": email,
-            "password": password
-        }
         verify_email = db.accounts.find_one({"email": email})
+        print("Login email: ", verify_email)
+        if verify_email is None:
+            return False
         if verify_email:
             db_password = verify_email['password']
+            print("Password: ", db_password)
             if db_password == password:
-                return jsonify({'message': 'Login successful'}), 200
+                return True
             else:
-                return jsonify({'error': 'Invalid credentials'}), 401
-        else:
-            return jsonify({'error': 'User not found'}), 404
+                return False
 
     except Exception as e:
         print(f"Error accessing user details: {str(e)}")
