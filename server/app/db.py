@@ -27,7 +27,7 @@ ini_file_path = os.path.join(current_dir, "..", ".ini")
 
 # Load the configuration from the .ini file
 config = configparser.ConfigParser()
-config.read("./ini.txt")
+config.read(".ini")
 
 client = MongoClient(config['PROD']['DB_URI'])
 db = client.get_database("bhaibros")
