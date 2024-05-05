@@ -1,11 +1,25 @@
 "use client"
-import Navbar from "../_components/navbar";
-import { useState } from "react";
-import login from "./actions";
+import Navbar from "../../_components/navbar";
+import { useState, useEffect } from "react";
 import { Alert, AlertTitle } from "@/components/ui/alert"
 import postNewItem from "./actions";
+import { fetchUserType } from '../actions';
+import Loading from '../../_components/loading';
 
 export default function AddItem() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchUserType()
+      .then((data) => {
+        if (data !== 'chef') {
+          window.location.href = '/menu';
+        } else {
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -41,6 +55,8 @@ export default function AddItem() {
       setSuccessMsg("")
     }
   };
+
+  if (isLoading) return <Loading />;
 
   return (
     <div className="bg-customLight h-screen">
