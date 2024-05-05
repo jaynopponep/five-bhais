@@ -17,6 +17,21 @@ export async function fetchRecentDrivers() {
   }
 }
 
+// export async function fetchRecentDrivers() {
+//   try {
+//     // TODO: post req to endpoints when they are implemented
+//     // we want to fetch the last three drivers the user had
+//     const lastThreeDrivers = [
+//       { name: "Sam R." },
+//       { name: "John D." },
+//       { name: "Jane S." },
+//     ];
+//     return lastThreeDrivers;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
+
 export async function postReview(formData) {
   try {
     const response = await fetch('http://localhost:8080/api/v1/users/post-review', {
