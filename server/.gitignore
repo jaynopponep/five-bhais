@@ -1,1 +1,12 @@
-venv/
+# Virtual environments:
+venv
+
+# environment file
+.env
+
+# pycache
+__pycache__
+
+# garbage stuff
+.idea/
+
