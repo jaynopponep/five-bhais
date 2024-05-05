@@ -9,13 +9,12 @@ export default async function signUp(formData) {
       },
       body: JSON.stringify(formData)
     });
-    if (!response.ok) {
-      const errorResponse = await response.json();
-      console.error('Registration failed: ', errorResponse.message);
-      throw new Error(errorResponse.message || 'Registration failed');
-    }
     const data = await response.json();
-    console.log(data);
+    if (!response.ok) {
+      console.error('Registration failed: ', data.error || data); // Use 'data.error' based on your backend error key
+      throw new Error(data.error || 'Registration failed');  // Use the error from the backend if available
+    }
+    console.log('Successful Registration:', data);
     return data;
   } catch (error) {
     console.error('Error occurred during registration:', error);

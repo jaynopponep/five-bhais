@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.db import test_db_connection, get_listings_by_name, verifyNewUser
+from app.db import test_db_connection, verify_new_user, email_exists
 
 from flask_cors import CORS
 from app.api.utils import expect
@@ -23,14 +23,6 @@ def api_test_db():
     return jsonify(response)
 
 
-# TODO: Implement the /listings route to get listings from the database.
-@users_api_v1.route('/listings', methods=['GET'])
-def api_get_listings():
-    name = request.args.get('name', default=None, type=str)
-    listings = get_listings_by_name(name)
-    return jsonify(listings)
-
-
 @users_api_v1.route('/register', methods=['POST'])
 def api_register():
     if not request.is_json:
@@ -38,7 +30,10 @@ def api_register():
     request_data = request.get_json()
     print("received: ", request_data)
     try:
-        success = verifyNewUser()
+        check_email = email_exists()
+        if check_email:
+            return jsonify({'error': 'Email already exists'}), 400
+        success = verify_new_user()
         if success:
             return jsonify({'message': 'User Successfully Registered'}), 201
         else:
