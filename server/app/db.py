@@ -20,7 +20,7 @@ ini_file_path = os.path.join(current_dir, "..", "..ini")
 config = configparser.ConfigParser()
 config.read(".ini")
 
-client = MongoClient(config['PROD']['DB_URI'])
+client = MongoClient(config["PROD"]["DB_URI"])
 db = client.get_database("bhaibros")
 users = db.users
 
@@ -72,11 +72,9 @@ def email_exists():
         email = userDetails["email"]
         # check if email already exists
         existing_email = db.accounts.find_one({"email": email})
-        print("Existing email: ", existing_email)
         if existing_email is not None:
             return True
     except Exception as e:
         # General error handling
         print(f"Error inserting user: {str(e)}")  # Logging the error
         return False
-

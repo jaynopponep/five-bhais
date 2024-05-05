@@ -10,3 +10,5 @@ __pycache__
 # garbage stuff
 .idea/
 
+# ..ini file
+.ini
