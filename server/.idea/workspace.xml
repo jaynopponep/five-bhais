@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e3df0029-bb46-453f-b196-f27746d2b482" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/users.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/db.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ini.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +45,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;signup&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Noppo/GitHub Repos/bhai-brothers-csc322/server&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Noppo/GitHub Repos/2048-AI&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -110,7 +105,10 @@
       <option name="presentableId" value="Default" />
       <updated>1714830619347</updated>
       <workItem from="1714830620504" duration="186000" />
-      <workItem from="1714838760686" duration="3274000" />
+      <workItem from="1714838760686" duration="4394000" />
+      <workItem from="1714857225451" duration="283000" />
+      <workItem from="1714861919448" duration="31000" />
+      <workItem from="1714863766436" duration="601000" />
     </task>
     <servers />
   </component>

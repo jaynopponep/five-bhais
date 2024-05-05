@@ -12,4 +12,5 @@ export default async function signUp(formData) {
     throw new Error('Failed to register');
   }
   const data = await response.json();
+  console.log(data)
 }

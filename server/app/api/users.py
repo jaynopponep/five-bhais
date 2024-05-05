@@ -35,6 +35,8 @@ def api_get_listings():
 def api_register():
     if not request.is_json:
         return jsonify({'error': 'Not JSON request'}), 400
+    request_data = request.get_json()
+    print("received: ", request_data)
     try:
         success = verifyNewUser()
         if success:

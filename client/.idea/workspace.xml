@@ -5,15 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac9b8bf9-fc11-4e12-860d-896273d639a4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../server/app/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../server/app/api/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../server/app/api/users.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../server/app/api/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../server/app/db.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../server/app/factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../server/ini.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/signup/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/signup/actions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.idea/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/app/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/../server/app/db.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +34,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Node.js.actions.js.executor": "Debug",
     "Node.js.layout.js.executor": "Run",
-    "Node.js.navbar.js.executor": "Run",
+    "Node.js.navbar.js.executor": "Debug",
     "Node.js.next.config.mjs.executor": "Run",
     "Node.js.page.js.executor": "Run",
     "Node.js.tailwind.config.js.executor": "Run",
@@ -56,7 +53,10 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Node.js.navbar.js">
+  <component name="RunManager" selected="Node.js.actions.js">
+    <configuration name="actions.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/app/signup/actions.js" working-dir="$PROJECT_DIR$/src/app/signup">
+      <method v="2" />
+    </configuration>
     <configuration name="layout.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/app/layout.js" working-dir="$PROJECT_DIR$/src/app">
       <method v="2" />
     </configuration>
@@ -71,6 +71,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Node.js.actions.js" />
         <item itemvalue="Node.js.navbar.js" />
         <item itemvalue="Node.js.layout.js" />
         <item itemvalue="Node.js.page.js" />
@@ -95,7 +96,8 @@
       <workItem from="1714828940476" duration="34000" />
       <workItem from="1714828980955" duration="948000" />
       <workItem from="1714830863326" duration="7000" />
-      <workItem from="1714838990902" duration="3306000" />
+      <workItem from="1714838990902" duration="4225000" />
+      <workItem from="1714863737403" duration="3361000" />
     </task>
     <servers />
   </component>

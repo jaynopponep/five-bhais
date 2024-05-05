@@ -10,11 +10,13 @@ Look out for TODO markers for additional help. Good luck!
 import bson
 import os
 import configparser
+
+import pymongo
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError, OperationFailure
 from bson.objectid import ObjectId
 from bson.errors import InvalidId
-from flask import request, flash
+from flask import request, flash, jsonify
 import re
 
 
@@ -57,72 +59,79 @@ def get_listings_by_name(name):
 # TODO: Implement db accessor and modifier methods here.
 
 def verifyNewUser():
-    # check to see if valid login credentials are being inserted
-    userDetails = request.get_json()
-    fname = userDetails['fname']
-    lname = userDetails['lname']
-    email = userDetails['email']
-    username = userDetails['uname']
-    password = userDetails['password']
-    conpass = userDetails['conpass']
-    phone = userDetails['phone']
-    card = userDetails['cardnum']
+    try:
+        # check to see if valid login credentials are being inserted
+        userDetails = request.get_json()
+        fname = userDetails["firstName"]
+        lname = userDetails["lastName"]
+        email = userDetails["email"]
+        username = userDetails["initialDeposit"]
+        password = userDetails["password"]
+        conpass = userDetails["confirmPassword"]
 
-    # check if username already exists
-    existing_user = db.accounts.find_one({"username": username})
-    if existing_user:
-        flash('Username already exists.', category='error')
-        return False
+        # check if username already exists
+        # existing_user = db.accounts.find_one({"username": username})
+        # if existing_user:
+        #     flash('Username already exists.', category='error')
+        #     return False
+        #
+        # # check email format
+        # if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        #     flash('Email address is invalid.', category='error')
+        #     return False
+        #
+        # # check password requirements
+        # if not re.search(r"[\d]+", password):
+        #     flash('Password must contain at least 1 digit.', category='error')
+        #     return False
+        # if not re.search(r"[A-Z]+", password):
+        #     flash('Password must contain at least 1 uppercase letter.', category='error')
+        #     return False
+        # if not re.search(r"[a-z]+", password):
+        #     flash('Password must contain at least 1 lowercase letter.', category='error')
+        #     return False
+        # if len(password) < 8:
+        #     flash('Password must contain at least 8 characters.', category='error')
+        #     return False
+        # if password != conpass:
+        #     flash('Passwords do not match.', category='error')
+        #     return False
+        #
+        # # check phone number length
+        # if len(phone) != 10:
+        #     flash('Phone number is invalid. Must be 10 digits.', category='error')
+        #     return False
+        #
+        # # check card number length
+        # if len(card) != 16:
+        #     flash('Card number is invalid. Must be 16 digits.', category='error')
+        #     return False
+        #
+        # # account pending creation. must be approved by manager to be added to database
+        # flash('Account successfully created!', category='success')
 
-    # check email format
-    if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
-        flash('Email address is invalid.', category='error')
-        return False
+        # Insert new account into the database
+        account_data = {
+            "fname": fname,
+            "lname": lname,
+            "email": email,
+            "username": username,
+            "password": password,
+        }
+        account_id = db.accounts.insert_one(account_data).inserted_id
+        customer_data = {
+            "account_id": account_id
+        }
+        db.customers.insert_one(customer_data)
 
-    # check password requirements
-    if not re.search(r"[\d]+", password):
-        flash('Password must contain at least 1 digit.', category='error')
-        return False
-    if not re.search(r"[A-Z]+", password):
-        flash('Password must contain at least 1 uppercase letter.', category='error')
-        return False
-    if not re.search(r"[a-z]+", password):
-        flash('Password must contain at least 1 lowercase letter.', category='error')
-        return False
-    if len(password) < 8:
-        flash('Password must contain at least 8 characters.', category='error')
-        return False
-    if password != conpass:
-        flash('Passwords do not match.', category='error')
-        return False
-
-    # check phone number length
-    if len(phone) != 10:
-        flash('Phone number is invalid. Must be 10 digits.', category='error')
-        return False
-
-    # check card number length
-    if len(card) != 16:
-        flash('Card number is invalid. Must be 16 digits.', category='error')
-        return False
-
-    # account pending creation. must be approved by manager to be added to database
-    flash('Account successfully created!', category='success')
-    
-    # Insert new account into the database
-    account_data = {
-        "fname": fname,
-        "lname": lname,
-        "email": email,
-        "username": username,
-        "password": password,
-        "phone": phone
-    }
-    account_id = db.accounts.insert_one(account_data).inserted_id
-
-    db.customers.insert_one(customer_data)
-    
-    return True
+        return True
+    except pymongo.errors.DuplicateKeyError as e:
+        # Handle duplicate key error
+        return jsonify({'error': 'User already exists'}), 409
+    except Exception as e:
+        # General error handling
+        print(f"Error inserting user: {str(e)}")  # Logging the error
+        return jsonify({'error': 'Internal server error'}), 500
 
 
 # def get_movies_by_country(countries):
