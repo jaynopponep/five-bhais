@@ -135,6 +135,31 @@ def verifyNewUser():
         return jsonify({'error': 'Internal server error'}), 500
 
 
+def login():
+    try:
+        loginDetails = request.get_json()
+        email = loginDetails["email"]
+        password = loginDetails["password"]
+
+        login_data = {
+            "email": email,
+            "password": password
+        }
+        verify_email = db.accounts.find_one({"email": email})
+        if verify_email:
+            db_password = verify_email['password']
+            if db_password == password:
+                return jsonify({'message': 'Login successful'}), 200
+            else:
+                return jsonify({'error': 'Invalid credentials'}), 401
+        else:
+            return jsonify({'error': 'User not found'}), 404
+
+    except Exception as e:
+        print(f"Error accessing user details: {str(e)}")
+        return jsonify({'error': 'Internal server error'}), 500
+
+
 def post_review():
     try:
         reviewDetails = request.get_json()

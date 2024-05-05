@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.db import test_db_connection, get_listings_by_name, verifyNewUser, post_review
+from app.db import test_db_connection, get_listings_by_name, verifyNewUser, post_review, login
 
 from flask_cors import CORS
 from app.api.utils import expect
@@ -43,6 +43,22 @@ def api_register():
             return jsonify({'message': 'User Successfully Registered'}), 201
         else:
             return jsonify({'error': 'Registration Unsuccessful'}), 400
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@users_api_v1.route('/login', methods=['POST'])
+def api_login():
+    if not request.is_json:
+        return jsonify({'error': 'Not JSON request'}), 400
+    request_data = request.get_json()
+    print("LOGIN ROUTE: received: ", request_data)
+    try:
+        success = login()
+        if success:
+            return jsonify({'message': 'User logged in successfully'}), 201
+        else:
+            return jsonify({'error': 'Login Unsuccessful'}), 400
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
