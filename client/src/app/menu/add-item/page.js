@@ -46,8 +46,8 @@ export default function AddItem() {
     setSuccessMsg("");
     try {
       const response = await postNewItem(formData);
-      if (response.status === 200) {
-        setSuccessMsg("Item added successfully!")
+      if (response.message) {
+        setSuccessMsg(response.message)
         setErrorMsg("")
       }
     } catch (error) {
@@ -69,7 +69,7 @@ export default function AddItem() {
           {successMsg ? <Alert variant="default" className="w-[250px] text-center absolute top-24">
             <AlertTitle>{successMsg}</AlertTitle>
           </Alert> : null}
-          <div className="text-5xl font-bold mt-20 mb-4">Add Menu Item</div>
+          <div className="text-5xl font-bold mt-24 mb-4">Add Menu Item</div>
           <form className="flex flex-col items-left w-[350px]">
             <label
               className="text-xl font-semibold text-left"
@@ -123,7 +123,7 @@ export default function AddItem() {
               required
             >
               <option value="">Select a category</option>
-              <option value="">Appetizer</option>
+              <option value="appetizer">Appetizer</option>
               <option value="main">Main</option>
               <option value="dessert">Dessert</option>
               <option value="side">Side</option>
