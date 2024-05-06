@@ -19,7 +19,7 @@ ini_file_path = os.path.join(current_dir, "..", "..ini")
 
 # Load the configuration from the ..ini file
 config = configparser.ConfigParser()
-config.read("/home/abrar/projects/bhai-brothers-csc322/server/.ini")
+config.read(".ini")
 
 client = MongoClient(config["PROD"]["DB_URI"])
 db = client.get_database("bhaibros")
@@ -80,6 +80,7 @@ def email_exists():
         print(f"Error inserting user: {str(e)}")  # Logging the error
         return False
 
+
 def create_new_menu_item(item: dict):
     try:
         # check to see if valid login credentials are being inserted
@@ -93,7 +94,8 @@ def create_new_menu_item(item: dict):
         # General error handling
         print(f"Error inserting item: {str(e)}")  # Logging the error
         return False
-    
+
+
 def edit_menu_item(item: dict):
     try:
         name = item["name"]
@@ -104,6 +106,7 @@ def edit_menu_item(item: dict):
         print(f"Error updating item: {str(e)}")
         return False
 
+
 def delete_menu_item(name: str):
     try:
         db.menu.delete_one({"name": name})
@@ -112,6 +115,7 @@ def delete_menu_item(name: str):
         # General error handling
         print(f"Error deleting item: {str(e)}")
         return False
+
 
 def delete_many_menu_items(names: list):
     try:
