@@ -51,11 +51,11 @@ def create_item():
         price = request_data["price"]
         category = request_data["category"]
         chef = request_data["chef"]
-        expect(name, str)
-        expect(description, str)
-        expect(price, (int, float))
-        expect(category, str)
-        expect(chef, str)
+        expect(name, str, "name")
+        expect(description, str, "description")
+        expect(price, float, "price")
+        expect(category, str, "category")
+        expect(chef, str, "chef")
         create_new_menu_item(item=request_data)
         return jsonify({"message": f"Menu item ({name}) created successfully"}), 201
     except Exception as e:
@@ -74,11 +74,11 @@ def edit_item():
             request_data["category"],
             request_data["chef"]
         )
-        expect(name, str)
-        expect(description, str)
-        expect(price, (int, float))
-        expect(category, str)
-        expect(chef, str)
+        expect(name, str, "name")
+        expect(description, str, "description")
+        expect(price, float, "price")
+        expect(category, str, "category")
+        expect(chef, str, "chef")
         edit_menu_item(item=request_data)
         return jsonify({"message": f"Menu item ({name}) edited successfully"}), 201
     except Exception as e:
@@ -91,7 +91,7 @@ def delete_item():
     request_data = request.get_json()
     try:
         name = request_data["name"]
-        expect(name, str)
+        expect(name, str, "name")
         delete_menu_item(name=name)
         return jsonify({"message": f"Menu item ({name}) deleted successfully"}), 201
     except Exception as e:
@@ -104,8 +104,11 @@ def delete_many_items():
     request_data = request.get_json()
     try:
         items = request_data["items"]
-        expect(items, list)
-        delete_many_menu_items([].append(item["name"] for item in items))
+        expect(items, list, "items")
+        to_delete = []
+        for item in items:
+            to_delete.append(item["name"])
+        delete_many_menu_items(to_delete)
         return jsonify({"message": "Menu items deleted successfully"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400

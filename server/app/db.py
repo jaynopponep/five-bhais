@@ -19,7 +19,7 @@ ini_file_path = os.path.join(current_dir, "..", "..ini")
 
 # Load the configuration from the ..ini file
 config = configparser.ConfigParser()
-config.read(".ini")
+config.read("/home/abrar/projects/bhai-brothers-csc322/server/.ini")
 
 client = MongoClient(config["PROD"]["DB_URI"])
 db = client.get_database("bhaibros")
@@ -96,14 +96,8 @@ def create_new_menu_item(item: dict):
     
 def edit_menu_item(item: dict):
     try:
-        name, description, price, category, chef = (
-            item["name"],
-            item["description"],
-            item["price"],
-            item["category"],
-            item["chef"]
-        )
-        db.menu.update_one({"name": name}, {"$set": {"price": 100}})
+        name = item["name"]
+        db.menu.replace_one({"name": name}, item)
         return True
     except Exception as e:
         # General error handling
