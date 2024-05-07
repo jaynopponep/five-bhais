@@ -1,5 +1,13 @@
 from flask import Blueprint, request, jsonify
-from app.db import test_db_connection, verify_new_user, email_exists, create_new_menu_item, edit_menu_item, delete_menu_item, delete_many_menu_items
+from app.db import (
+    test_db_connection,
+    verify_new_user,
+    email_exists,
+    create_new_menu_item,
+    edit_menu_item,
+    delete_menu_item,
+    delete_many_menu_items,
+)
 
 from flask_cors import CORS
 from app.api.utils import expect
@@ -53,13 +61,14 @@ def create_item():
         chef = request_data["chef"]
         expect(name, str, "name")
         expect(description, str, "description")
-        expect(price, float, "price")
+        expect(price, (int, float), "price")
         expect(category, str, "category")
         expect(chef, str, "chef")
         create_new_menu_item(item=request_data)
         return jsonify({"message": f"Menu item ({name}) created successfully"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
 
 @users_api_v1.route("/editItem", methods=["POST"])
 def edit_item():
@@ -72,18 +81,19 @@ def edit_item():
             request_data["description"],
             request_data["price"],
             request_data["category"],
-            request_data["chef"]
+            request_data["chef"],
         )
         expect(name, str, "name")
         expect(description, str, "description")
-        expect(price, float, "price")
+        expect(price, (int, float), "price")
         expect(category, str, "category")
         expect(chef, str, "chef")
         edit_menu_item(item=request_data)
         return jsonify({"message": f"Menu item ({name}) edited successfully"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-    
+
+
 @users_api_v1.route("/deleteItem", methods=["POST"])
 def delete_item():
     if not request.is_json:
@@ -96,7 +106,8 @@ def delete_item():
         return jsonify({"message": f"Menu item ({name}) deleted successfully"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-    
+
+
 @users_api_v1.route("/deleteManyItems", methods=["POST"])
 def delete_many_items():
     if not request.is_json:
