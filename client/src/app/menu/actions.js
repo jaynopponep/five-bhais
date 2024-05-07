@@ -56,3 +56,36 @@ export async function editItem(formData) {
     throw error;
   }
 }
+
+export async function deleteItem(name) {
+  try {
+    const response = await fetch('http://127.0.0.1:8080/api/v1/users/deleteItem', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name })
+    });
+    const data = await response.json();
+    if (response.ok) return data;
+    else throw new Error(data.error);
+  } catch (error) {
+    throw error;
+  }
+}
+export async function deleteManyItems(names) {
+  try {
+    const response = await fetch('http://127.0.0.1:8080/api/v1/users/deleteManyItems', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ items: names.map(name => ({ name })) })
+    });
+    const data = await response.json();
+    if (response.ok) return data;
+    else throw new Error(data.error);
+  } catch (error) {
+    throw error;
+  }
+}
