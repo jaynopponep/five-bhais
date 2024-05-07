@@ -20,7 +20,7 @@ ini_file_path = os.path.join(current_dir, "..", "..ini")
 config = configparser.ConfigParser()
 config.read(".ini")
 
-client = MongoClient(config['PROD']['DB_URI'])
+client = MongoClient(config["PROD"]["DB_URI"])
 db = client.get_database("bhaibros")
 users = db.users
 
@@ -93,7 +93,7 @@ def login():
         if verify_email is None:
             return False
         if verify_email:
-            db_password = verify_email['password']
+            db_password = verify_email["password"]
             print("Password: ", db_password)
             if db_password == password:
                 return True
@@ -102,26 +102,31 @@ def login():
 
     except Exception as e:
         print(f"Error accessing user details: {str(e)}")
-        return jsonify({'error': 'Internal server error'}), 500
+        return jsonify({"error": "Internal server error"}), 500
 
 
 def post_review():
     try:
         reviewDetails = request.get_json()
         reviewType = reviewDetails["reviewType"]
-        driverSelection = reviewDetails["driverSelection"]
+        if reviewType == "driver":
+            driverSelection = reviewDetails["driverSelection"]
         review = reviewDetails["review"]
         rating = reviewDetails["rating"]
+        author = reviewDetails["author"]
 
         review_data = {
             "reviewType": reviewType,
-            "driverSelection": driverSelection,
             "review": review,
             "rating": rating,
+            "author": author,
         }
+        if reviewType == "driver":
+            driverSelection = reviewDetails["driverSelection"]
+            review_data["driverSelection"] = driverSelection
 
         review_id = db.reviews.insert_one(review_data).inserted_id
         return True
     except Exception as e:
         print(f"Error inserting review: {str(e)}")
-        return jsonify({'error': 'Internal server error'}), 500
+        return jsonify({"error": "Internal server error"}), 500

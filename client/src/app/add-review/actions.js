@@ -34,20 +34,25 @@ export async function fetchRecentDrivers() {
 
 export async function postReview(formData) {
   try {
+    const postData = {
+      ...formData,
+      author: "placeholder author"
+    };
+    if (postData.driverSelection === "")
+      delete postData.driverSelection;
+    console.log(postData)
     const response = await fetch('http://localhost:8080/api/v1/users/post-review', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-        body: JSON.stringify(formData)
+      body: JSON.stringify(postData)
     });
+    const data = await response.json();
+    if (response.ok) return data;
+    else throw new Error(data.error);
   } catch (error) {
     console.error('Error occurred when posting review:', error);
-    throw error;
-  }
-  try {
-    return { status: 200 };
-  } catch (error) {
     throw error;
   }
 }

@@ -28,7 +28,7 @@ export default function Login() {
 
 
   const [formData, setFormData] = useState({
-    reviewType: "",
+    reviewType: "Restaurant",
     driverSelection: "",
     review: "",
     rating: 1,
@@ -56,10 +56,10 @@ export default function Login() {
     setErrorMsg("");
     if (formData.reviewType != "driver")
       formData.driverSelection = "";
-    console.log(formData);
+
     try {
       const response = await postReview(formData);
-      if (response.status === 200) {
+      if (response.message) {
         window.location.href = "/";
       }
     } catch (error) {
