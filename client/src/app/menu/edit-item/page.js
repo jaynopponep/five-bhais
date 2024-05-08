@@ -1,24 +1,13 @@
-import Navbar from '../../_components/Navbar';
-import { Alert, AlertTitle } from "@/components/ui/alert"
-import Loading from '../../_components/Loading';
+import Navbar from '../../components/Navbar';
+import { Alert, AlertTitle } from '@components/ui/alert';
+import Loading from '../../components/Loading';
 
-interface Item {
-  name: string;
-  description: string;
-  price: string;
-  category: string;
-}
-
-interface EditMenuItemProps {
-  itemId: string;
-}
-
-const EditMenuItem: React.FC<EditMenuItemProps> = ({ itemId }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [item, setItem] = useState<Item>({
-    name: '',
-    description: '',
-    price: '',
+export default function EditMenuItem({ itemId }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [item, setItem] = useState({
+    name: '', 
+    description: '', 
+    price: '', 
     category: ''
   });
 
@@ -26,7 +15,7 @@ const EditMenuItem: React.FC<EditMenuItemProps> = ({ itemId }) => {
     async function fetchItemDetails() {
       try {
         const response = await fetch(`/api/items/${itemId}`);
-        const data: Item = await response.json();
+        const data = await response.json();
         setItem(data);
         setIsLoading(false);
       } catch (error) {
@@ -89,5 +78,3 @@ const EditMenuItem: React.FC<EditMenuItemProps> = ({ itemId }) => {
     </>
   );
 }
-
-export default EditMenuItem;
