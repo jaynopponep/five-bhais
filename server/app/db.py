@@ -19,7 +19,7 @@ ini_file_path = os.path.join(current_dir, "..", "..ini")
 
 # Load the configuration from the ..ini file
 config = configparser.ConfigParser()
-config.read(".ini")
+config.read("server/.ini")
 
 client = MongoClient(config["PROD"]["DB_URI"])
 db = client.get_database("bhaibros")
@@ -125,3 +125,29 @@ def delete_many_menu_items(names: list):
         # General error handling
         print(f"Error deleting items: {str(e)}")
         return False
+
+def get_user(id):
+    try:
+        customers = db.accounts
+
+        customer = customers.find_one(
+            {'_id': ObjectId(id)}
+        )
+        if customer:
+            balance = int(customer['balance'])
+            if balance > 500:
+                customers.update_one(
+                    {'_id': ObjectId(id)}, {'$set': {'isVIP': True, 'discount': 0.10}}
+                )
+            else:
+                customers.update_one(
+                    {'_id': ObjectId(id)}, {'$set': {'isVIP': False, 'discount': 0}}
+                )
+        else:
+            print("customer not found")
+
+    except Exception as e:
+        print(f"Unable to detect user: {str(e)}")
+
+
+
