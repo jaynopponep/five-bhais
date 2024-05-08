@@ -1,4 +1,3 @@
-// src/app/edit-item/actions.js
 const fetchItemDetails = async (itemId) => {
     try {
         const response = await fetch(`/api/items/${itemId}`);

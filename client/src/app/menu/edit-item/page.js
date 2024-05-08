@@ -1,7 +1,7 @@
 import Navbar from '../../components/Navbar';
 import { Alert, AlertTitle } from '@components/ui/alert';
 import Loading from '../../components/Loading';
-import { fetchItemDetails, updateItemDetails } from './actions';  // Import from actions.js
+import { fetchItemDetails, updateItemDetails } from './actions';  // Ensure path correctness
 
 export default function EditMenuItem({ itemId }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +12,6 @@ export default function EditMenuItem({ itemId }) {
     category: ''
   });
 
-  // Fetch item details when component mounts or itemId changes
   useEffect(() => {
     async function fetchData() {
       try {
@@ -21,25 +20,23 @@ export default function EditMenuItem({ itemId }) {
         setIsLoading(false);
       } catch (error) {
         console.error('Failed to fetch item details:', error);
-        setIsLoading(false);  // Consider setting error state and displaying it
+        setIsLoading(false);  // Consider setting an error state and displaying it
       }
     }
 
     fetchData();
   }, [itemId]);
 
-  // Handle saving changes
   async function handleSaveChanges() {
     try {
       await updateItemDetails(itemId, item);
       alert('Changes saved successfully!');
     } catch (error) {
       console.error('Error updating item:', error);
-      alert('Failed to save changes.');  // Consider setting error state and displaying it
+      alert('Failed to save changes.');
     }
   }
 
-  // Conditional rendering based on loading state or errors
   if (isLoading) return <Loading />;
 
   return (
@@ -50,20 +47,16 @@ export default function EditMenuItem({ itemId }) {
         <form>
           <label>Name</label>
           <input type="text" value={item.name} readOnly />
-
           <label>Description</label>
           <input type="text" value={item.description} onChange={e => setItem({ ...item, description: e.target.value })} />
-
           <label>Price</label>
           <input type="number" value={item.price} onChange={e => setItem({ ...item, price: e.target.value })} />
-
           <label>Category</label>
           <select value={item.category} onChange={e => setItem({ ...item, category: e.target.value })}>
             <option value="starter">Starter</option>
             <option value="main">Main</option>
             <option value="dessert">Dessert</option>
           </select>
-
           <button type="button" onClick={handleSaveChanges}>Save Changes</button>
         </form>
       </div>
