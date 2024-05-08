@@ -1,4 +1,5 @@
-"use client"
+"use client";
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -6,11 +7,29 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Pencil, Trash } from 'lucide-react';
+} from "@/components/ui/table"; // Adjust this import path to match your project's structure
+import { Checkbox } from "@/components/ui/checkbox"; // Adjust this import path to match your project's structure
+import { Pencil, Trash } from 'lucide-react'; // Ensure lucide-react is installed
 
-export default function MenuTable({ items, onDelete, onEdit }) {
+export default function MenuTable({ items, onEdit, onDelete }) {
+  // This function handles clicking the pencil icon
+  const handleEditClick = (item) => {
+    if (typeof onEdit === 'function') {
+      onEdit(item);
+    } else {
+      console.error('Error: onEdit is not a function. Please pass a valid function for editing.');
+    }
+  };
+
+  // This function handles clicking the trash icon
+  const handleDeleteClick = (itemId) => {
+    if (typeof onDelete === 'function') {
+      onDelete(itemId);
+    } else {
+      console.error('Error: onDelete is not a function. Please pass a valid function for deleting.');
+    }
+  };
+
   return (
     <div className="w-9/12 text-ellipsis truncate">
       <Table className="border-2 border-customBrown text-xl">
@@ -34,8 +53,8 @@ export default function MenuTable({ items, onDelete, onEdit }) {
               <TableCell>{item.price}</TableCell>
               <TableCell className="text-right">
                 <div className="flex justify-around">
-                  <Pencil className="cursor-pointer" onClick={() => onEdit(item)} />
-                  <Trash className="cursor-pointer" onClick={() => onDelete(item.id)} />
+                  <Pencil className="cursor-pointer" onClick={() => handleEditClick(item)} />
+                  <Trash className="cursor-pointer" onClick={() => handleDeleteClick(item.id)} />
                 </div>
               </TableCell>
             </TableRow>
