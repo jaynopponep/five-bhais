@@ -19,7 +19,7 @@ ini_file_path = os.path.join(current_dir, "..", "..ini")
 
 # Load the configuration from the ..ini file
 config = configparser.ConfigParser()
-config.read("server/.ini")
+config.read(".ini")
 
 client = MongoClient(config["PROD"]["DB_URI"])
 db = client.get_database("bhaibros")
@@ -125,6 +125,7 @@ def delete_many_menu_items(names: list):
         # General error handling
         print(f"Error deleting items: {str(e)}")
         return False
+
 
 def get_user(id):
     try:
