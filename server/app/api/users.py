@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from app.db import test_db_connection, verify_new_user, email_exists, post_review, login
 from app.db import (
     test_db_connection,
     verify_new_user,
@@ -35,6 +36,7 @@ def api_register():
     if not request.is_json:
         return jsonify({"error": "Not JSON request"}), 400
     request_data = request.get_json()
+
     try:
         check_email = email_exists()
         if check_email:
@@ -47,7 +49,38 @@ def api_register():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@users_api_v1.route("/login", methods=["POST"])
+def api_login():
+    if not request.is_json:
+        return jsonify({"error": "Not JSON request"}), 400
+    request_data = request.get_json()
+    print("LOGIN ROUTE: received: ", request_data)
+    try:
+        success = login()
+        if success:
+            return jsonify({"message": "User logged in successfully"}), 201
+        else:
+            return jsonify({"error": "Login Unsuccessful"}), 405
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
+
+@users_api_v1.route("/post-review", methods=["POST"])
+def api_post_review():
+    if not request.is_json:
+        return jsonify({"error": "Not JSON request"}), 400
+    request_data = request.get_json()
+    print(request_data)
+    try:
+        success = post_review()
+        if success:
+            return jsonify({"message": "Review successfully posted"}), 201
+        else:
+            return jsonify({"error": "Review could not be posted"}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+      
+      
 @users_api_v1.route("/createItem", methods=["POST"])
 def create_item():
     if not request.is_json:

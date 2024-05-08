@@ -7,7 +7,7 @@ venv
 # pycache
 __pycache__
 
-# garbage stuff
+# jetbrains
 .idea/
 
 # ..ini file
