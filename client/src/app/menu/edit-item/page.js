@@ -1,6 +1,7 @@
 import Navbar from '../../components/Navbar';
 import { Alert, AlertTitle } from '@components/ui/alert';
 import Loading from '../../components/Loading';
+import { fetchItemDetails, updateItemDetails } from './actions';  // Import from actions.js
 
 export default function EditMenuItem({ itemId }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,43 +12,34 @@ export default function EditMenuItem({ itemId }) {
     category: ''
   });
 
+  // Fetch item details when component mounts or itemId changes
   useEffect(() => {
-    async function fetchItemDetails() {
+    async function fetchData() {
       try {
-        const response = await fetch(`/api/items/${itemId}`);
-        const data = await response.json();
+        const data = await fetchItemDetails(itemId);
         setItem(data);
         setIsLoading(false);
       } catch (error) {
         console.error('Failed to fetch item details:', error);
-        setIsLoading(false);
+        setIsLoading(false);  // Consider setting error state and displaying it
       }
     }
 
-    fetchItemDetails();
+    fetchData();
   }, [itemId]);
 
-  function handleSaveChanges() {
-    async function updateItemDetails() {
-      try {
-        const response = await fetch(`/api/items/${itemId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(item)
-        });
-        if (response.ok) {
-          alert('Changes saved successfully!');
-        } else {
-          throw new Error('Failed to save changes');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-      }
+  // Handle saving changes
+  async function handleSaveChanges() {
+    try {
+      await updateItemDetails(itemId, item);
+      alert('Changes saved successfully!');
+    } catch (error) {
+      console.error('Error updating item:', error);
+      alert('Failed to save changes.');  // Consider setting error state and displaying it
     }
-
-    updateItemDetails();
   }
 
+  // Conditional rendering based on loading state or errors
   if (isLoading) return <Loading />;
 
   return (
