@@ -1,3 +1,4 @@
+from datetime import datetime
 import bson
 import os
 import configparser
@@ -72,14 +73,12 @@ def email_exists():
         email = userDetails["email"]
         # check if email already exists
         existing_email = db.accounts.find_one({"email": email})
-        print("Existing email: ", existing_email)
         if existing_email is not None:
             return True
     except Exception as e:
         # General error handling
         print(f"Error inserting user: {str(e)}")  # Logging the error
         return False
-
 
 def login():
     try:
@@ -130,3 +129,73 @@ def post_review():
     except Exception as e:
         print(f"Error inserting review: {str(e)}")
         return jsonify({"error": "Internal server error"}), 500
+
+def create_new_menu_item(item: dict):
+    try:
+        # check to see if valid login credentials are being inserted
+        item_id = db.menu.insert_one(item).inserted_id
+        return True
+
+    except pymongo.errors.DuplicateKeyError as e:
+        # Handle duplicate key error
+        return False
+    except Exception as e:
+        # General error handling
+        print(f"Error inserting item: {str(e)}")  # Logging the error
+        return False
+
+
+def edit_menu_item(item: dict):
+    try:
+        name = item["name"]
+        db.menu.replace_one({"name": name}, item)
+        return True
+    except Exception as e:
+        # General error handling
+        print(f"Error updating item: {str(e)}")
+        return False
+
+
+def delete_menu_item(name: str):
+    try:
+        db.menu.delete_one({"name": name})
+        return True
+    except Exception as e:
+        # General error handling
+        print(f"Error deleting item: {str(e)}")
+        return False
+
+
+def delete_many_menu_items(names: list):
+    try:
+        db.menu.delete_many({"name": {"$in": names}})
+        return True
+    except Exception as e:
+        # General error handling
+        print(f"Error deleting items: {str(e)}")
+        return False
+
+
+def get_user(id):
+    try:
+        customers = db.accounts
+
+        customer = customers.find_one(
+            {'_id': ObjectId(id)}
+        )
+        if customer:
+            balance = int(customer['balance'])
+            if balance > 500:
+                customers.update_one(
+                    {'_id': ObjectId(id)}, {'$set': {'isVIP': True, 'discount': 0.10}}
+                )
+            else:
+                customers.update_one(
+                    {'_id': ObjectId(id)}, {'$set': {'isVIP': False, 'discount': 0}}
+                )
+        else:
+            print("customer not found")
+
+    except Exception as e:
+        print(f"Unable to detect user: {str(e)}")
+

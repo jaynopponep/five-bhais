@@ -1,3 +1,16 @@
 venv/
+
+# Virtual environments:
+venv
+
+# environment file
+.env
+
+# pycache
+__pycache__
+
+# jetbrains
 .idea/
+
+# ..ini file
 .ini
