@@ -14,7 +14,6 @@ export async function fetchMenu() {
     ]
     
     let items = await fetch("http://127.0.0.1:8080/api/v1/users/getMenuItems").then(res => res.json());
-    console.log(items)
     for (let item of items["items"]) {
       if (item.category.toLowerCase() === "Appetizer".toLowerCase()) {
         menu[0].items.push(item)
