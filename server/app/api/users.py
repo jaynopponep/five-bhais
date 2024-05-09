@@ -10,7 +10,8 @@ from app.db import (
     delete_menu_item,
     delete_many_menu_items,
     get_all_menu_items,
-    get_highest_reviews
+    get_highest_reviews,
+    get_usertype_by_email
 )
 
 from flask_cors import CORS
@@ -52,7 +53,7 @@ def api_register():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-      
+
 @users_api_v1.route("/login", methods=["POST"])
 def api_login():
     if not request.is_json:
@@ -161,7 +162,7 @@ def delete_many_items():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-      
+
 @users_api_v1.route("/get_usertype", methods=["GET"])
 def get_user():
     email = request.args.get("email")
@@ -180,8 +181,8 @@ def get_menu_items():
         return jsonify({"items": json.loads(menu_items)}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-    
-  
+
+
 @users_api_v1.route("/getHighestReviews", methods=["GET"])
 def get_highest_reviews():
     limit = request.args.get("limit")

@@ -12,8 +12,8 @@ const MenuPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const email = ""; // placeholder, need to automatically retrieve email
-    fetchUserType(email)
+    // placeholder, need to automatically retrieve email
+    fetchUserType()
       .then((data) => {
         setUserType(data);
         setIsLoading(false);
