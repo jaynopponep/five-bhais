@@ -10,7 +10,8 @@ from app.db import (
     delete_menu_item,
     delete_many_menu_items,
     get_all_menu_items,
-    get_highest_reviews
+    get_highest_reviews,
+    get_usertype_by_email
 )
 
 from flask_cors import CORS
