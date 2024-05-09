@@ -79,23 +79,22 @@ export async function fetchReviews() {
   }
 }
 
-export async function fetchUserType() {
+export async function fetchUserType(email) {
   try {
-    const response = await fetch("http://localhost:8080/api/v1/users", {
-      method: "POST",
+    const url = new URL("http://localhost:8080/api/v1/users/get_usertype");
+    url.searchParams.append("email", email);
+    const response = await fetch(url, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(),
     });
+    // if (!response.ok) {
+    //   throw new Error("L response buddy");
+    // }
 
-    const user = {
-      firstName: "John",
-      lastName: "Doe",
-      email: "jdoe@gmail.com",
-      userType: "customer",
-    };
-    return user.userType;
+    const userData = await response.json();
+    return userData.role;
   } catch (error) {
     throw error;
   }

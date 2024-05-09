@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.db import test_db_connection, verify_new_user, email_exists, post_review, login
+from app.db import test_db_connection, verify_new_user, email_exists, post_review, login, get_usertype_by_email
 from app.db import (
     test_db_connection,
     verify_new_user,
@@ -157,8 +157,12 @@ def delete_many_items():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-@users_api_v1.route("/get_user", methods=["GET"])
+@users_api_v1.route("/get_usertype", methods=["GET"])
 def get_user():
     email = request.args.get("email")
     if not email:
         return jsonify({"error": "no email received"}), 400
+    user_data = get_usertype_by_email(email)
+    if user_data is None:
+        return jsonify({"error": "user not found"}), 404
+    return jsonify(user_data), 200
