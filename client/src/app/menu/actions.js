@@ -5,13 +5,6 @@ import { redirect } from "next/dist/server/api-utils";
 export async function fetchMenu() {
   try {
     // TODO: get req /get-menu endpoint when its implemented
-    items = fetch("http://127.0.0.1:8080/api/v1/users/getMenuItems")
-    const menuItem = {
-      "name": "Test Menu Item",
-      "price": 10.99,
-      "description": "This is a test menu item",
-
-    }
     const menu = [
       { "sectionTitle": "Appetizer", "items": [] },
       { "sectionTitle": "Main", "items": [] },
@@ -19,17 +12,19 @@ export async function fetchMenu() {
       { "sectionTitle": "Drinks", "items": [] },
       { "sectionTitle": "Sides", "items": [] },
     ]
-
-    for (const item of items) {
-      if (item.sectionTitle.toLowerCase() === "Appetizer".toLowerCase()) {
+    
+    let items = await fetch("http://127.0.0.1:8080/api/v1/users/getMenuItems").then(res => res.json());
+    console.log(items)
+    for (let item of items["items"]) {
+      if (item.category.toLowerCase() === "Appetizer".toLowerCase()) {
         menu[0].items.push(item)
-      } else if (item.sectionTitle.toLowerCase() === "Main".toLowerCase()) {
+      } else if (item.category.toLowerCase() === "Main".toLowerCase()) {
         menu[1].items.push(item)
-      } else if (item.sectionTitle.toLowerCase() === "Dessert".toLowerCase()) {
+      } else if (item.category.toLowerCase() === "Dessert".toLowerCase()) {
         menu[2].items.push(item)
-      } else if (item.sectionTitle.toLowerCase() === "Drinks".toLowerCase()) {
+      } else if (item.category.toLowerCase() === "Drinks".toLowerCase()) {
         menu[3].items.push(item)
-      } else if (item.sectionTitle.toLowerCase() === "Sides".toLowerCase()) {
+      } else if (item.category.toLowerCase() === "Sides".toLowerCase()) {
         menu[4].items.push(item)
       }
     }

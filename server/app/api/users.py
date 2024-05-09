@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 import bson
+import json
 from app.db import (
     test_db_connection,
     verify_new_user,
@@ -131,7 +132,7 @@ def delete_many_items():
 def get_menu_items():
     try:
         menu_items = get_all_menu_items()
-        return jsonify({"items": menu_items}), 200
+        return jsonify({"items": json.loads(menu_items)}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
     
