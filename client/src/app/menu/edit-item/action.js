@@ -1,16 +1,3 @@
-const fetchItemDetails = async (itemId) => {
-    try {
-        const response = await fetch(`/api/items/${itemId}`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch item details');
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching item details:', error);
-        throw error;  // Rethrowing the error allows for handling it in the component.
-    }
-};
-
 const updateItemDetails = async (itemData) => {
     try {
         const response = await fetch("http://localhost:8080/api/v1/users/editItem", {
@@ -30,4 +17,24 @@ const updateItemDetails = async (itemData) => {
     }
 };
 
-export { fetchItemDetails, updateItemDetails };
+async function deleteItem(item) {
+    try {
+        const response = await fetch("http://localhost:8080/api/v1/users/deleteItem", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(item)
+        });
+        if (!response.ok) {
+            throw new Error('Failed to delete item');
+        }
+        return await response.json();
+    }
+    catch (error) {
+        console.error('Error deleting item:', error);
+        throw error;
+    }
+}
+
+export { updateItemDetails, deleteItem };

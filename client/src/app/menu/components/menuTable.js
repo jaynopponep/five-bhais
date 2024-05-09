@@ -8,26 +8,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"; // Adjust this import path to match your project's structure
+import "../edit-item/action";
 import { Checkbox } from "@/components/ui/checkbox"; // Adjust this import path to match your project's structure
 import { Pencil, Trash } from 'lucide-react'; // Ensure lucide-react is installed
+import { updateItemDetails } from '../edit-item/action';
+import { deleteItem } from '../actions';
 
-export default function MenuTable({ items, onEdit, onDelete }) {
+export default function MenuTable({ items}) {
   // This function handles clicking the pencil icon
-  const handleEditClick = (item) => {
-    if (typeof onEdit === 'function') {
-      onEdit(item);
-    } else {
-      console.error('Error: onEdit is not a function. Please pass a valid function for editing.');
-    }
+const handleEditClick = async (item) => {
+    await updateItemDetails(item);
   };
 
   // This function handles clicking the trash icon
-  const handleDeleteClick = (itemId) => {
-    if (typeof onDelete === 'function') {
-      onDelete(itemId);
-    } else {
-      console.error('Error: onDelete is not a function. Please pass a valid function for deleting.');
-    }
+  const handleDeleteClick = async (item) => {
+    await deleteItem(item)
   };
 
   return (
@@ -54,7 +49,7 @@ export default function MenuTable({ items, onEdit, onDelete }) {
               <TableCell className="text-right">
                 <div className="flex justify-around">
                   <Pencil className="cursor-pointer" onClick={() => handleEditClick(item)} />
-                  <Trash className="cursor-pointer" onClick={() => handleDeleteClick(item.id)} />
+                  <Trash className="cursor-pointer" onClick={() => handleDeleteClick(item)} />
                 </div>
               </TableCell>
             </TableRow>
