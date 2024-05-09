@@ -1,4 +1,20 @@
 venv/
 
+<<<<<<< HEAD
 # ignore .ini file
+=======
+# Virtual environments:
+venv
+
+# environment file
+.env
+
+# pycache
+__pycache__
+
+# jetbrains
+.idea/
+
+# ..ini file
+>>>>>>> 53ae3b655864be258919a5ca21f6950b45503157
 .ini

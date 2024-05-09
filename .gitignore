@@ -6,3 +6,12 @@ venv
 
 # pycache
 __pycache__
+
+# jetbrains
+.idea/
+
+# .ini file
+.ini
+
+# venv
+.venv/

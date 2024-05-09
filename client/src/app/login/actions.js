@@ -2,16 +2,25 @@
 
 export default async function login(formData) {
   try {
-    // TODO: post req /login endpoint when its implemented
-    const testUser = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      initialDeposit: formData.initialDeposit,
-      password: formData.password,
+    const response = await fetch('http://localhost:8080/api/v1/users/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      console.error('Could not sign up, check endpoint request', errorResponse.message);
+      throw new Error(errorResponse.message || 'Sign in failed');
     }
-    return testUser
+    const data = await response.json();
+    console.log(data);
+    return data;
   } catch (error) {
+    console.error('An error occurred when trying to send a request', error);
     throw error;
   }
 }
+
+
