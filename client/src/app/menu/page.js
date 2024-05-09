@@ -1,18 +1,19 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from 'react';
-import ChefMenu from './components/chefMenu';
-import CustomerMenu from './components/customerMenu';
-import SurferMenu from './components/surferMenu';
-import Loading from '../_components/loading';
-import { fetchUserType } from './actions';
+import { useEffect, useState } from "react";
+import ChefMenu from "./components/chefMenu";
+import CustomerMenu from "./components/customerMenu";
+import SurferMenu from "./components/surferMenu";
+import Loading from "../_components/loading";
+import { fetchUserType } from "./actions";
 
 const MenuPage = () => {
-  const [userType, setUserType] = useState(''); // State to store user type
+  const [userType, setUserType] = useState(""); // State to store user type
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchUserType()
+    const email = ""; // placeholder, need to automatically retrieve email
+    fetchUserType(email)
       .then((data) => {
         setUserType(data);
         setIsLoading(false);
@@ -23,9 +24,9 @@ const MenuPage = () => {
   // Function to render the appropriate menu component based on user type
   const renderMenuComponent = () => {
     switch (userType) {
-      case 'chef':
+      case "chef":
         return <ChefMenu />;
-      case 'customer':
+      case "customer":
         return <CustomerMenu />;
       default:
         return <SurferMenu />;
@@ -34,11 +35,7 @@ const MenuPage = () => {
 
   if (isLoading) return <Loading />;
 
-  return (
-    <div>
-      {renderMenuComponent()}
-    </div>
-  );
+  return <div>{renderMenuComponent()}</div>;
 };
 
 export default MenuPage;

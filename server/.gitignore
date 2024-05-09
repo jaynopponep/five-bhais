@@ -1,8 +1,5 @@
 venv/
 
-<<<<<<< HEAD
-# ignore .ini file
-=======
 # Virtual environments:
 venv
 
@@ -16,5 +13,4 @@ __pycache__
 .idea/
 
 # ..ini file
->>>>>>> 53ae3b655864be258919a5ca21f6950b45503157
 .ini

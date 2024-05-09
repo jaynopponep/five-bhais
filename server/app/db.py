@@ -24,7 +24,7 @@ config.read(".ini")
 client = MongoClient(config["PROD"]["DB_URI"])
 db = client.get_database("bhaibros")
 users = db.users
-
+accounts = db.accounts
 
 # Test the database connection:
 def test_db_connection():
@@ -54,6 +54,7 @@ def verify_new_user():
             "balance": balance,
             "email": email,
             "password": password,
+            "role": "customer"
         }
         account_id = db.accounts.insert_one(account_data).inserted_id
         return True
@@ -176,26 +177,24 @@ def delete_many_menu_items(names: list):
         return False
 
 
-def get_user(id):
+def get_usertype_by_email(email):
     try:
-        customers = db.accounts
-
-        customer = customers.find_one(
-            {'_id': ObjectId(id)}
-        )
+        customer = accounts.find_one({"email": email})
         if customer:
             balance = int(customer['balance'])
             if balance > 500:
-                customers.update_one(
-                    {'_id': ObjectId(id)}, {'$set': {'isVIP': True, 'discount': 0.10}}
+                accounts.update_one(
+                    {"email": email}, {'$set': {'isVIP': True, 'discount': 0.10}}
                 )
             else:
-                customers.update_one(
-                    {'_id': ObjectId(id)}, {'$set': {'isVIP': False, 'discount': 0}}
+                accounts.update_one(
+                    {"email": email}, {'$set': {'isVIP': False, 'discount': 0}}
                 )
+            return {
+                "role": customer.get("role")
+            }
         else:
             print("customer not found")
 
     except Exception as e:
         print(f"Unable to detect user: {str(e)}")
-
