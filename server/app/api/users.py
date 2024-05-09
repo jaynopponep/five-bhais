@@ -39,6 +39,7 @@ def api_register():
     if not request.is_json:
         return jsonify({"error": "Not JSON request"}), 400
     request_data = request.get_json()
+
     try:
         check_email = email_exists()
         if check_email:
@@ -48,6 +49,38 @@ def api_register():
             return jsonify({"message": "User Successfully Registered"}), 201
         else:
             return jsonify({"error": "Registration Unsuccessful"}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+      
+@users_api_v1.route("/login", methods=["POST"])
+def api_login():
+    if not request.is_json:
+        return jsonify({"error": "Not JSON request"}), 400
+    request_data = request.get_json()
+    print("LOGIN ROUTE: received: ", request_data)
+    try:
+        success = login()
+        if success:
+            return jsonify({"message": "User logged in successfully"}), 201
+        else:
+            return jsonify({"error": "Login Unsuccessful"}), 405
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@users_api_v1.route("/post-review", methods=["POST"])
+def api_post_review():
+    if not request.is_json:
+        return jsonify({"error": "Not JSON request"}), 400
+    request_data = request.get_json()
+    print(request_data)
+    try:
+        success = post_review()
+        if success:
+            return jsonify({"message": "Review successfully posted"}), 201
+        else:
+            return jsonify({"error": "Review could not be posted"}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -128,6 +161,18 @@ def delete_many_items():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
+      
+@users_api_v1.route("/get_usertype", methods=["GET"])
+def get_user():
+    email = request.args.get("email")
+    if not email:
+        return jsonify({"error": "no email received"}), 400
+    user_data = get_usertype_by_email(email)
+    if user_data is None:
+        return jsonify({"error": "user not found"}), 404
+    return jsonify(user_data), 200
+
+
 @users_api_v1.route("/getMenuItems", methods=["GET"])
 def get_menu_items():
     try:
@@ -136,6 +181,7 @@ def get_menu_items():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
     
+  
 @users_api_v1.route("/getHighestReviews", methods=["GET"])
 def get_highest_reviews():
     limit = request.args.get("limit")
