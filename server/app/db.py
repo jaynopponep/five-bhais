@@ -18,7 +18,7 @@ ini_file_path = os.path.join(current_dir, "..", "..ini")
 
 # Load the configuration from the ..ini file
 config = configparser.ConfigParser()
-config.read("server/.ini")
+config.read(".ini")
 
 client = MongoClient(config["PROD"]["DB_URI"])
 db = client.get_database("bhaibros")
@@ -228,7 +228,7 @@ def update_userType(email):
                         {"email": email}
                     )
                     print("Warning limit reached. You have been deregistered")
-                
+
         else:
             print("customer not found")
     except Exception as e:
@@ -243,7 +243,7 @@ def update_driver(email, driver_data):
 
         if customer:
             accounts.update_one(
-                {"email": email}, {'$set': driver_data} 
+                {"email": email}, {'$set': driver_data}
             )
             return True
     except Exception as e:
