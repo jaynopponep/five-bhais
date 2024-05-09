@@ -53,7 +53,7 @@ def api_register():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-      
+
 @users_api_v1.route("/login", methods=["POST"])
 def api_login():
     if not request.is_json:
@@ -162,7 +162,7 @@ def delete_many_items():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-      
+
 @users_api_v1.route("/get_usertype", methods=["GET"])
 def get_user():
     email = request.args.get("email")
@@ -181,8 +181,8 @@ def get_menu_items():
         return jsonify({"items": json.loads(menu_items)}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-    
-  
+
+
 @users_api_v1.route("/getHighestReviews", methods=["GET"])
 def get_highest_reviews():
     limit = request.args.get("limit")
