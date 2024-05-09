@@ -125,3 +125,96 @@ def delete_many_menu_items(names: list):
         # General error handling
         print(f"Error deleting items: {str(e)}")
         return False
+
+
+
+def update_userType(id):
+    try:
+        customers = db.accounts
+        customer = customers.find_one(
+            {'_id': ObjectId(id)}
+        )
+
+        if customer:
+            # check if isVIP true or false
+            if customer["isVIP"] == True:
+                customers.update_one(
+                    {'_id': ObjectId(id)}, {'$set': {'warnings': 0}}
+                )
+                # if warning >= 2, update warnings and isVIP = false and discount = 0
+                numWarning = int(customer["warnings"])
+                if numWarning >= 2:
+                    customers.update_one( # reset warnings to 0
+                        {'_id': ObjectId(id)}, {'warnings': 0}, {'isVIP': False}, {'discount': 0}
+                    )
+                    print("Warning limit reached. You have been registered as a regular customer")
+            else: # customer is regular
+                customers.update_one(
+                    {'_id': ObjectId(id)}, {'$set': {'warnings': 0}}
+                )
+                # if warning >= 2, delete account
+                numWarning = int(customer["warnings"])
+                if numWarning >= 2:
+                    customers.delete_one(
+                        {'_id': ObjectId(id)}
+                    )
+                    print("Warning limit reached. You have been deregistered")
+                
+        else:
+            print("customer not found")
+    except Exception as e:
+        print("unable to return user type")
+
+
+
+
+
+""""
+def getUserInDatabaseByLogin(db):
+    '''
+    Get a user from the database
+
+    **USE THIS METHOD WHEN A USER IS ATTEMPTING TO LOG IN**
+
+    return the user object if the account exist in the database 
+    '''
+    # fetch form data
+    userDetails = request.form
+    username = userDetails['username']
+    password = userDetails['password']
+
+    # checks if user exists in the database
+    cursor = db.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password,))
+    account = cursor.fetchone()
+
+    # if account exists in the database
+    if account:
+        if account["type"] == 'customer':
+            cursor.execute('SELECT * FROM customer WHERE customer_id = %s', (str(account["id"]),))
+            customer = cursor.fetchone()
+            if customer["isClosed"] == 1:
+                flash('Account was recently closed.', category = 'error')
+            elif customer["isBlacklisted"] == 1:
+                flash('Account is blacklisted.', category = 'error')
+            else:
+                flash('Logged in successfully!', category = 'success')
+                return convertUser(account, customer)
+        if account["type"] == 'manager':
+            cursor.execute('SELECT * FROM employee WHERE employee_id = %s', (str(account["id"]),))
+            manager = cursor.fetchone()
+            return convertUser(account, manager)
+        if account["type"] == 'chef':
+            cursor.execute('SELECT * FROM chef WHERE chef_id = %s', (str(account["id"]),))
+            chef = cursor.fetchone()
+            return convertUser(account, chef)
+        if account["type"] == 'delivery':
+            cursor.execute('SELECT * FROM delivery WHERE delivery_id = %s', (str(account["id"]),))
+            delivery = cursor.fetchone()
+            return convertUser(account, delivery)
+
+    else:
+        # account does not exist or username/password is incorrect
+        flash('Username/password is incorrect.', category = 'error')
+        return None
+"""
