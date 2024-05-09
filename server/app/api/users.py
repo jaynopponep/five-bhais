@@ -166,3 +166,20 @@ def get_user():
     if user_data is None:
         return jsonify({"error": "user not found"}), 404
     return jsonify(user_data), 200
+
+@users_api_v1.route("/getMenuItems", methods=["GET"])
+def get_menu_items():
+    try:
+        menu_items = get_all_menu_items()
+        return jsonify({"items": json.loads(menu_items)}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+    
+@users_api_v1.route("/getHighestReviews", methods=["GET"])
+def get_highest_reviews():
+    limit = request.args.get("limit")
+    try:
+        highest_reviews = get_highest_reviews(limit=limit)
+        return jsonify({"items": highest_reviews}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
