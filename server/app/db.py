@@ -176,7 +176,7 @@ def delete_many_menu_items(names: list):
         return False
 
 
-def get_user(id):
+def get_user(email):
     try:
         customers = db.accounts
 
@@ -198,4 +198,3 @@ def get_user(id):
 
     except Exception as e:
         print(f"Unable to detect user: {str(e)}")
-

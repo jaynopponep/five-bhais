@@ -79,8 +79,8 @@ def api_post_review():
             return jsonify({"error": "Review could not be posted"}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-      
-      
+
+
 @users_api_v1.route("/createItem", methods=["POST"])
 def create_item():
     if not request.is_json:
@@ -156,3 +156,9 @@ def delete_many_items():
         return jsonify({"message": "Menu items deleted successfully"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
+@users_api_v1.route("/get_user", methods=["GET"])
+def get_user():
+    email = request.args.get("email")
+    if not email:
+        return jsonify({"error": "no email received"}), 400
