@@ -2,7 +2,6 @@ from datetime import datetime
 import bson
 import os
 import configparser
-
 import pymongo
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError, OperationFailure
@@ -19,7 +18,7 @@ ini_file_path = os.path.join(current_dir, "..", "..ini")
 
 # Load the configuration from the ..ini file
 config = configparser.ConfigParser()
-config.read(".ini")
+config.read("server/.ini")
 
 client = MongoClient(config["PROD"]["DB_URI"])
 db = client.get_database("bhaibros")
@@ -198,3 +197,55 @@ def get_usertype_by_email(email):
 
     except Exception as e:
         print(f"Unable to detect user: {str(e)}")
+
+def update_userType(email):
+    try:
+        customer = accounts.find_one(
+            {"email": email}
+        )
+
+        if customer:
+            # check if isVIP true or false
+            if customer["isVIP"] == True:
+                accounts.update_one(
+                    {"email": email}, {'$set': {'warnings': 0}}
+                )
+                # if warning >= 2, update warnings and isVIP = false and discount = 0
+                numWarning = int(customer["warnings"])
+                if numWarning >= 2:
+                    accounts.update_one( # reset warnings to 0
+                        {"email": email}, {'warnings': 0}, {'isVIP': False}, {'discount': 0}
+                    )
+                    print("Warning limit reached. You have been registered as a regular customer")
+            else: # customer is regular
+                accounts.update_one(
+                    {"email": email}, {'$set': {'warnings': 0}}
+                )
+                # if warning >= 2, delete account
+                numWarning = int(customer["warnings"])
+                if numWarning >= 2:
+                    accounts.delete_one(
+                        {"email": email}
+                    )
+                    print("Warning limit reached. You have been deregistered")
+                
+        else:
+            print("customer not found")
+    except Exception as e:
+        print("unable to return user type")
+
+
+def update_driver(email, driver_data):
+    try:
+        customer = accounts.find_one(
+            {"email": email}
+        )
+
+        if customer:
+            accounts.update_one(
+                {"email": email}, {'$set': driver_data} 
+            )
+            return True
+    except Exception as e:
+        print("Unable to update driver:", e)
+        return False
