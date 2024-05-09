@@ -11,8 +11,7 @@ import {
 import "../edit-item/action";
 import { Checkbox } from "@/components/ui/checkbox"; // Adjust this import path to match your project's structure
 import { Pencil, Trash } from 'lucide-react'; // Ensure lucide-react is installed
-import { updateItemDetails } from '../edit-item/action';
-import { deleteItem } from '../actions';
+import { updateItemDetails, deleteItem } from '../edit-item/action';
 
 export default function MenuTable({ items}) {
   // This function handles clicking the pencil icon
