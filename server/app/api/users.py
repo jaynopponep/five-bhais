@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
-from app.db import test_db_connection, verify_new_user, email_exists, post_review, login, get_usertype_by_email
+import bson
+import json
 from app.db import (
     test_db_connection,
     verify_new_user,
@@ -8,6 +9,8 @@ from app.db import (
     edit_menu_item,
     delete_menu_item,
     delete_many_menu_items,
+    get_all_menu_items,
+    get_highest_reviews
 )
 
 from flask_cors import CORS
@@ -49,6 +52,7 @@ def api_register():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+      
 @users_api_v1.route("/login", methods=["POST"])
 def api_login():
     if not request.is_json:
@@ -157,6 +161,7 @@ def delete_many_items():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
+      
 @users_api_v1.route("/get_usertype", methods=["GET"])
 def get_user():
     email = request.args.get("email")
@@ -167,6 +172,7 @@ def get_user():
         return jsonify({"error": "user not found"}), 404
     return jsonify(user_data), 200
 
+
 @users_api_v1.route("/getMenuItems", methods=["GET"])
 def get_menu_items():
     try:
@@ -175,6 +181,7 @@ def get_menu_items():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
     
+  
 @users_api_v1.route("/getHighestReviews", methods=["GET"])
 def get_highest_reviews():
     limit = request.args.get("limit")
