@@ -38,7 +38,7 @@ export default function EditMenuItemPage({ itemId }) {
   const handleSaveChanges = async () => {
     try {
       // Call the update API action
-      await updateItemDetails(itemId, item);
+      await updateItemDetails(item);
       alert('Changes saved successfully!');  // Notify user of success
     } catch (error) {
       console.error('Error updating item:', error);  // Log any errors

@@ -11,10 +11,10 @@ const fetchItemDetails = async (itemId) => {
     }
 };
 
-const updateItemDetails = async (itemId, itemData) => {
+const updateItemDetails = async (itemData) => {
     try {
-        const response = await fetch(`/api/items/${itemId}`, {
-            method: 'PUT',
+        const response = await fetch("http://localhost:8080/api/v1/users/editItem", {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
