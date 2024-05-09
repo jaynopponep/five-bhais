@@ -3,6 +3,7 @@ import bson
 import os
 import configparser
 
+import bson.json_util
 import pymongo
 from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError, OperationFailure
@@ -113,7 +114,7 @@ def delete_menu_item(name: str):
         return True
     except Exception as e:
         # General error handling
-        print(f"Error deleting item: {str(e)}")
+        print(f"Error deleting an item: {str(e)}")
         return False
 
 
@@ -123,5 +124,21 @@ def delete_many_menu_items(names: list):
         return True
     except Exception as e:
         # General error handling
-        print(f"Error deleting items: {str(e)}")
+        print(f"Error deleting many items: {str(e)}")
+        return False
+
+def get_all_menu_items():
+    try:
+        return bson.json_util.dumps(list(db.menu.find({})))
+    except Exception as e:
+        # General error handling
+        print(f"Error getting menu items: {str(e)}")
+        return False
+    
+def get_highest_reviews(limit: int):
+    try: 
+        return db.menu.find().sort("reviews", pymongo.DESCENDING).limit(limit)
+    except Exception as e:
+        # General error handling
+        print(f"Error getting reviews: {str(e)}")
         return False

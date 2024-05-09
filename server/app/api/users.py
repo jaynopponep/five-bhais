@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+import bson
 from app.db import (
     test_db_connection,
     verify_new_user,
@@ -7,6 +8,8 @@ from app.db import (
     edit_menu_item,
     delete_menu_item,
     delete_many_menu_items,
+    get_all_menu_items,
+    get_highest_reviews
 )
 
 from flask_cors import CORS
@@ -121,5 +124,22 @@ def delete_many_items():
             to_delete.append(item["name"])
         delete_many_menu_items(to_delete)
         return jsonify({"message": "Menu items deleted successfully"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+@users_api_v1.route("/getMenuItems", methods=["GET"])
+def get_menu_items():
+    try:
+        menu_items = get_all_menu_items()
+        return jsonify({"items": menu_items}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+    
+@users_api_v1.route("/getHighestReviews", methods=["GET"])
+def get_highest_reviews():
+    limit = request.args.get("limit")
+    try:
+        highest_reviews = get_highest_reviews(limit=limit)
+        return jsonify({"items": highest_reviews}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
