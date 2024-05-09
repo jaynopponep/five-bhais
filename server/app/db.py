@@ -227,34 +227,38 @@ def update_userType(email):
         if customer:
             # check if isVIP true or false
             if customer["isVIP"] == True:
-                accounts.update_one(
-                    {"email": email}, {'$set': {'warnings': 0}}
+                customers.update_one(
+                    {'_id': ObjectId(id)}, {'$set': {'warnings': 0}}
                 )
                 # if warning >= 2, update warnings and isVIP = false and discount = 0
                 numWarning = int(customer["warnings"])
                 if numWarning >= 2:
-                    accounts.update_one( # reset warnings to 0
-                        {"email": email}, {'warnings': 0}, {'isVIP': False}, {'discount': 0}
+                    customers.update_one( # reset warnings to 0
+                        {'_id': ObjectId(id)}, {'warnings': 0}, {'isVIP': False}, {'discount': 0}
                     )
                     print("Warning limit reached. You have been registered as a regular customer")
             else: # customer is regular
-                accounts.update_one(
-                    {"email": email}, {'$set': {'warnings': 0}}
+                customers.update_one(
+                    {'_id': ObjectId(id)}, {'$set': {'warnings': 0}}
                 )
                 # if warning >= 2, delete account
                 numWarning = int(customer["warnings"])
                 if numWarning >= 2:
+                    customers.delete_one(
+                        {'_id': ObjectId(id)}
+                    )
+                    print("Warning limit reached. You have been deregistered")
+                
                     accounts.delete_one(
                         {"email": email}
                     )
                     print("Warning limit reached. You have been deregistered")
-
         else:
             print("customer not found")
     except Exception as e:
         print("unable to return user type")
 
-
+                  
 def update_driver(email, driver_data):
     try:
         customer = accounts.find_one(
