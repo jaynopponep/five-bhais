@@ -198,6 +198,7 @@ def get_usertype_by_email(email):
     except Exception as e:
         print(f"Unable to detect user: {str(e)}")
 
+        
 def update_userType(email):
     try:
         customer = accounts.find_one(
