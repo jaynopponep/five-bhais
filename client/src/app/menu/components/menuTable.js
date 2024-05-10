@@ -8,14 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"; // Adjust this import path to match your project's structure
-import "../edit-item/action";
 import { Checkbox } from "@/components/ui/checkbox"; // Adjust this import path to match your project's structure
 import { Pencil, Trash } from 'lucide-react'; // Ensure lucide-react is installed
-import { updateItemDetails, deleteItem } from '../edit-item/action';
+import { updateItemDetails, deleteItem } from '../edit-item/actions';
 
-export default function MenuTable({ items}) {
+export default function MenuTable({ items }) {
   // This function handles clicking the pencil icon
-const handleEditClick = async (item) => {
+  const handleEditClick = async (item) => {
     await updateItemDetails(item);
   };
 
