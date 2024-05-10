@@ -25,6 +25,7 @@ client = MongoClient(config["PROD"]["DB_URI"])
 db = client.get_database("bhaibros")
 users = db.users
 accounts = db.accounts
+customers = db.customers
 
 # Test the database connection:
 def test_db_connection():

@@ -11,7 +11,9 @@ from app.db import (
     delete_many_menu_items,
     get_all_menu_items,
     get_highest_reviews,
-    get_usertype_by_email
+    get_usertype_by_email,
+    login,
+    post_review
 )
 
 from flask_cors import CORS
