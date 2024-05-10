@@ -21,9 +21,9 @@ export async function fetchMenu() {
         menu[1].items.push(item)
       } else if (item.category.toLowerCase() === "Dessert".toLowerCase()) {
         menu[2].items.push(item)
-      } else if (item.category.toLowerCase() === "Drinks".toLowerCase()) {
+      } else if (item.category.toLowerCase() === "Drink".toLowerCase()) {
         menu[3].items.push(item)
-      } else if (item.category.toLowerCase() === "Sides".toLowerCase()) {
+      } else if (item.category.toLowerCase() === "Side".toLowerCase()) {
         menu[4].items.push(item)
       }
     }

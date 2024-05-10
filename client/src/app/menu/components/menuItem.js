@@ -2,10 +2,19 @@
 
 const handleAddToCart = (item) => {
   item.quantity = 1;
-  if (localStorage.getItem("cart")) {
-    localStorage.setItem("cart", JSON.stringify([...JSON.parse(localStorage.getItem("cart")), item]));
-  } else {
+  if (!localStorage.getItem("cart")) {
     localStorage.setItem("cart", JSON.stringify([item]));
+  } else {
+    let cart = JSON.parse(localStorage.getItem("cart"));
+    let itemID = item._id.$oid;
+    for (const cartItem of cart) {
+      if (cartItem._id.$oid === itemID) {
+        cartItem.quantity += 1;
+        localStorage.setItem("cart", JSON.stringify(cart));
+        return;
+      }
+    }
+    localStorage.setItem("cart", JSON.stringify([...JSON.parse(localStorage.getItem("cart")), item]));
   }
 }
 

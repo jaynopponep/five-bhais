@@ -1,38 +1,14 @@
 "use client"
-import { useEffect, useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { CirclePlus, CircleMinus } from 'lucide-react';
 
-export default function Quantity({ quantity }) {
-
-  useEffect(() => {
-  }, []);
-
-  const changeQuantity = (amount) => {
-    localStorage.getItem("cart")
-  }
-
+export default function Quantity({ item, quantity, updateQuantity }) {
   return (
-    <div className="border-2 border-customBrown w-28">
-      <div className="flex">
-        <div onClick={() => changeQuantity(-1)}>-</div>
+    <div className="flex">
+      <div className="flex items-center gap-2">
+        <div className="cursor-pointer" onClick={() => updateQuantity(item._id.$oid, -1)}><CircleMinus /></div>
         <div>{quantity}</div>
-        <div onClick={() => changeQuantity(1)}>+</div>
+        <div className="cursor-pointer" onClick={() => updateQuantity(item._id.$oid, 1)}><CirclePlus /></div>
       </div>
     </div>
   );
 }
-
-// TODO: fetch menu from mongo
-// TODO: use object ID over food name for uniqueness
-// TODO: handle quantity on multiple add to cart clicks
-// TODO: similarly handle quantity changes here
-// TODO: calculate subtotal, tax, and total
-// TODO: manage order type
-// TODO: create final json that will be sent to the endpoint when its made

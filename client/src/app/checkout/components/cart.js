@@ -1,5 +1,4 @@
 "use client"
-import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,20 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import Loading from '../../_components/loading';
 import Quantity from "./quantity";
 
-export default function Cart() {
-  const [isLoading, setIsLoading] = useState(true);
+export default function Cart({ cart, updateQuantity }) {
 
-  const [cart, setCart] = useState([]);
+  const getItemTotal = (price, quantity) => {
+    return (price * quantity).toFixed(2);
+  }
 
-  useEffect(() => {
-    setCart(JSON.parse(localStorage.getItem("cart")));
-    setIsLoading(false);
-  }, []);
-
-  if (isLoading) return <Loading />;
   return (
     <div className="text-ellipsis truncate">
       <Table className="w-full border-customBrown text-xl">
@@ -30,7 +23,7 @@ export default function Cart() {
             <TableHead className="w-[350px] text-customBlack">Name</TableHead>
             <TableHead className="w-[350px] text-customBlack">Price</TableHead>
             <TableHead className="w-[300px] text-customBlack">Quantity</TableHead>
-            <TableHead className="text-right text-customBlack">Total</TableHead>
+            <TableHead className="w-[300px] text-right text-customBlack">Total</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -38,9 +31,9 @@ export default function Cart() {
             <TableRow key={index} className="hover:bg-customLight border-b-2 border-customBrown" >
               {/* Add code here to render the data for each item */}
               <TableCell className="text-customOrange uppercase">{item.name}</TableCell>
-              <TableCell>${item.price}</TableCell>
-              <TableCell className="text-ellipsis truncate w-[500px]"><Quantity quantity={item.quantity} /></TableCell>
-              <TableCell className="text-right">${item.price}</TableCell>
+              <TableCell>${item.price.toFixed(2)}</TableCell>
+              <TableCell className="text-ellipsis truncate w-[500px]"><Quantity item={item} quantity={item.quantity} updateQuantity={updateQuantity} /></TableCell>
+              <TableCell className="text-right">${getItemTotal(item.price, item.quantity)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
