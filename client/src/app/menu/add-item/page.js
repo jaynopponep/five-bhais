@@ -5,6 +5,7 @@ import { Alert, AlertTitle } from "@/components/ui/alert"
 import postNewItem from "./actions";
 import { fetchUserType } from '../actions';
 import Loading from '../../_components/loading';
+import { redirect } from "next/dist/server/api-utils";
 
 export default function AddItem() {
   const [isLoading, setIsLoading] = useState(true);
@@ -50,6 +51,7 @@ export default function AddItem() {
         setSuccessMsg(response.message)
         setErrorMsg("")
       }
+      window.location.href = '/menu';
     } catch (error) {
       setErrorMsg(error.message || "An error occurred. Try again.")
       setSuccessMsg("")
