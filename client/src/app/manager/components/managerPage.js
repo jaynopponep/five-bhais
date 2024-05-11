@@ -10,17 +10,20 @@ import {
 } from "@/components/ui/table"; // Adjust this import path to match your project's structure
 import { Checkbox } from "@/components/ui/checkbox"; // Adjust this import path to match your project's structure
 import { Pencil, Trash } from 'lucide-react'; // Ensure lucide-react is installed
-import { updateEmployeeDetails, deleteEmployee } from '../manage-employees/actions'; // You need to define these
 
 export default function EmployeeTable({ employees }) {
   // This function handles clicking the pencil icon
   const handleEditClick = async (employee) => {
-    await updateEmployeeDetails(employee);
+    // placeholder for once the backend is done
+    // await updateEmployeeDetails(employee);
+    console.log('Update functionality should go here');
   };
 
   // This function handles clicking the trash icon
   const handleDeleteClick = async (employee) => {
-    await deleteEmployee(employee);
+    // placeholder for once the backend is done
+    // await deleteEmployee(employee);
+    console.log('Delete functionality should go here');
   };
 
   return (
