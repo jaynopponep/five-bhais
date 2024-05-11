@@ -50,14 +50,24 @@ def verify_new_user():
         balance = userDetails["initialDeposit"]
         password = userDetails["password"]
 
+        balance = float(balance)
+        if balance > 500:
+            role = "vipcustomer"
+            discount = 0.10
+        else:
+            role = "customer"
+            discount = 0.0
+
         account_data = {
             "fname": fname,
             "lname": lname,
             "balance": balance,
             "email": email,
             "password": password,
-            "role": "customer",
+            "role": role,
+            "discount": discount
         }
+
         db.accounts.insert_one(account_data)
         newUser = db.accounts.find_one({"email": email})
         return newUser
@@ -70,6 +80,25 @@ def verify_new_user():
         print(f"Error inserting user: {str(e)}")  # Logging the error
         return False
 
+# def get_usertype_by_email(email):
+#     try:
+#         customer = accounts.find_one({"email": email})
+#         if customer:
+#             balance = int(customer["balance"])
+#             if balance > 500:
+#                 accounts.update_one(
+#                     {"email": email}, {"$set": {"isVIP": True, "discount": 0.10}}
+#                 )
+#             else:
+#                 accounts.update_one(
+#                     {"email": email}, {"$set": {"isVIP": False, "discount": 0}}
+#                 )
+#             return {"role": customer.get("role")}
+#         else:
+#             print("customer not found")
+
+#     except Exception as e:
+#         print(f"Unable to detect user: {str(e)}")
 
 def email_exists():
     try:
@@ -190,27 +219,6 @@ def get_highest_reviews(limit: int):
         # General error handling
         print(f"Error getting reviews: {str(e)}")
         return False
-
-
-def get_usertype_by_email(email):
-    try:
-        customer = accounts.find_one({"email": email})
-        if customer:
-            balance = int(customer["balance"])
-            if balance > 500:
-                accounts.update_one(
-                    {"email": email}, {"$set": {"isVIP": True, "discount": 0.10}}
-                )
-            else:
-                accounts.update_one(
-                    {"email": email}, {"$set": {"isVIP": False, "discount": 0}}
-                )
-            return {"role": customer.get("role")}
-        else:
-            print("customer not found")
-
-    except Exception as e:
-        print(f"Unable to detect user: {str(e)}")
 
 
 def update_userType(email):
