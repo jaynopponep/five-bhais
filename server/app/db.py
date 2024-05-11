@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Union
 import bson
 import os
 import configparser
@@ -8,7 +9,7 @@ from pymongo import MongoClient
 from pymongo.errors import DuplicateKeyError, OperationFailure
 from bson.objectid import ObjectId
 from bson.errors import InvalidId
-from flask import request, flash, jsonify
+from flask import make_response, request, flash, jsonify
 import re
 
 
@@ -23,9 +24,10 @@ config.read(".ini")
 
 client = MongoClient(config["PROD"]["DB_URI"])
 db = client.get_database("bhaibros")
-users = db.users
 accounts = db.accounts
 customers = db.customers
+reviews = db.reviews
+orders = db.orders
 
 
 # Test the database connection:
@@ -67,7 +69,6 @@ def verify_new_user():
             "role": role,
             "discount": discount
         }
-
         db.accounts.insert_one(account_data)
         newUser = db.accounts.find_one({"email": email})
         return newUser
@@ -105,7 +106,7 @@ def email_exists():
         userDetails = request.get_json()
         email = userDetails["email"]
         # check if email already exists
-        existing_email = db.accounts.find_one({"email": email})
+        existing_email = accounts.find_one({"email": email})
         if existing_email is not None:
             return True
     except Exception as e:
@@ -119,7 +120,20 @@ def login():
         loginDetails = request.get_json()
         email = loginDetails["email"]
         password = loginDetails["password"]
+        print("Login details: ", email, password)
 
+#         verify_email = accounts.find_one({"email": email})
+#         print("Login email: ", verify_email)
+#         if verify_email is None:
+#             return False
+#         if verify_email:
+#             db_password = verify_email["password"]
+#             print("Password: ", db_password)
+#             if db_password == password:
+#                 return True
+#             else:
+#                 return False
+# ^- TEST THESE OUT
         foundUser = db.accounts.find_one({"email": email})
         if foundUser and (foundUser["password"] == password):
             return foundUser
@@ -150,7 +164,7 @@ def post_review():
             driverSelection = reviewDetails["driverSelection"]
             review_data["driverSelection"] = driverSelection
 
-        review_id = db.reviews.insert_one(review_data).inserted_id
+        review_id = reviews.insert_one(review_data).inserted_id
         return True
     except Exception as e:
         print(f"Error inserting review: {str(e)}")
@@ -267,3 +281,22 @@ def update_driver(email, driver_data):
     except Exception as e:
         print("Unable to update driver:", e)
         return False
+
+
+def place_order(orderDetails):
+    orderTotal: Union[int, float] = orderDetails["total"]
+    orderUser: bson.ObjectId = orderDetails["user"]
+    # select the user from the database, and update their balance with the order total
+    user = accounts.find_one({"_id": orderUser})
+    if user:
+        if orderTotal > user["balance"]:
+            return 400
+        else:
+            # Update the user's balance
+            accounts.update_one(
+                {"_id": orderUser}, {"$inc": {"balance": -orderTotal}}
+            )
+            # Insert the order into the collection
+            order_id = orders.insert_one(orderDetails).inserted_id
+            #  return the new balance
+            return user["balance"] - orderTotal

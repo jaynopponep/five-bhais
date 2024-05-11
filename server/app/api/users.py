@@ -1,3 +1,4 @@
+from typing import Union
 from flask import Blueprint, request, jsonify
 import bson
 import json
@@ -13,6 +14,7 @@ from app.db import (
     get_highest_reviews,
     login,
     post_review,
+    place_order    
 )
 
 from flask_cors import CORS
@@ -199,5 +201,20 @@ def get_highest_reviews():
     try:
         highest_reviews = get_highest_reviews(limit=limit)
         return jsonify({"items": highest_reviews}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+      
+@users_api_v1.route("/order", methods=["GET"])
+def order():
+    if not request.is_json:
+        return jsonify({"error": "Not JSON request"}), 400
+    try:
+        request_data = request.get_json()
+        response = place_order(request_data)
+        if response == 400:
+            return jsonify({"error": response}), 400
+        else:
+            return jsonify({"message": f"Order placed successfully. New balance: {response}"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
