@@ -8,7 +8,6 @@ import Loading from "../_components/loading";
 import { placeOrder } from "./actions";
 import { fetchUser } from "../manageUser";
 import { useRouter } from "next/navigation";
-import { fetchUser } from "../manageUser";
 
 export default function Checkout() {
   const router = useRouter();
@@ -43,6 +42,15 @@ export default function Checkout() {
     fetchUser()
       .then((data) => {
         setUserType(data.role);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  const [userEmail, setUserEmail] = useState("");
+  useEffect(() => {
+    fetchUser()
+      .then((data) => {
+        setUserEmail(data.email);
       })
       .catch((error) => console.error(error));
   }, []);
@@ -114,7 +122,7 @@ export default function Checkout() {
     }
     try {
       const total = userType === "vipcustomer" ? discountedTotal() : getTotal();
-      const data = await placeOrder(cart, formData, total);
+      const data = await placeOrder(cart, formData, userEmail, total);
       if (data) {
         localStorage.setItem("cart", JSON.stringify([]));
         window.location.href = "/order-confirmation";

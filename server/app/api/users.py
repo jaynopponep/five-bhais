@@ -14,7 +14,7 @@ from app.db import (
     get_highest_reviews,
     login,
     post_review,
-    place_order    
+    place_order
 )
 
 from flask_cors import CORS
@@ -204,7 +204,7 @@ def get_highest_reviews():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-      
+
 @users_api_v1.route("/order", methods=["GET"])
 def order():
     if not request.is_json:
@@ -212,6 +212,7 @@ def order():
     try:
         request_data = request.get_json()
         response = place_order(request_data)
+        print(response)
         if response == 400:
             return jsonify({"error": response}), 400
         else:
