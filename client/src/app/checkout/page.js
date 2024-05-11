@@ -1,13 +1,16 @@
 "use client"
 import Navbar from "../_components/navbar";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Alert, AlertTitle } from "@/components/ui/alert"
 import Cart from './components/cart';
 import CheckoutBox from './components/checkoutBox';
 import Loading from '../_components/loading';
 import { placeOrder } from './actions';
+import { fetchUser } from "../manageUser"
+import { useRouter } from 'next/navigation'
 
 export default function Checkout() {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
   const [formData, setFormData] = useState({
@@ -21,9 +24,17 @@ export default function Checkout() {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    console.log(localStorage.getItem("cart"));
     setCart(JSON.parse(localStorage.getItem("cart")));
-    setIsLoading(false);
+    fetchUser()
+      .then((user) => {
+        console.log(user)
+        if (user.role === "surfer") {
+          router.push("/")
+        } else {
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => console.error(error));
   }, []);
 
   const handleInputChange = (e) => {
