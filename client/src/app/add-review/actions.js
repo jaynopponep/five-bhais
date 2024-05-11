@@ -40,7 +40,6 @@ export async function postReview(formData) {
     };
     if (postData.driverSelection === "")
       delete postData.driverSelection;
-    console.log(postData)
     const response = await fetch('http://localhost:8080/api/v1/users/post-review', {
       method: 'POST',
       headers: {

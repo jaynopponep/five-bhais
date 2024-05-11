@@ -26,6 +26,7 @@ db = client.get_database("bhaibros")
 users = db.users
 accounts = db.accounts
 
+
 # Test the database connection:
 def test_db_connection():
     try:
@@ -54,10 +55,11 @@ def verify_new_user():
             "balance": balance,
             "email": email,
             "password": password,
-            "role": "customer"
+            "role": "customer",
         }
-        account_id = db.accounts.insert_one(account_data).inserted_id
-        return True
+        db.accounts.insert_one(account_data)
+        newUser = db.accounts.find_one({"email": email})
+        return newUser
 
     except pymongo.errors.DuplicateKeyError as e:
         # Handle duplicate key error
@@ -81,24 +83,17 @@ def email_exists():
         print(f"Error inserting user: {str(e)}")  # Logging the error
         return False
 
+
 def login():
     try:
         loginDetails = request.get_json()
         email = loginDetails["email"]
         password = loginDetails["password"]
-        print("Login details: ", email, password)
 
-        verify_email = db.accounts.find_one({"email": email})
-        print("Login email: ", verify_email)
-        if verify_email is None:
-            return False
-        if verify_email:
-            db_password = verify_email["password"]
-            print("Password: ", db_password)
-            if db_password == password:
-                return True
-            else:
-                return False
+        foundUser = db.accounts.find_one({"email": email})
+        if foundUser and (foundUser["password"] == password):
+            return foundUser
+        return False
 
     except Exception as e:
         print(f"Error accessing user details: {str(e)}")
@@ -130,6 +125,7 @@ def post_review():
     except Exception as e:
         print(f"Error inserting review: {str(e)}")
         return jsonify({"error": "Internal server error"}), 500
+
 
 def create_new_menu_item(item: dict):
     try:
@@ -176,7 +172,7 @@ def delete_many_menu_items(names: list):
         print(f"Error deleting many items: {str(e)}")
         return False
 
-      
+
 def get_all_menu_items():
     try:
         return bson.json_util.dumps(list(db.menu.find({})))
@@ -184,10 +180,10 @@ def get_all_menu_items():
         # General error handling
         print(f"Error getting menu items: {str(e)}")
         return False
-    
-    
+
+
 def get_highest_reviews(limit: int):
-    try: 
+    try:
         return db.menu.find().sort("reviews", pymongo.DESCENDING).limit(limit)
     except Exception as e:
         # General error handling
@@ -199,76 +195,65 @@ def get_usertype_by_email(email):
     try:
         customer = accounts.find_one({"email": email})
         if customer:
-            balance = int(customer['balance'])
+            balance = int(customer["balance"])
             if balance > 500:
                 accounts.update_one(
-                    {"email": email}, {'$set': {'isVIP': True, 'discount': 0.10}}
+                    {"email": email}, {"$set": {"isVIP": True, "discount": 0.10}}
                 )
             else:
                 accounts.update_one(
-                    {"email": email}, {'$set': {'isVIP': False, 'discount': 0}}
+                    {"email": email}, {"$set": {"isVIP": False, "discount": 0}}
                 )
-            return {
-                "role": customer.get("role")
-            }
+            return {"role": customer.get("role")}
         else:
             print("customer not found")
 
     except Exception as e:
         print(f"Unable to detect user: {str(e)}")
 
-        
+
 def update_userType(email):
     try:
-        customer = accounts.find_one(
-            {"email": email}
-        )
+        customer = accounts.find_one({"email": email})
 
         if customer:
             # check if isVIP true or false
             if customer["isVIP"] == True:
-                customers.update_one(
-                    {'_id': ObjectId(id)}, {'$set': {'warnings': 0}}
-                )
+                customers.update_one({"_id": ObjectId(id)}, {"$set": {"warnings": 0}})
                 # if warning >= 2, update warnings and isVIP = false and discount = 0
                 numWarning = int(customer["warnings"])
                 if numWarning >= 2:
-                    customers.update_one( # reset warnings to 0
-                        {'_id': ObjectId(id)}, {'warnings': 0}, {'isVIP': False}, {'discount': 0}
+                    customers.update_one(  # reset warnings to 0
+                        {"_id": ObjectId(id)},
+                        {"warnings": 0},
+                        {"isVIP": False},
+                        {"discount": 0},
                     )
-                    print("Warning limit reached. You have been registered as a regular customer")
-            else: # customer is regular
-                customers.update_one(
-                    {'_id': ObjectId(id)}, {'$set': {'warnings': 0}}
-                )
+                    print(
+                        "Warning limit reached. You have been registered as a regular customer"
+                    )
+            else:  # customer is regular
+                customers.update_one({"_id": ObjectId(id)}, {"$set": {"warnings": 0}})
                 # if warning >= 2, delete account
                 numWarning = int(customer["warnings"])
                 if numWarning >= 2:
-                    customers.delete_one(
-                        {'_id': ObjectId(id)}
-                    )
+                    customers.delete_one({"_id": ObjectId(id)})
                     print("Warning limit reached. You have been deregistered")
-                
-                    accounts.delete_one(
-                        {"email": email}
-                    )
+
+                    accounts.delete_one({"email": email})
                     print("Warning limit reached. You have been deregistered")
         else:
             print("customer not found")
     except Exception as e:
         print("unable to return user type")
 
-                  
+
 def update_driver(email, driver_data):
     try:
-        customer = accounts.find_one(
-            {"email": email}
-        )
+        customer = accounts.find_one({"email": email})
 
         if customer:
-            accounts.update_one(
-                {"email": email}, {'$set': driver_data}
-            )
+            accounts.update_one({"email": email}, {"$set": driver_data})
             return True
     except Exception as e:
         print("Unable to update driver:", e)

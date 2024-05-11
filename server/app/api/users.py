@@ -11,7 +11,8 @@ from app.db import (
     delete_many_menu_items,
     get_all_menu_items,
     get_highest_reviews,
-    get_usertype_by_email
+    get_usertype_by_email,
+    login,
 )
 
 from flask_cors import CORS
@@ -45,9 +46,13 @@ def api_register():
         check_email = email_exists()
         if check_email:
             return jsonify({"error": "Email already exists"}), 400
-        success = verify_new_user()
-        if success:
-            return jsonify({"message": "User Successfully Registered"}), 201
+        newUser = verify_new_user()
+        newUser["_id"] = str(newUser["_id"])
+        if newUser:
+            return (
+                jsonify({"message": "User successfully registered", "user": newUser}),
+                201,
+            )
         else:
             return jsonify({"error": "Registration Unsuccessful"}), 400
     except Exception as e:
@@ -61,9 +66,14 @@ def api_login():
     request_data = request.get_json()
     print("LOGIN ROUTE: received: ", request_data)
     try:
-        success = login()
-        if success:
-            return jsonify({"message": "User logged in successfully"}), 201
+
+        user = login()
+        user["_id"] = str(user["_id"])
+        if user:
+            return (
+                jsonify({"message": "User logged in successfully", "user": user}),
+                201,
+            )
         else:
             return jsonify({"error": "Login Unsuccessful"}), 405
     except Exception as e:

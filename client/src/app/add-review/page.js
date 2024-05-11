@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Alert, AlertTitle } from "@/components/ui/alert"
 import { Star } from "lucide-react"
 import Loading from "../_components/loading";
-import { fetchUserType } from "../actions";
+import { fetchUser } from "../manageUser";
 import { fetchRecentDrivers, postReview } from "./actions";
 
 export default function Login() {
@@ -13,9 +13,9 @@ export default function Login() {
   const [recentDrivers, setRecentDrivers] = useState([]);
 
   useEffect(() => {
-    fetchUserType()
-      .then((data) => {
-        setUserType(data);
+    fetchUser()
+      .then((user) => {
+        setUserType(user.role);
         fetchRecentDrivers()
           .then((data) => {
             setRecentDrivers(data);

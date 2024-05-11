@@ -14,7 +14,6 @@ export default async function signUp(formData) {
       console.error('Registration failed: ', data.error || data); // Use 'data.error' based on your backend error key
       throw new Error(data.error || 'Registration failed');  // Use the error from the backend if available
     }
-    console.log('Successful Registration:', data);
     return data;
   } catch (error) {
     console.error('Error occurred during registration:', error);

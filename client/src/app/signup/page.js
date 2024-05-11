@@ -1,13 +1,15 @@
 "use client"
 import Navbar from "../_components/navbar";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import signUp from "./actions";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-
+import { Alert, AlertTitle } from "@/components/ui/alert"
+import { fetchUser, setUser } from "../manageUser";
+import { useRouter } from 'next/navigation'
+import Loading from '../_components/loading';
 
 export default function SignUp() {
-
+  const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -16,8 +18,20 @@ export default function SignUp() {
     password: "",
     confirmPassword: "",
   });
-
   const [errorMsg, setErrorMsg] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    fetchUser()
+      .then((user) => {
+        if (user.role != "surfer") {
+          router.push("/")
+        } else {
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -34,15 +48,18 @@ export default function SignUp() {
     } else {
       setErrorMsg("")
       try {
-        const user = await signUp(formData);
-        if (user) {
-          window.location.href = "/";
+        const data = await signUp(formData);
+        if (data) {
+          setUser(data.user);
+          router.push("/")
         }
       } catch (error) {
         setErrorMsg(error.message || "An error occurred. Try again.")
       }
     }
   };
+
+  if (isLoading) return <Loading />;
 
   return (
     <div className="bg-customLight h-screen">

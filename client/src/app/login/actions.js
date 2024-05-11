@@ -15,7 +15,6 @@ export default async function login(formData) {
       throw new Error(errorResponse.message || 'Sign in failed');
     }
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error('An error occurred when trying to send a request', error);

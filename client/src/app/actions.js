@@ -78,24 +78,3 @@ export async function fetchReviews() {
     throw error;
   }
 }
-
-export async function fetchUserType(email) {
-  try {
-    const url = new URL("http://localhost:8080/api/v1/users/get_usertype");
-    url.searchParams.append("email", email);
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    // if (!response.ok) {
-    //   throw new Error("L response buddy");
-    // }
-
-    const userData = await response.json();
-    return userData.role;
-  } catch (error) {
-    throw error;
-  }
-}
