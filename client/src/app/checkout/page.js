@@ -8,7 +8,6 @@ import Loading from "../_components/loading";
 import { placeOrder } from "./actions";
 import { fetchUser } from "../manageUser";
 import { useRouter } from "next/navigation";
-import { fetchUser } from "../manageUser";
 
 export default function Checkout() {
   const router = useRouter();
