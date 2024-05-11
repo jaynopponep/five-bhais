@@ -81,25 +81,6 @@ def verify_new_user():
         print(f"Error inserting user: {str(e)}")  # Logging the error
         return False
 
-# def get_usertype_by_email(email):
-#     try:
-#         customer = accounts.find_one({"email": email})
-#         if customer:
-#             balance = int(customer["balance"])
-#             if balance > 500:
-#                 accounts.update_one(
-#                     {"email": email}, {"$set": {"isVIP": True, "discount": 0.10}}
-#                 )
-#             else:
-#                 accounts.update_one(
-#                     {"email": email}, {"$set": {"isVIP": False, "discount": 0}}
-#                 )
-#             return {"role": customer.get("role")}
-#         else:
-#             print("customer not found")
-
-#     except Exception as e:
-#         print(f"Unable to detect user: {str(e)}")
 
 def email_exists():
     try:
@@ -122,19 +103,7 @@ def login():
         password = loginDetails["password"]
         print("Login details: ", email, password)
 
-#         verify_email = accounts.find_one({"email": email})
-#         print("Login email: ", verify_email)
-#         if verify_email is None:
-#             return False
-#         if verify_email:
-#             db_password = verify_email["password"]
-#             print("Password: ", db_password)
-#             if db_password == password:
-#                 return True
-#             else:
-#                 return False
-# ^- TEST THESE OUT
-        foundUser = db.accounts.find_one({"email": email})
+        foundUser = accounts.find_one({"email": email})
         if foundUser and (foundUser["password"] == password):
             return foundUser
         return False
