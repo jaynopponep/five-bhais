@@ -7,20 +7,20 @@ import Link from "next/link";
 import ReviewCard from "./_components/reviewCard";
 import { ChevronLeft, ChevronRight, Circle, CirclePlus } from 'lucide-react';
 import { useState, useEffect } from "react";
-import { fetchUserType, fetchReviews } from "./actions";
+import { fetchReviews } from "./actions";
 import Loading from "./_components/loading";
-
+import { fetchUser } from "./manageUser";
 
 export default function Landing() {
   const [isLoading, setIsLoading] = useState(true);
-  const [userType, setUserType] = useState(''); // State to store user type
+  const [user, setUser] = useState();
   const [reviews, setReviews] = useState([]);
   const [driverReviews, setDriverReviews] = useState([]);
 
   useEffect(() => {
-    fetchUserType()
+    fetchUser()
       .then((data) => {
-        setUserType(data);
+        setUser(data);
         fetchReviews()
           .then((data) => {
             setReviews(data[0]);
@@ -30,12 +30,7 @@ export default function Landing() {
           .catch((error) => console.error(error));
       })
       .catch((error) => console.error(error));
-
-
   }, []);
-
-
-
 
   const [reviewPageIdx, setReviewPageIdx] = useState(1)
   const [driverReviewPageIdx, setDriverReviewPageIdx] = useState(1)
@@ -75,7 +70,7 @@ export default function Landing() {
             <div className="flex justify-between w-9/12 items-center">
               <div className="w-[136px]"></div>
               <div className="text-5xl text-center font-bold mt-12 mb-6">Reviews</div>
-              {userType === 'customer' ? (
+              {user.role === 'customer' ? (
                 <Link href='add-review'>
                   <div className="bg-green-600 text-customLight rounded-full p-2 mt-6 flex justify-between w-[136px]">
                     <CirclePlus />
@@ -102,7 +97,7 @@ export default function Landing() {
             <div className="flex justify-between w-9/12 items-center">
               <div className="w-[136px]"></div>
               <div className="text-5xl text-center font-bold mt-12 mb-6">Driver Reviews</div>
-              {userType === 'customer' ? (
+              {user.role === 'customer' ? (
                 <Link href='add-review'>
                   <div className="bg-green-600 text-customLight rounded-full p-2 mt-6 flex justify-between w-[136px]">
                     <CirclePlus />
