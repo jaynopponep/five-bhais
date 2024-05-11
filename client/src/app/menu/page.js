@@ -25,6 +25,7 @@ const MenuPage = () => {
       case "chef":
         return <ChefMenu />;
       case "customer":
+      case "vipcustomer":
         return <CustomerMenu />;
       default:
         return <SurferMenu />;
