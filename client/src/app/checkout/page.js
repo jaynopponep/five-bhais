@@ -126,7 +126,7 @@ export default function Checkout() {
       if (data) {
         // Add cart^^
         localStorage.setItem("cart", JSON.stringify([]));
-        //window.location.href = "/order-confirmation";
+        window.location.href = "/order-confirmation";
       }
     } catch (error) {
       setErrorMsg(error.message || "An error occurred. Try again.");
