@@ -269,3 +269,41 @@ def place_order(orderDetails):
             order_id = orders.insert_one(orderDetails).inserted_id
             #  return the new balance
             return user["balance"] - orderTotal
+
+def update_userType(email):
+    try:
+        customer = accounts.find_one({"email": email})
+
+        if customer:
+            # check if isVIP true or false
+            if customer["role"] == "vipcustomer":
+                customers.update_one({"email": email}, {"$set": {"warnings": 0}})
+                # if warning >= 2, update warnings and isVIP = false and discount = 0
+                numWarning = int(customer["warnings"])
+                if numWarning >= 2:
+                    customers.update_one(  # reset warnings to 0
+                        {"email": email},
+                        {"warnings": 0},
+                        {"isVIP": False},
+                        {"discount": 0},
+                    )
+                    print(
+                        "Warning limit reached. You have been registered as a regular customer"
+                    )
+            else:  # customer is regular
+                customers.update_one({"email": email}, {"$set": {"warnings": 0}})
+                # if warning >= 2, delete account
+                numWarning = int(customer["warnings"])
+                if numWarning >= 2:
+                    customers.delete_one({"_id": ObjectId(id)})
+                    print("Warning limit reached. You have been deregistered")
+
+                    accounts.delete_one({"email": email})
+                    print("Warning limit reached. You have been deregistered")
+        else:
+            print("customer not found")
+    except Exception as e:
+        print("unable to return user type")
+
+
+
