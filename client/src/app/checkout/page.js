@@ -126,7 +126,6 @@ export default function Checkout() {
       if (data) {
         // Add cart^^
         localStorage.setItem("cart", JSON.stringify([]));
-        router.push("/order-confirmed");
       }
     } catch (error) {
       setErrorMsg(error.message || "An error occurred. Try again.");
