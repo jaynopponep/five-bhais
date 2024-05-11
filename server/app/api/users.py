@@ -13,6 +13,7 @@ from app.db import (
     get_highest_reviews,
     get_usertype_by_email,
     login,
+    post_review,
 )
 
 from flask_cors import CORS

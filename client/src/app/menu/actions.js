@@ -12,7 +12,7 @@ export async function fetchMenu() {
       { "sectionTitle": "Drinks", "items": [] },
       { "sectionTitle": "Sides", "items": [] },
     ]
-    
+
     let items = await fetch("http://127.0.0.1:8080/api/v1/users/getMenuItems").then(res => res.json());
     for (let item of items["items"]) {
       if (item.category.toLowerCase() === "Appetizer".toLowerCase()) {
@@ -21,9 +21,9 @@ export async function fetchMenu() {
         menu[1].items.push(item)
       } else if (item.category.toLowerCase() === "Dessert".toLowerCase()) {
         menu[2].items.push(item)
-      } else if (item.category.toLowerCase() === "Drinks".toLowerCase()) {
+      } else if (item.category.toLowerCase() === "Drink".toLowerCase()) {
         menu[3].items.push(item)
-      } else if (item.category.toLowerCase() === "Sides".toLowerCase()) {
+      } else if (item.category.toLowerCase() === "Side".toLowerCase()) {
         menu[4].items.push(item)
       }
     }
@@ -42,59 +42,10 @@ export async function fetchUserType() {
       firstName: "John",
       lastName: "Doe",
       email: "jdoe@gmail.com",
-      userType: "chef"
+      userType: "customer"
     }
     return user.userType;
   } catch (error) {
     redirect("/error")
-  }
-}
-export async function editItem(formData) {
-  try {
-    const response = await fetch('http://127.0.0.1:8080/api/v1/users/editItem', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
-    const data = await response.json();
-    if (response.ok) return data;
-    else throw new Error(data.error);
-  } catch (error) {
-    throw error;
-  }
-}
-
-export async function deleteItem(name) {
-  try {
-    const response = await fetch('http://127.0.0.1:8080/api/v1/users/deleteItem', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name })
-    });
-    const data = await response.json();
-    if (response.ok) return data;
-    else throw new Error(data.error);
-  } catch (error) {
-    throw error;
-  }
-}
-export async function deleteManyItems(names) {
-  try {
-    const response = await fetch('http://127.0.0.1:8080/api/v1/users/deleteManyItems', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ items: names.map(name => ({ name })) })
-    });
-    const data = await response.json();
-    if (response.ok) return data;
-    else throw new Error(data.error);
-  } catch (error) {
-    throw error;
   }
 }
