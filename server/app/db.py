@@ -253,19 +253,23 @@ def update_driver(email, driver_data):
 
 
 def place_order(orderDetails):
-    orderTotal: Union[int, float] = orderDetails["total"]
-    orderUser: bson.ObjectId = orderDetails["user"]
-    # select the user from the database, and update their balance with the order total
-    user = accounts.find_one({"_id": orderUser})
-    if user:
-        if orderTotal > user["balance"]:
-            return 400
-        else:
-            # Update the user's balance
-            accounts.update_one(
-                {"_id": orderUser}, {"$inc": {"balance": -orderTotal}}
-            )
-            # Insert the order into the collection
-            order_id = orders.insert_one(orderDetails).inserted_id
-            #  return the new balance
-            return user["balance"] - orderTotal
+    orderUserEmail = orderDetails["email"]
+    orderTotal = float(orderDetails["total"])  # Ensure this is a float
+    userEmail = accounts.find_one({"email": orderUserEmail})
+
+    if not userEmail:
+        print("User not found")
+        return False
+    if "balance" not in userEmail:
+        print("Balance not found")
+        return False
+
+    userBalance = userEmail["balance"]
+    print(userBalance)
+    if orderTotal > userBalance:
+        print("Insufficient funds")
+        return False
+
+    accounts.update_one({"email": orderUserEmail}, {"$inc": {"balance": -orderTotal}})
+    orders.insert_one(orderDetails)
+    return True

@@ -122,10 +122,11 @@ export default function Checkout() {
     }
     try {
       const total = userType === "vipcustomer" ? discountedTotal() : getTotal();
-      const data = await placeOrder(cart, formData, userEmail, total);
+      const data = await placeOrder(formData, userEmail, total);
       if (data) {
+        // Add cart^^
         localStorage.setItem("cart", JSON.stringify([]));
-        window.location.href = "/order-confirmation";
+        //window.location.href = "/order-confirmation";
       }
     } catch (error) {
       setErrorMsg(error.message || "An error occurred. Try again.");
