@@ -12,7 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox"; // Adjust this import path 
 import { Pencil, Trash } from 'lucide-react'; // Ensure lucide-react is installed
 import { updateStaffDetails, deleteStaff } from '@/app/manager/edit-staff/actions';
 
-export default function StaffTable({ staff_members }) {
+export default function StaffTable({ staff }) {
     // This function handles clicking the pencil icon
     const handleEditClick = async (item) => {
         await updateStaffDetails(item);
@@ -29,21 +29,21 @@ export default function StaffTable({ staff_members }) {
                 <TableHeader className="bg-customBrown text-customLight text-2xl font-bold">
                     <TableRow className="hover:bg-customBrown">
                         <TableHead className="w-[55px] border-customLight flex items-center"><Checkbox /></TableHead>
-                        <TableHead className="w-[200px] text-customLight">Name</TableHead>
-                        <TableHead className="w-[250px] text-customLight">Role</TableHead>
-                        <TableHead className="w-[350px] text-customLight">Net Complaints</TableHead>
-                        <TableHead className="text-customLight">Pay (hr)</TableHead>
+                        <TableHead className="w-[400px] text-customLight text-center">Name</TableHead>
+                        <TableHead className="w-[400px] text-customLight text-center">Role</TableHead>
+                        <TableHead className="w-[400px] text-customLight text-center">Net Complaints</TableHead>
+                        <TableHead className="text-customLight w-[300px] text-center">Pay (hr)</TableHead>
                         <TableHead className="text-right text-customLight">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {staff_members.map((item, index) => (
+                    {staff.map((item, index) => (
                         <TableRow key={index} className={index % 2 === 1 ? "bg-customBrown/10 hover:bg-customBrown/10" : "hover:bg-customLight"}>
                             <TableCell className="flex mt-1"><Checkbox /></TableCell>
-                            <TableCell>{item.name}</TableCell>
-                            <TableCell className="text-ellipsis truncate w-[500px]">{item.role}</TableCell>
-                            <TableCell>{item.complaints}</TableCell>
-                            <TableCell>{item.pay}</TableCell>
+                            <TableCell className="text-center">{item.name}</TableCell>
+                            <TableCell className="text-center text-ellipsis truncate w-[500px]">{item.role}</TableCell>
+                            <TableCell className="text-center">{item.netComplaints}</TableCell>
+                            <TableCell className="text-center">{item.pay}</TableCell>
                             <TableCell className="text-right">
                                 <div className="flex justify-around">
                                     <Pencil className="cursor-pointer" onClick={() => handleEditClick(item)} />

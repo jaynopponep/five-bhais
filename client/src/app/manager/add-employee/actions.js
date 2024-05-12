@@ -1,6 +1,6 @@
 "use server";
 
-export default async function postNewStaff(formData) {
+export async function postNewStaff(formData) {
     // TODO: use getUser function to get the current user and make
     // the chef field dynamic
     try {

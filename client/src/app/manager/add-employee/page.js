@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../../_components/navbar';
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { postNewStaff } from "./actions"; // Importing the function to post new employee data
-import { fetchUser } from "../../manageUser"; 
-import Loading from "../../_components/loading"; 
+import { fetchUser } from "../../manageUser";
+import Loading from "../../_components/loading";
 
 export default function AddEmployee() {
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +20,7 @@ export default function AddEmployee() {
 
   useEffect(() => {
     fetchUser().then(data => {
-      if (data !== "manager") {
+      if (data.role !== "manager") {
         window.location.href = "/";
       } else {
         setIsLoading(false);
@@ -62,14 +62,14 @@ export default function AddEmployee() {
       <Navbar />
       <div className="flex flex-col justify-center items-center text-customBlack">
         {errorMsg && (
-            <Alert variant="destructive" className="w-[250px] text-center absolute top-24">
-              <AlertTitle>{errorMsg}</AlertTitle>
-            </Alert>
+          <Alert variant="destructive" className="w-[250px] text-center absolute top-24">
+            <AlertTitle>{errorMsg}</AlertTitle>
+          </Alert>
         )}
         {successMsg && (
-            <Alert variant="default" className="w-[250px] text-center absolute top-24">
-              <AlertTitle>{successMsg}</AlertTitle>
-            </Alert>
+          <Alert variant="default" className="w-[250px] text-center absolute top-24">
+            <AlertTitle>{successMsg}</AlertTitle>
+          </Alert>
         )}
         <div className="text-5xl font-bold mt-24 mb-4">Add Employee</div>
         <form className="flex flex-col items-left w-[350px]">
@@ -77,58 +77,58 @@ export default function AddEmployee() {
             Name
           </label>
           <input
-              className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
-              id="name"
-              name="name"
-              type="text"
-              placeholder=""
-              value={formData.name}
-              onChange={handleInputChange}
-              required
+            className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
+            id="name"
+            name="name"
+            type="text"
+            placeholder=""
+            value={formData.name}
+            onChange={handleInputChange}
+            required
           />
           <label
-              className="text-xl font-semibold text-left"
-              htmlFor="description"
+            className="text-xl font-semibold text-left"
+            htmlFor="description"
           >
             Description
           </label>
           <input
-              className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
-              id="description"
-              name="description"
-              type="text"
-              placeholder=""
-              value={formData.description}
-              onChange={handleInputChange}
-              required
+            className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
+            id="description"
+            name="description"
+            type="text"
+            placeholder=""
+            value={formData.description}
+            onChange={handleInputChange}
+            required
           />
           <label className="text-xl font-semibold text-left" htmlFor="price">
             Price
           </label>
           <input
-              className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
-              id="price"
-              name="price"
-              type="number"
-              placeholder=""
-              value={formData.price}
-              onChange={handleInputChange}
-              required
+            className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
+            id="price"
+            name="price"
+            type="number"
+            placeholder=""
+            value={formData.price}
+            onChange={handleInputChange}
+            required
           />
           <label
-              className="text-xl font-semibold text-left"
-              htmlFor="role"
+            className="text-xl font-semibold text-left"
+            htmlFor="role"
           >
             Role
           </label>
           <select
-              className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
-              id="role"
-              name="role"
-              value={formData.category}
-              onChange={handleInputChange}
-              placeholder="Select a role"
-              required
+            className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
+            id="role"
+            name="role"
+            value={formData.category}
+            onChange={handleInputChange}
+            placeholder="Select a role"
+            required
           >
             <option value="">Select a role</option>
             <option value="deliverydriver">Delivery Driver</option>
@@ -137,8 +137,8 @@ export default function AddEmployee() {
           </select>
         </form>
         <button
-            onClick={handleSubmit}
-            className="w-[350px] mt-2 h-12 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300"
+          onClick={handleSubmit}
+          className="w-[350px] mt-2 h-12 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300"
         >
           <p className="font-bold text-base md:text-xl">Add Staff</p>
         </button>
