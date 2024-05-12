@@ -5,8 +5,10 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { postNewStaff } from "./actions"; // Importing the function to post new employee data
 import { fetchUser } from "../../manageUser";
 import Loading from "../../_components/loading";
+import { useRouter } from 'next/navigation';
 
 export default function AddEmployee() {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
@@ -21,7 +23,7 @@ export default function AddEmployee() {
   useEffect(() => {
     fetchUser().then(data => {
       if (data.role !== "manager") {
-        window.location.href = "/";
+        router.push("/");
       } else {
         setIsLoading(false);
       }
@@ -45,7 +47,7 @@ export default function AddEmployee() {
       if (response.success) {
         setSuccessMsg(response.message);
         setErrorMsg("");
-        setTimeout(() => window.location.href = "/staff", 2000);
+        setTimeout(() => router.push("/manager/manage-staff"), 2000);
       } else {
         throw new Error(response.message);
       }
@@ -88,30 +90,43 @@ export default function AddEmployee() {
           />
           <label
             className="text-xl font-semibold text-left"
-            htmlFor="description"
+            htmlFor="pay"
           >
-            Description
+            Pay
           </label>
           <input
             className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
-            id="description"
-            name="description"
-            type="text"
+            id="pay"
+            name="pay"
+            type="number"
             placeholder=""
-            value={formData.description}
+            value={formData.pay}
             onChange={handleInputChange}
             required
           />
-          <label className="text-xl font-semibold text-left" htmlFor="price">
-            Price
+          <label className="text-xl font-semibold text-left" htmlFor="email">
+            Email
           </label>
           <input
             className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
-            id="price"
-            name="price"
-            type="number"
+            id="email"
+            name="email"
+            type="email"
             placeholder=""
-            value={formData.price}
+            value={formData.email}
+            onChange={handleInputChange}
+            required
+          />
+          <label
+            className="text-xl font-semibold text-left"
+            htmlFor="password">Password</label>
+          <input
+            className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
+            id="password"
+            name="password"
+            type="password"
+            placeholder=""
+            value={formData.password}
             onChange={handleInputChange}
             required
           />
