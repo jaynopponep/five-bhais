@@ -15,7 +15,6 @@ from app.db import (
     login,
     post_review,
     place_order,
-    get_usertype_by_email    
 )
 
 from flask_cors import CORS
