@@ -269,3 +269,36 @@ def place_order(orderDetails):
             order_id = orders.insert_one(orderDetails).inserted_id
             #  return the new balance
             return user["balance"] - orderTotal
+
+
+def get_usertype_by_email(email):
+    """
+    Gets the type of user. Customers with balance > 500 are VIP, regular customer type otherwise.
+    """ 
+    try: 
+        # Find the customer by id
+        customer = customers.find_one({'email': email})
+        balance = float(customer['initialDeposit'])
+
+        if customer:
+            if balance > 500: #vip customer
+                customers.update_one(
+                    {'email': email}, 
+                    {'$set': {'role': "vipcustomer", 'discount': 0.10}}
+                )
+                return customer.get('role') 
+            else: # for regular customer with balance < 500
+                customers.update_one(
+                    {'email': email},
+                    {'$set': {'role': 'regular', 'discount': 0}}
+                )
+                updated_customer = customers.find_one({'email': email})
+                return updated_customer.get('role')
+            
+        # return True
+        else:
+            print("Customer not found.")
+        
+            
+    except Exception as e:
+        print(f"Error identifying user type: {str(e)}")
