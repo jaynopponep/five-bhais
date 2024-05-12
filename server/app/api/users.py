@@ -14,7 +14,8 @@ from app.db import (
     get_highest_reviews,
     login,
     post_review,
-    place_order    
+    place_order,
+    get_usertype_by_email    
 )
 
 from flask_cors import CORS
