@@ -189,7 +189,7 @@ def get_menu_items():
 def api_get_staff():
     try:
         staff_members = get_all_staff()
-        return jsonify({"staff members": json.loads(staff_members)}), 200
+        return jsonify({"staff_members": json.loads(staff_members)}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 

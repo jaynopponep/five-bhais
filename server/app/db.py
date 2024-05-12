@@ -197,7 +197,7 @@ def get_all_menu_items():
 
 def get_all_staff():
     try:
-        return bson.json_util.dumps(list(db.accounts.find({})))
+        return bson.json_util.dumps(list(db.employees.find({})))
     except Exception as e:
         print(f"Error getting all staff members:  {str(e)}")
         return False

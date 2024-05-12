@@ -12,7 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox"; // Adjust this import path 
 import { Pencil, Trash } from 'lucide-react'; // Ensure lucide-react is installed
 import { updateStaffDetails, deleteStaff } from '@/app/manager/edit-staff/actions';
 
-export default function StaffTable({ items }) {
+export default function StaffTable({ staff_members }) {
     // This function handles clicking the pencil icon
     const handleEditClick = async (item) => {
         await updateStaffDetails(item);
@@ -37,13 +37,13 @@ export default function StaffTable({ items }) {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {items.map((item, index) => (
+                    {staff_members.map((item, index) => (
                         <TableRow key={index} className={index % 2 === 1 ? "bg-customBrown/10 hover:bg-customBrown/10" : "hover:bg-customLight"}>
                             <TableCell className="flex mt-1"><Checkbox /></TableCell>
                             <TableCell>{item.name}</TableCell>
-                            <TableCell className="text-ellipsis truncate w-[500px]">{item.description}</TableCell>
-                            <TableCell>{item.sectionTitle}</TableCell>
-                            <TableCell>{item.price}</TableCell>
+                            <TableCell className="text-ellipsis truncate w-[500px]">{item.role}</TableCell>
+                            <TableCell>{item.complaints}</TableCell>
+                            <TableCell>{item.pay}</TableCell>
                             <TableCell className="text-right">
                                 <div className="flex justify-around">
                                     <Pencil className="cursor-pointer" onClick={() => handleEditClick(item)} />

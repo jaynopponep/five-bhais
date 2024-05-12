@@ -23,6 +23,7 @@ const MenuPage = () => {
   const renderMenuComponent = () => {
     switch (userType) {
       case "chef":
+      case "manager":
         return <ChefMenu />;
       case "customer":
       case "vipcustomer":

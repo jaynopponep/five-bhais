@@ -28,6 +28,7 @@ export async function fetchMenu() {
         menu[4].items.push(item);
       }
     }
+    console.log(menu)
     return menu;
   } catch (error) {
     throw error;
