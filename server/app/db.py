@@ -67,7 +67,7 @@ def verify_new_user():
             "email": email,
             "password": password,
             "role": role,
-            "discount": discount
+            "discount": discount,
         }
         db.accounts.insert_one(account_data)
         newUser = db.accounts.find_one({"email": email})
@@ -157,8 +157,9 @@ def create_new_menu_item(item: dict):
 
 def edit_menu_item(item: dict):
     try:
-        name = item["name"]
-        db.menu.replace_one({"name": name}, item)
+        fixedID = ObjectId(item["_id"]["$oid"])
+        item["_id"] = fixedID
+        db.menu.replace_one({"_id": fixedID}, item)
         return True
     except Exception as e:
         # General error handling
@@ -262,9 +263,7 @@ def place_order(orderDetails):
             return 400
         else:
             # Update the user's balance
-            accounts.update_one(
-                {"_id": orderUser}, {"$inc": {"balance": -orderTotal}}
-            )
+            accounts.update_one({"_id": orderUser}, {"$inc": {"balance": -orderTotal}})
             # Insert the order into the collection
             order_id = orders.insert_one(orderDetails).inserted_id
             #  return the new balance

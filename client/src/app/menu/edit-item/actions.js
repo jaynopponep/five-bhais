@@ -38,3 +38,19 @@ async function deleteItem(item) {
 }
 
 export { updateItemDetails, deleteItem };
+
+export async function fetchMenuItem(itemID) {
+    try {
+        let items = await fetch(
+            "http://127.0.0.1:8080/api/v1/users/getMenuItems",
+        ).then((res) => res.json());
+        for (let item of items["items"]) {
+            if (item._id.$oid === itemID) {
+                return item;
+            }
+        }
+        return null;
+    } catch (error) {
+        throw error;
+    }
+}
