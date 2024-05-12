@@ -7,7 +7,7 @@ import MenuTable from "./menuTable";
 import { CirclePlus, Trash } from 'lucide-react';
 
 
-export default function SurferMenu() {
+export default function ChefMenu() {
   const [menu, setMenu] = useState([]);
 
   useEffect(() => {

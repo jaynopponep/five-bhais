@@ -15,12 +15,12 @@ import { updateStaffDetails, deleteStaff } from '@/app/manager/edit-staff/action
 export default function StaffTable({ items }) {
     // This function handles clicking the pencil icon
     const handleEditClick = async (item) => {
-        await updateItemDetails(item);
+        await updateStaffDetails(item);
     };
 
     // This function handles clicking the trash icon
     const handleDeleteClick = async (item) => {
-        await deleteItem(item)
+        await deleteStaff(item)
     };
 
     return (
@@ -28,11 +28,11 @@ export default function StaffTable({ items }) {
             <Table className="border-2 border-customBrown text-xl">
                 <TableHeader className="bg-customBrown text-customLight text-2xl font-bold">
                     <TableRow className="hover:bg-customBrown">
-                        <TableHead className="w-[50px] border-customLight flex items-center"><Checkbox /></TableHead>
-                        <TableHead className="w-[250px] text-customLight">Name</TableHead>
-                        <TableHead className="w-[500px] text-customLight">Description</TableHead>
-                        <TableHead className="w-[175px] text-customLight">Section</TableHead>
-                        <TableHead className="text-customLight">Price</TableHead>
+                        <TableHead className="w-[55px] border-customLight flex items-center"><Checkbox /></TableHead>
+                        <TableHead className="w-[200px] text-customLight">Name</TableHead>
+                        <TableHead className="w-[250px] text-customLight">Role</TableHead>
+                        <TableHead className="w-[350px] text-customLight">Net Complaints</TableHead>
+                        <TableHead className="text-customLight">Pay (hr)</TableHead>
                         <TableHead className="text-right text-customLight">Actions</TableHead>
                     </TableRow>
                 </TableHeader>

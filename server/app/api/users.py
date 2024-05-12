@@ -14,7 +14,8 @@ from app.db import (
     get_highest_reviews,
     login,
     post_review,
-    place_order    
+    place_order,
+    get_all_staff,
 )
 
 from flask_cors import CORS
@@ -180,6 +181,15 @@ def get_menu_items():
     try:
         menu_items = get_all_menu_items()
         return jsonify({"items": json.loads(menu_items)}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@users_api_v1.route("/getStaff", methods=["GET"])
+def api_get_staff():
+    try:
+        staff_members = get_all_staff()
+        return jsonify({"staff members": json.loads(staff_members)}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
