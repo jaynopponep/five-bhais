@@ -1,34 +1,35 @@
 "use server";
 
-import axios from 'axios';
+import { redirect } from "next/dist/server/api-utils";
 
-/**
- * Posts new employee data to the backend.
- * @param {Object} formData - The data collected from the form.
- * @returns {Promise<Object>} - The response from the server.
- */
-export async function postNewEmployee(formData) {
-  try {
-    // Convert pay to a number to ensure data integrity
-    const postData = {
-      ...formData,
-      pay: Number(formData.pay) // Ensure pay is correctly formatted as a number
-    };
+export async function fetchStaff() {
+    try {
+        const menu = [
+            { sectionTitle: "Appetizer", items: [] },
+            { sectionTitle: "Main", items: [] },
+            { sectionTitle: "Dessert", items: [] },
+            { sectionTitle: "Drinks", items: [] },
+            { sectionTitle: "Sides", items: [] },
+        ];
 
-    // Placeholder: This is where the backend will connect
-    const response = await axios.post('placeholder, this is where the back end will connect', postData, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-
-    if (response.status === 200) {
-      return response.data; // Successful response from the server
-    } else {
-      throw new Error('Failed to add employee: ' + response.data.error);
+        let items = await fetch(
+            "http://127.0.0.1:8080/api/v1/users/getMenuItems",
+        ).then((res) => res.json());
+        for (let item of items["items"]) {
+            if (item.category.toLowerCase() === "Appetizer".toLowerCase()) {
+                menu[0].items.push(item);
+            } else if (item.category.toLowerCase() === "Main".toLowerCase()) {
+                menu[1].items.push(item);
+            } else if (item.category.toLowerCase() === "Dessert".toLowerCase()) {
+                menu[2].items.push(item);
+            } else if (item.category.toLowerCase() === "Drink".toLowerCase()) {
+                menu[3].items.push(item);
+            } else if (item.category.toLowerCase() === "Side".toLowerCase()) {
+                menu[4].items.push(item);
+            }
+        }
+        return menu;
+    } catch (error) {
+        throw error;
     }
-  } catch (error) {
-    console.error('Error posting new employee:', error);
-    throw error; // Rethrow to be handled by the caller
-  }
 }

@@ -175,17 +175,6 @@ def delete_many_items():
         return jsonify({"error": str(e)}), 400
 
 
-@users_api_v1.route("/get_usertype", methods=["GET"])
-def get_user():
-    email = request.args.get("email")
-    if not email:
-        return jsonify({"error": "no email received"}), 400
-    user_data = get_usertype_by_email(email)
-    if user_data is None:
-        return jsonify({"error": "user not found"}), 404
-    return jsonify(user_data), 200
-
-
 @users_api_v1.route("/getMenuItems", methods=["GET"])
 def get_menu_items():
     try:
