@@ -277,7 +277,7 @@ def place_order(orderDetails):
             #  return the new balance
             return user["balance"] - orderTotal
 
-def addStaff(email):
+def addStaff(manager_email):
     try:
         emplDetails = request.get_json()
         fname = emplDetails["firstName"]
@@ -286,7 +286,7 @@ def addStaff(email):
         salary = emplDetails["salary"]
         role = emplDetails["role"]
         password = emplDetails["password"]
-        manager = employees.find_one({"email": email, "role": "manager"})
+        manager = employees.find_one({"email": manager_email, "role": "manager"})
         if manager:
             employees.insert_one({
                 "firstname": fname,
@@ -316,3 +316,29 @@ def updateStaff(email, staff_email, update_info: dict):
             return False
     except Exception as e:
         print("Unable to update staff:", e)
+
+
+def createReservation(email):
+    try:
+        reserve = db.reservation
+        reservationDetail = request.get_json()
+        time_str = reservationDetail.get('reservationTime')
+        customer = accounts.find_one({"email": email})
+        reserved_time = datetime.strptime(time_str, '%Y-%m-%dT%H:%M')
+        # check to see if reservation available or not
+        reservationExists = reserve.find_one(
+            {'reserved_time': reserved_time}
+        )
+        if customer:
+            if reservationExists:
+                return jsonify({"error: Reservation time not available."})
+            else:
+                reserve.insert_one({'reserved_time': reserved_time})
+        else:
+            print("not a registered customer. Sign up")
+        
+    except Exception as e:
+        print("Unable to reserve a spot at the moment", e)
+
+
+
