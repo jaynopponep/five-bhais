@@ -21,7 +21,7 @@ const updateItemDetails = async (itemData) => {
     return await response.json();
   } catch (error) {
     console.error("Error updating item details:", error);
-    throw error; // Rethrowing the error allows for handling it in the component.
+    throw error;
   }
 };
 

@@ -18,7 +18,7 @@ from app.db import (
     get_all_staff,
     create_staff,
     delete_staff,
-    edit_staff_details,
+    #edit_staff_details,
 )
 
 from flask_cors import CORS

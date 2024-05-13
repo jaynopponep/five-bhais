@@ -1,14 +1,14 @@
 const updateStaffDetails = async (itemData) => {
   try {
     const response = await fetch(
-      "http://localhost:8080/api/v1/users/editItem",
+      "http://localhost:8080/api/v1/users/editStaff",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(itemData, (key, value) => {
-          if (key === "price") {
+          if (key === "pay") {
             return parseFloat(value);
           }
           return value;
@@ -20,15 +20,15 @@ const updateStaffDetails = async (itemData) => {
     }
     return await response.json();
   } catch (error) {
-    console.error("Error updating item details:", err or);
-    throw error; // Rethrowing the error allows for handling it in the component.
+    console.error("Error updating item details:", error);
+    throw error;
   }
 };
 
 async function deleteStaff(item) {
   try {
     const response = await fetch(
-      "http://localhost:8080/api/v1/users/deleteItem",
+      "http://localhost:8080/api/v1/users/deleteStaff",
       {
         method: "POST",
         headers: {
@@ -47,13 +47,13 @@ async function deleteStaff(item) {
   }
 }
 
-export { updateItemDetails, deleteItem };
+export { updateStaffDetails, deleteStaff };
 
-export async function fetchMenuItem(itemID) {
+export async function fetchStaff(itemID) {
   try {
-    let items = await fetch(
-      "http://127.0.0.1:8080/api/v1/users/getMenuItems",
-    ).then((res) => res.json());
+    let items = await fetch("http://127.0.0.1:8080/api/v1/users/getStaff").then(
+      (res) => res.json(),
+    );
     for (let item of items["items"]) {
       if (item._id.$oid === itemID) {
         return item;

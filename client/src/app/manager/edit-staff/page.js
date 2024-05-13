@@ -1,19 +1,18 @@
 "use client";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../_components/navbar";
 import { useState, useEffect } from "react";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { useRouter, useSearchParams } from "next/navigation";
 import { fetchUser } from "../../manageUser";
-import Loading from "../../components/Loading";
-import { deleteStaff, updateStaffDetails } from "./actions";
+import Loading from "../../_components/loading";
+import { fetchStaff, updateStaffDetails } from "./actions";
 
-export default function EditItem() {
+export default function EditStaff() {
   const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
-    description: "",
-    price: "",
-    category: "",
+    role: "",
+    pay: "",
   });
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
@@ -22,22 +21,22 @@ export default function EditItem() {
   const searchParams = useSearchParams();
   const itemId = searchParams.get("itemId");
   if (!itemId) {
-    router.push("/menu");
+    router.push("/manager");
   }
 
   useEffect(() => {
     fetchUser()
       .then((user) => {
-        if (user.role != "chef") {
+        if (user.role != "manager") {
           router.push("/");
         } else {
-          fetchMenuItem(itemId)
+          fetchStaff(itemId)
             .then((data) => {
               if (data) {
                 setFormData(data);
                 setIsLoading(false);
               } else {
-                router.push("/menu");
+                router.push("/manager");
               }
             })
             .catch((error) => console.error(error));
@@ -59,11 +58,11 @@ export default function EditItem() {
     setErrorMsg("");
     console.log("fdata", formData);
     try {
-      const data = await updateItemDetails(formData);
+      const data = await updateStaffDetails(formData);
       if (data) {
-        setSuccessMsg("Item updated successfully");
+        setSuccessMsg("Staff details updated successfully");
         setErrorMsg("");
-        setTimeout(() => router.push("/menu"), 2000);
+        setTimeout(() => router.push("/manager"), 2000);
       }
     } catch (error) {
       setErrorMsg(error.message || "An error occurred. Try again.");
@@ -92,7 +91,9 @@ export default function EditItem() {
               <AlertTitle>{successMsg}</AlertTitle>
             </Alert>
           ) : null}
-          <div className="text-5xl font-bold mt-24 mb-4">Edit Menu Item</div>
+          <div className="text-5xl font-bold mt-24 mb-4">
+            Edit Staff Details
+          </div>
           <form className="flex flex-col items-left w-[350px]">
             <label className="text-xl font-semibold text-left" htmlFor="email">
               Name
@@ -112,53 +113,31 @@ export default function EditItem() {
               className="text-xl font-semibold text-left"
               htmlFor="description"
             >
-              Description
+              role
             </label>
             <input
               className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
-              id="description"
-              name="description"
+              id="role"
+              name="role"
               type="text"
               placeholder=""
-              value={formData.description}
+              value={formData.role}
               onChange={handleInputChange}
               required
             />
             <label className="text-xl font-semibold text-left" htmlFor="price">
-              Price
+              Pay
             </label>
             <input
               className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
-              id="price"
-              name="price"
+              id="pay"
+              name="pay"
               type="number"
               placeholder=""
-              value={formData.price}
+              value={formData.pay}
               onChange={handleInputChange}
               required
             />
-            <label
-              className="text-xl font-semibold text-left"
-              htmlFor="category"
-            >
-              Category
-            </label>
-            <select
-              className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
-              id="category"
-              name="category"
-              value={formData.category}
-              onChange={handleInputChange}
-              placeholder="Select a category"
-              required
-            >
-              <option value="">Select a category</option>
-              <option value="appetizer">Appetizer</option>
-              <option value="main">Main</option>
-              <option value="dessert">Dessert</option>
-              <option value="side">Side</option>
-              <option value="drink">Drink</option>
-            </select>
           </form>
           <button
             onClick={handleSubmit}
