@@ -28,8 +28,7 @@ accounts = db.accounts
 customers = db.customers
 reviews = db.reviews
 orders = db.orders
-
-
+employees = db.employees
 # Test the database connection:
 def test_db_connection():
     try:
@@ -277,3 +276,43 @@ def place_order(orderDetails):
             order_id = orders.insert_one(orderDetails).inserted_id
             #  return the new balance
             return user["balance"] - orderTotal
+
+def addStaff(email):
+    try:
+        emplDetails = request.get_json()
+        fname = emplDetails["firstName"]
+        lname = emplDetails["lastName"]
+        email = emplDetails["email"]
+        salary = emplDetails["salary"]
+        role = emplDetails["role"]
+        password = emplDetails["password"]
+        manager = employees.find_one({"email": email, "role": "manager"})
+        if manager:
+            employees.insert_one({
+                "firstname": fname,
+                "lastname": lname,
+                "email": email,
+                "role": role, # role = [chef, importer, delivery, staff]
+                "salary": salary
+            })
+            return True
+        else:
+            print("Manager not found / not authorized to add staff.")
+            return False
+    except Exception as e:
+        print("Unable to add staff:", e)
+
+
+def updateStaff(email, staff_email, update_info: dict):
+    try:
+        manager = employees.find_one({"email": email, "role": "manager"})
+        if manager:
+            update_query = {"email": staff_email}
+            new_values = {"$set": update_info}
+            employees.update_one(update_query, new_values)
+            return True
+        else:
+            print("Manager not found / not authorized to update staff.")
+            return False
+    except Exception as e:
+        print("Unable to update staff:", e)
