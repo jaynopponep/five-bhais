@@ -108,10 +108,11 @@ export default function Navbar() {
     <>
       {(() => {
         switch (userType) {
-          case 'customer':
-          case 'vipcustomer':
+          case "customer":
+          case "vipcustomer":
             return <CustomerNavBar />;
-          case 'manager':
+          case "manager":
+          case "chef":
             return <ManagerNavBar />;
           default:
             return <SurferNavbar />;

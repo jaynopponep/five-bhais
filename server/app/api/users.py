@@ -127,6 +127,7 @@ def edit_item():
     if not request.is_json:
         return jsonify({"error": "Not JSON request"}), 400
     request_data = request.get_json()
+    print(request_data)
     try:
         name, description, price, category, chef = (
             request_data["name"],
@@ -138,11 +139,13 @@ def edit_item():
         expect(name, str, "name")
         expect(description, str, "description")
         expect(price, (int, float), "price")
+        print(222)
         expect(category, str, "category")
         expect(chef, str, "chef")
         edit_menu_item(item=request_data)
         return jsonify({"message": f"Menu item ({name}) edited successfully"}), 201
     except Exception as e:
+        print(10001)
         return jsonify({"error": str(e)}), 400
 
 
