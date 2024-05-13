@@ -1,11 +1,11 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import Navbar from '../../_components/navbar';
+import React, { useState, useEffect } from "react";
+import Navbar from "../../_components/navbar";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { postNewStaff } from "./actions"; // Importing the function to post new employee data
 import { fetchUser } from "../../manageUser";
 import Loading from "../../_components/loading";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 export default function AddEmployee() {
   const router = useRouter();
@@ -21,18 +21,20 @@ export default function AddEmployee() {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    fetchUser().then(data => {
-      if (data.role !== "manager") {
-        router.push("/");
-      } else {
-        setIsLoading(false);
-      }
-    }).catch(error => console.error(error));
+    fetchUser()
+      .then((data) => {
+        if (data.role !== "manager") {
+          router.push("/");
+        } else {
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => console.error(error));
   }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -64,12 +66,18 @@ export default function AddEmployee() {
       <Navbar />
       <div className="flex flex-col justify-center items-center text-customBlack">
         {errorMsg && (
-          <Alert variant="destructive" className="w-[250px] text-center absolute top-24">
+          <Alert
+            variant="destructive"
+            className="w-[250px] text-center absolute top-24"
+          >
             <AlertTitle>{errorMsg}</AlertTitle>
           </Alert>
         )}
         {successMsg && (
-          <Alert variant="default" className="w-[250px] text-center absolute top-24">
+          <Alert
+            variant="default"
+            className="w-[250px] text-center absolute top-24"
+          >
             <AlertTitle>{successMsg}</AlertTitle>
           </Alert>
         )}
@@ -88,10 +96,7 @@ export default function AddEmployee() {
             onChange={handleInputChange}
             required
           />
-          <label
-            className="text-xl font-semibold text-left"
-            htmlFor="pay"
-          >
+          <label className="text-xl font-semibold text-left" htmlFor="pay">
             Pay
           </label>
           <input
@@ -100,6 +105,7 @@ export default function AddEmployee() {
             name="pay"
             type="number"
             placeholder=""
+            step="0.01"
             value={formData.pay}
             onChange={handleInputChange}
             required
@@ -117,9 +123,9 @@ export default function AddEmployee() {
             onChange={handleInputChange}
             required
           />
-          <label
-            className="text-xl font-semibold text-left"
-            htmlFor="password">Password</label>
+          <label className="text-xl font-semibold text-left" htmlFor="password">
+            Password
+          </label>
           <input
             className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
             id="password"
@@ -130,10 +136,7 @@ export default function AddEmployee() {
             onChange={handleInputChange}
             required
           />
-          <label
-            className="text-xl font-semibold text-left"
-            htmlFor="role"
-          >
+          <label className="text-xl font-semibold text-left" htmlFor="role">
             Role
           </label>
           <select

@@ -16,6 +16,7 @@ from app.db import (
     post_review,
     place_order,
     get_all_staff,
+    create_staff,
 )
 
 from flask_cors import CORS
@@ -185,15 +186,6 @@ def get_menu_items():
         return jsonify({"error": str(e)}), 400
 
 
-@users_api_v1.route("/getStaff", methods=["GET"])
-def api_get_staff():
-    try:
-        staff_members = get_all_staff()
-        return jsonify({"staff_members": json.loads(staff_members)}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
-
-
 @users_api_v1.route("/getHighestReviews", methods=["GET"])
 def get_highest_reviews():
     limit = request.args.get("limit")
@@ -203,7 +195,7 @@ def get_highest_reviews():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-      
+
 @users_api_v1.route("/order", methods=["GET"])
 def order():
     if not request.is_json:
@@ -215,5 +207,37 @@ def order():
             return jsonify({"error": response}), 400
         else:
             return jsonify({"message": f"Order placed successfully. New balance: {response}"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+## STAFF APIS:
+@users_api_v1.route("/getStaff", methods=["GET"])
+def api_get_staff():
+    try:
+        staff_members = get_all_staff()
+        return jsonify({"staff_members": json.loads(staff_members)}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@users_api_v1.route("/createStaff", methods=["POST"])
+def api_create_staff():
+    if not request.is_json:
+        return jsonify({"error": "No JSON request found"}), 400
+    request_data = request.get_json()
+    try:
+        name = request_data["name"]
+        pay = request_data["pay"]
+        email = request_data["email"]
+        password = request_data["password"]
+        role = request_data["role"]
+        expect(name, str, "name")
+        expect(pay, (int, float), "pay")
+        expect(email, str, "email")
+        expect(password, str, "password")
+        expect(role, str, "category")
+        create_staff(staff=request_data)
+        return jsonify({"message": f"Staff ({name}) was added"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
