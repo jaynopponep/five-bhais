@@ -1,10 +1,10 @@
-"use client"
+"use client";
 import Navbar from "../../_components/navbar";
-import { useState, useEffect, use } from "react";
-import { Alert, AlertTitle } from "@/components/ui/alert"
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useState, useEffect } from "react";
+import { Alert, AlertTitle } from "@/components/ui/alert";
+import { useRouter, useSearchParams } from "next/navigation";
 import { fetchUser } from "../../manageUser";
-import Loading from '../../_components/loading';
+import Loading from "../../_components/loading";
 import { fetchMenuItem, updateItemDetails } from "./actions";
 
 export default function EditItem() {
@@ -22,14 +22,14 @@ export default function EditItem() {
   const searchParams = useSearchParams();
   const itemId = searchParams.get("itemId");
   if (!itemId) {
-    router.push("/menu")
+    router.push("/menu");
   }
 
   useEffect(() => {
     fetchUser()
       .then((user) => {
         if (user.role != "chef") {
-          router.push("/")
+          router.push("/");
         } else {
           fetchMenuItem(itemId)
             .then((data) => {
@@ -37,7 +37,7 @@ export default function EditItem() {
                 setFormData(data);
                 setIsLoading(false);
               } else {
-                router.push("/menu")
+                router.push("/menu");
               }
             })
             .catch((error) => console.error(error));
@@ -54,11 +54,10 @@ export default function EditItem() {
     }));
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg("");
-    console.log('fdata', formData)
+    console.log("fdata", formData);
     try {
       const data = await updateItemDetails(formData);
       if (data) {
@@ -67,7 +66,7 @@ export default function EditItem() {
         setTimeout(() => router.push("/menu"), 2000);
       }
     } catch (error) {
-      setErrorMsg(error.message || "An error occurred. Try again.")
+      setErrorMsg(error.message || "An error occurred. Try again.");
     }
   };
 

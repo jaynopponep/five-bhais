@@ -312,3 +312,19 @@ def create_staff(staff: dict):
     except Exception as e:
         print(f"Error inserting staff: {str(e)}")
         return False
+
+
+# def edit_staff_details():
+#     try:
+#     except:
+
+
+def delete_staff(name: str):
+    try:
+        db.employees.delete_one({"name": name})
+        db.accounts.delete_one({"name": name})
+        return True
+    except Exception as e:
+        # General error handling
+        print(f"Error removing a staff member: {str(e)}")
+        return False

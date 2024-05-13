@@ -17,6 +17,8 @@ from app.db import (
     place_order,
     get_all_staff,
     create_staff,
+    delete_staff,
+    edit_staff_details,
 )
 
 from flask_cors import CORS
@@ -139,7 +141,7 @@ def edit_item():
         expect(name, str, "name")
         expect(description, str, "description")
         expect(price, (int, float), "price")
-        print(222)
+
         expect(category, str, "category")
         expect(chef, str, "chef")
         edit_menu_item(item=request_data)
@@ -242,5 +244,30 @@ def api_create_staff():
         expect(role, str, "category")
         create_staff(staff=request_data)
         return jsonify({"message": f"Staff ({name}) was added"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@users_api_v1.route("/editStaff", methods=["POST"])
+# def api_edit_staff():
+#     if not request.is_json:
+#         return jsonify({"error": "No JSON request found"}), 400
+#     request_data = request.get_json()
+#     try:
+#         ## use edit_staff_details function
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 400
+
+
+@users_api_v1.route("/deleteStaff", methods=["POST"])
+def api_delete_staff():
+    if not request.is_json:
+        return jsonify({"error": "Not a JSON request"}), 400
+    request_data = request.get_json()
+    try:
+        name = request_data["name"]
+        expect(name, str, "name")
+        delete_staff(name=name)
+        return jsonify({"message": f"Staff ({name}) has been removed"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
