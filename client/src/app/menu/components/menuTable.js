@@ -7,15 +7,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"; // Adjust this import path to match your project's structure
-import { Checkbox } from "@/components/ui/checkbox"; // Adjust this import path to match your project's structure
-import { Pencil, Trash } from 'lucide-react'; // Ensure lucide-react is installed
-import { updateItemDetails, deleteItem } from '../edit-item/actions';
+} from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Pencil, Trash } from 'lucide-react';
+import { deleteItem } from '../edit-item/actions';
+import { useRouter } from 'next/navigation';
 
 export default function MenuTable({ items }) {
-  // This function handles clicking the pencil icon
-  const handleEditClick = async (item) => {
-    await updateItemDetails(item);
+  const router = useRouter();
+
+  const handleEditClick = async (itemId) => {
+    router.push(`/menu/edit-item?itemId=${itemId}`);
   };
 
   // This function handles clicking the trash icon
@@ -46,7 +48,7 @@ export default function MenuTable({ items }) {
               <TableCell>{item.price}</TableCell>
               <TableCell className="text-right">
                 <div className="flex justify-around">
-                  <Pencil className="cursor-pointer" onClick={() => handleEditClick(item)} />
+                  <Pencil className="cursor-pointer" onClick={() => handleEditClick(item._id.$oid)} />
                   <Trash className="cursor-pointer" onClick={() => handleDeleteClick(item)} />
                 </div>
               </TableCell>

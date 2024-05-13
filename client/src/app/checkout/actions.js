@@ -16,7 +16,16 @@ export async function placeOrder(cart, formData, total) {
         quantity: item.quantity
       });
     }
-    return order;
+    // ping the api
+    let response = await fetch("http://localhost:8080/api/v1/users/order", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(order)
+    });
+    const newBalance = response.json();
+    return newBalance;
   } catch (error) {
     console.error('An error occurred when trying to send a request', error);
     throw error;

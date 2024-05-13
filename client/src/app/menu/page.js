@@ -35,7 +35,11 @@ const MenuPage = () => {
 
   if (isLoading) return <Loading />;
 
-  return <div>{renderMenuComponent()}</div>;
+  return (
+    <div className="min-h-screen bg-customLight">
+      {renderMenuComponent()}
+    </div>
+  )
 };
 
 export default MenuPage;
