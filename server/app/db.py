@@ -67,7 +67,7 @@ def verify_new_user():
             "email": email,
             "password": password,
             "role": role,
-            "discount": discount
+            "discount": discount,
         }
         db.accounts.insert_one(account_data)
         newUser = db.accounts.find_one({"email": email})
@@ -157,8 +157,9 @@ def create_new_menu_item(item: dict):
 
 def edit_menu_item(item: dict):
     try:
-        name = item["name"]
-        db.menu.replace_one({"name": name}, item)
+        fixedID = ObjectId(item["_id"]["$oid"])
+        item["_id"] = fixedID
+        db.menu.replace_one({"_id": fixedID}, item)
         return True
     except Exception as e:
         # General error handling
@@ -273,3 +274,41 @@ def place_order(orderDetails):
     accounts.update_one({"email": orderUserEmail}, {"$inc": {"balance": -orderTotal}})
     orders.insert_one(orderDetails)
     return True
+
+
+## Staff functions:
+def get_all_staff():
+    try:
+        return bson.json_util.dumps(list(db.employees.find({})))
+    except Exception as e:
+        print(f"Error getting all staff members:  {str(e)}")
+        return False
+
+
+def create_staff(staff: dict):
+    try:
+        db.employees.insert_one(staff)
+        fname, lname = staff["name"].split()
+        email = staff["email"]
+        balance = 0
+        password = staff["password"]
+        role = staff["role"]
+        balance = float(balance)
+
+        staff_account = {
+            "fname": fname,
+            "lname": lname,
+            "balance": balance,
+            "email": email,
+            "password": password,
+            "role": role,
+        }
+        db.accounts.insert_one(staff_account)
+        newUser = db.accounts.find_one({"email": email})
+        return newUser
+
+    except pymongo.errors.DuplicateKeyError as e:
+        return False
+    except Exception as e:
+        print(f"Error inserting staff: {str(e)}")
+        return False

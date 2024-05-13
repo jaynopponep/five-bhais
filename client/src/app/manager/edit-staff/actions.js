@@ -1,4 +1,4 @@
-const updateItemDetails = async (itemData) => {
+const updateStaffDetails = async (itemData) => {
     try {
         const response = await fetch("http://localhost:8080/api/v1/users/editItem", {
             method: 'POST',
@@ -17,7 +17,7 @@ const updateItemDetails = async (itemData) => {
     }
 };
 
-async function deleteItem(item) {
+async function deleteStaff(item) {
     try {
         const response = await fetch("http://localhost:8080/api/v1/users/deleteItem", {
             method: 'POST',
@@ -37,20 +37,4 @@ async function deleteItem(item) {
     }
 }
 
-export { updateItemDetails, deleteItem };
-
-export async function fetchMenuItem(itemID) {
-    try {
-        let items = await fetch(
-            "http://127.0.0.1:8080/api/v1/users/getMenuItems",
-        ).then((res) => res.json());
-        for (let item of items["items"]) {
-            if (item._id.$oid === itemID) {
-                return item;
-            }
-        }
-        return null;
-    } catch (error) {
-        throw error;
-    }
-}
+export { updateStaffDetails, deleteStaff };

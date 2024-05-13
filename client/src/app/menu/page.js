@@ -23,6 +23,7 @@ const MenuPage = () => {
   const renderMenuComponent = () => {
     switch (userType) {
       case "chef":
+      case "manager":
         return <ChefMenu />;
       case "customer":
       case "vipcustomer":
@@ -34,7 +35,11 @@ const MenuPage = () => {
 
   if (isLoading) return <Loading />;
 
-  return <div>{renderMenuComponent()}</div>;
+  return (
+    <div className="min-h-screen bg-customLight">
+      {renderMenuComponent()}
+    </div>
+  )
 };
 
 export default MenuPage;

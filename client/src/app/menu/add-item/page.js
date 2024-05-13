@@ -8,25 +8,30 @@ import Loading from "../../_components/loading";
 
 export default function AddItem() {
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    fetchUser()
-      .then((data) => {
-        if (data !== "chef") {
-          window.location.href = "/menu";
-        } else {
-          setIsLoading(false);
-        }
-      })
-      .catch((error) => console.error(error));
-  }, []);
-
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
     category: "",
   });
+
+  useEffect(() => {
+    fetchUser()
+      .then((data) => {
+        if (data.role !== "chef") {
+          window.location.href = "/menu";
+        } else {
+          setFormData((prevData) => ({
+            ...prevData,
+            chef: data.fname + " " + data.lname,
+          }));
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+
 
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");

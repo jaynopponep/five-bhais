@@ -14,7 +14,9 @@ from app.db import (
     get_highest_reviews,
     login,
     post_review,
-    place_order
+    place_order,
+    get_all_staff,
+    create_staff,
 )
 
 from flask_cors import CORS
@@ -175,17 +177,6 @@ def delete_many_items():
         return jsonify({"error": str(e)}), 400
 
 
-@users_api_v1.route("/get_usertype", methods=["GET"])
-def get_user():
-    email = request.args.get("email")
-    if not email:
-        return jsonify({"error": "no email received"}), 400
-    user_data = get_usertype_by_email(email)
-    if user_data is None:
-        return jsonify({"error": "user not found"}), 404
-    return jsonify(user_data), 200
-
-
 @users_api_v1.route("/getMenuItems", methods=["GET"])
 def get_menu_items():
     try:
@@ -216,5 +207,37 @@ def order():
             return jsonify({"message": f"Order placed successfully. "}), 201
         else:
             return jsonify({"error": placed}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+## STAFF APIS:
+@users_api_v1.route("/getStaff", methods=["GET"])
+def api_get_staff():
+    try:
+        staff_members = get_all_staff()
+        return jsonify({"staff_members": json.loads(staff_members)}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@users_api_v1.route("/createStaff", methods=["POST"])
+def api_create_staff():
+    if not request.is_json:
+        return jsonify({"error": "No JSON request found"}), 400
+    request_data = request.get_json()
+    try:
+        name = request_data["name"]
+        pay = request_data["pay"]
+        email = request_data["email"]
+        password = request_data["password"]
+        role = request_data["role"]
+        expect(name, str, "name")
+        expect(pay, (int, float), "pay")
+        expect(email, str, "email")
+        expect(password, str, "password")
+        expect(role, str, "category")
+        create_staff(staff=request_data)
+        return jsonify({"message": f"Staff ({name}) was added"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
