@@ -1,31 +1,15 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../_components/navbar";
-import { useState, useEffect } from "react";
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import postNewEmployee from "./actions"; // Placeholder for importing the action to post new employee data
-import { fetchUser } from "../../manageUser"; 
-import Loading from "../../_components/loading"; 
-
+import { postNewStaff } from "./actions"; // Importing the function to post new employee data
+import { fetchUser } from "../../manageUser";
+import Loading from "../../_components/loading";
+import { useRouter } from "next/navigation";
 
 export default function AddEmployee() {
-  // State hooks for managing component state
-  const [isLoading, setIsLoading] = useState(true); // State to track loading status
-
-  // Effect hook to perform side effects (data fetching)
-  useEffect(() => {
-    // Fetch user data to ensure the user is a manager
-    fetchUser()
-      .then((data) => {
-        if (data !== "manager") {
-          window.location.href = "/"; // Redirect if not a manager
-        } else {
-          setIsLoading(false); // Set loading to false when check is complete
-        }
-      })
-      .catch((error) => console.error(error)); // Log any errors that occur during fetch
-  }, []);
-
-  // Form data state
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     pay: "",
@@ -33,12 +17,21 @@ export default function AddEmployee() {
     password: "",
     role: "",
   });
-
-  // State for managing messages on the UI
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Handle input changes for form fields
+  useEffect(() => {
+    fetchUser()
+      .then((data) => {
+        if (data.role !== "manager") {
+          router.push("/");
+        } else {
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -47,34 +40,32 @@ export default function AddEmployee() {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg("");
     setSuccessMsg("");
     try {
-      // Attempt to post new employee data using an imported action
-      const response = await postNewEmployee(formData);
-      if (response.message) {
-        setSuccessMsg(response.message); // Display success message
+      const response = await postNewStaff(formData);
+      if (response.success) {
+        setSuccessMsg(response.message);
         setErrorMsg("");
-        setTimeout(() => window.location.href = "/staff", 2000); // Redirect after successful submission
+        setTimeout(() => router.push("/manager/manage-staff"), 2000);
+      } else {
+        throw new Error(response.message);
       }
     } catch (error) {
-      setErrorMsg(error.message || "An error occurred. Try again."); // Display error message on failure
+      setErrorMsg(error.message || "An error occurred. Try again.");
       setSuccessMsg("");
     }
   };
 
-  // Conditional rendering for loading state
   if (isLoading) return <Loading />;
 
-  // Render the component
   return (
     <div className="bg-customLight h-screen">
-      <Navbar /> // Navigation bar component
+      <Navbar />
       <div className="flex flex-col justify-center items-center text-customBlack">
-        {errorMsg && ( // Conditionally render error message if present
+        {errorMsg && (
           <Alert
             variant="destructive"
             className="w-[250px] text-center absolute top-24"
@@ -82,7 +73,7 @@ export default function AddEmployee() {
             <AlertTitle>{errorMsg}</AlertTitle>
           </Alert>
         )}
-        {successMsg && ( // Conditionally render success message if present
+        {successMsg && (
           <Alert
             variant="default"
             className="w-[250px] text-center absolute top-24"
@@ -91,67 +82,84 @@ export default function AddEmployee() {
           </Alert>
         )}
         <div className="text-5xl font-bold mt-24 mb-4">Add Employee</div>
-        <form className="flex flex-col items-left w-[350px]" onSubmit={handleSubmit}>
-          // Input fields for employee data
-          { /* Each input field is bound to a state value and updates on change */ }
-          <label className="text-xl font-semibold text-left">Name</label>
+        <form className="flex flex-col items-left w-[350px]">
+          <label className="text-xl font-semibold text-left" htmlFor="email">
+            Name
+          </label>
           <input
             className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
+            id="name"
             name="name"
             type="text"
+            placeholder=""
             value={formData.name}
             onChange={handleInputChange}
             required
           />
-          <label className="text-xl font-semibold text-left">Pay</label>
+          <label className="text-xl font-semibold text-left" htmlFor="pay">
+            Pay
+          </label>
           <input
             className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
+            id="pay"
             name="pay"
             type="number"
+            placeholder=""
+            step="0.01"
             value={formData.pay}
             onChange={handleInputChange}
             required
           />
-          <label className="text-xl font-semibold text-left">Email</label>
+          <label className="text-xl font-semibold text-left" htmlFor="email">
+            Email
+          </label>
           <input
             className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
+            id="email"
             name="email"
             type="email"
+            placeholder=""
             value={formData.email}
             onChange={handleInputChange}
             required
           />
-          <label className="text-xl font-semibold text-left">Password</label>
+          <label className="text-xl font-semibold text-left" htmlFor="password">
+            Password
+          </label>
           <input
             className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
+            id="password"
             name="password"
             type="password"
+            placeholder=""
             value={formData.password}
             onChange={handleInputChange}
             required
           />
-          <label className="text-xl font-semibold text-left">Role</label>
+          <label className="text-xl font-semibold text-left" htmlFor="role">
+            Role
+          </label>
           <select
             className="w-full bg-customLight border-2 border-customBlack rounded-md p-1 mb-3"
+            id="role"
             name="role"
-            value={formData.role}
+            value={formData.category}
             onChange={handleInputChange}
+            placeholder="Select a role"
             required
           >
-            // Dropdown options for roles
             <option value="">Select a role</option>
-            <option value="delivery driver">Delivery Driver</option>
-            <option value="food importer">Food Importer</option>
+            <option value="deliverydriver">Delivery Driver</option>
+            <option value="foodimporter">Food Importer</option>
             <option value="chef">Chef</option>
           </select>
-          <button
-            type="submit"
-            className="w-[350px] mt-2 h-12 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300"
-          >
-            // Submission button
-            <p className="font-bold text-base md:text-xl">Add Employee</p>
-          </button>
         </form>
+        <button
+          onClick={handleSubmit}
+          className="w-[350px] mt-2 h-12 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300"
+        >
+          <p className="font-bold text-base md:text-xl">Add Staff</p>
+        </button>
       </div>
     </div>
   );

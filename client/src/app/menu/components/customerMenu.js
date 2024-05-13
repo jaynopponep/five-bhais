@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import MenuSection from "./menuSection";
 import { fetchMenu } from "../actions";
 
-export default function SurferMenu() {
+export default function CustomerMenu() {
   const [menu, setMenu] = useState([]);
 
   useEffect(() => {

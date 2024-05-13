@@ -7,19 +7,19 @@ import MenuTable from "./menuTable";
 import { CirclePlus, Trash } from 'lucide-react';
 
 
-export default function SurferMenu() {
+export default function ChefMenu() {
   const [menu, setMenu] = useState([]);
 
-  useEffect(() => {
-    fetchMenu()
-      .then((data) => {
-        const flattenedMenu = data.flatMap(({ sectionTitle, items }) =>
-          items.map((item) => ({ ...item, sectionTitle }))
-        );
-        setMenu(flattenedMenu)
-      })
-      .catch((error) => console.error(error));
-  }, []);
+    useEffect(() => {
+        fetchMenu()
+            .then((data) => {
+                const flattenedMenu = data.flatMap(({ sectionTitle, items}) =>
+                    items.map((item) => ({ ...item, sectionTitle }))
+                );
+                setMenu(flattenedMenu)
+            })
+            .catch((error) => console.error(error));
+    }, []);
 
   return (
     <div className="bg-customLight">

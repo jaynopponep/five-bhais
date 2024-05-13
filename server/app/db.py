@@ -268,3 +268,41 @@ def place_order(orderDetails):
             order_id = orders.insert_one(orderDetails).inserted_id
             #  return the new balance
             return user["balance"] - orderTotal
+
+
+## Staff functions:
+def get_all_staff():
+    try:
+        return bson.json_util.dumps(list(db.employees.find({})))
+    except Exception as e:
+        print(f"Error getting all staff members:  {str(e)}")
+        return False
+
+
+def create_staff(staff: dict):
+    try:
+        db.employees.insert_one(staff)
+        fname, lname = staff["name"].split()
+        email = staff["email"]
+        balance = 0
+        password = staff["password"]
+        role = staff["role"]
+        balance = float(balance)
+
+        staff_account = {
+            "fname": fname,
+            "lname": lname,
+            "balance": balance,
+            "email": email,
+            "password": password,
+            "role": role,
+        }
+        db.accounts.insert_one(staff_account)
+        newUser = db.accounts.find_one({"email": email})
+        return newUser
+
+    except pymongo.errors.DuplicateKeyError as e:
+        return False
+    except Exception as e:
+        print(f"Error inserting staff: {str(e)}")
+        return False
