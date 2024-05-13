@@ -196,17 +196,17 @@ def get_highest_reviews():
         return jsonify({"error": str(e)}), 400
 
 
-@users_api_v1.route("/order", methods=["GET"])
+@users_api_v1.route("/order", methods=["POST"])
 def order():
     if not request.is_json:
         return jsonify({"error": "Not JSON request"}), 400
+    request_data = request.get_json()
     try:
-        request_data = request.get_json()
-        response = place_order(request_data)
-        if response == 400:
-            return jsonify({"error": response}), 400
+        placed = place_order(request_data)
+        if placed:
+            return jsonify({"message": f"Order placed successfully. "}), 201
         else:
-            return jsonify({"message": f"Order placed successfully. New balance: {response}"}), 201
+            return jsonify({"error": placed}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 

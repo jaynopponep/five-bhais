@@ -1,6 +1,7 @@
 "use client";
 import AddressForm from "./addressForm";
 import { fetchUser } from "../../manageUser";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function CheckoutBox({
@@ -67,26 +68,30 @@ export default function CheckoutBox({
           <div className="font-bold">${getSubTotal()}</div>
         </div>
         {userType === "vipcustomer" && (
-            <div className="flex justify-between">
-                <div>VIP Discount -10%</div>
-                <div className="font-bold">-${getDiscount()}</div>
-            </div>
+          <div className="flex justify-between">
+            <div>VIP Discount -10%</div>
+            <div className="font-bold">-${getDiscount()}</div>
+          </div>
         )}
         <div className="flex justify-between">
           <div>Tax</div>
           <div className="font-bold">${getTax()}</div>
         </div>
         <div className="flex justify-between border-t pt-2 border-customBrown/70">
-            <div>Total</div>
-            <div className="font-bold">${userType === "vipcustomer" ? discountedTotal() : getTotal()}</div>
+          <div>Total</div>
+          <div className="font-bold">
+            ${userType === "vipcustomer" ? discountedTotal() : getTotal()}
+          </div>
         </div>
       </div>
-      <button
-        onClick={handleSubmit}
-        className="bg-customOrange font-bold text-customLight w-full p-2 rounded-lg mt-4"
-      >
-        Complete Purchase
-      </button>
+      <Link href="menu">
+        <button
+          onClick={handleSubmit}
+          className="bg-customOrange font-bold text-customLight w-full p-2 rounded-lg mt-4"
+        >
+          Complete Purchase
+        </button>
+      </Link>
     </div>
   );
 }
