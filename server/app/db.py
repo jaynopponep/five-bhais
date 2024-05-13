@@ -283,7 +283,25 @@ def get_all_staff():
 def create_staff(staff: dict):
     try:
         db.employees.insert_one(staff)
-        return True
+        fname, lname = staff["name"].split()
+        email = staff["email"]
+        balance = 0
+        password = staff["password"]
+        role = staff["role"]
+        balance = float(balance)
+
+        staff_account = {
+            "fname": fname,
+            "lname": lname,
+            "balance": balance,
+            "email": email,
+            "password": password,
+            "role": role,
+        }
+        db.accounts.insert_one(staff_account)
+        newUser = db.accounts.find_one({"email": email})
+        return newUser
+
     except pymongo.errors.DuplicateKeyError as e:
         return False
     except Exception as e:
