@@ -1,4 +1,6 @@
 # bhai-brothers-csc322
+Bhai Brothers is comprised of [Abdul A](https://www.linkedin.com/in/abdul-andha/) , [Jay N](https://www.linkedin.com/in/jay-noppone-pornpitaksuk-770462198/) , [Baljinder H](https://www.linkedin.com/in/baljinder-hothi/) , [Meftahul A](https://www.linkedin.com/in/meftahul-ahsan-0a339224a/) , and [Abrar H](https://www.linkedin.com/in/abrar-habib1/). The five of us together created and Run the **Bhai Brothers** Company, with this website being one of our locations: Five Bhai's
+
 
 ## What Is Five Bhai's?
 At Five Bhai's, our menu is a mosaic of the Indian subcontinent's diverse culinary regions, from the robust flavors of Punjab to the subtle, fish-based cuisine of Bangladesh, and beyond. Each dish is a homage to the area it represents, offering our guests a taste of local traditions and regional cooking styles that have been perfected over centuries.
