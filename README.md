@@ -1,5 +1,5 @@
 # bhai-brothers-csc322
-Bhai Brothers is comprised of [Abdul A](https://www.linkedin.com/in/abdul-andha/) , [Jay N](https://www.linkedin.com/in/jay-noppone-pornpitaksuk-770462198/) , [Baljinder H](https://www.linkedin.com/in/baljinder-hothi/) , [Meftahul A](https://www.linkedin.com/in/meftahul-ahsan-0a339224a/) , and [Abrar H](https://www.linkedin.com/in/abrar-habib1/). The five of us together created and Run the **Bhai Brothers** Company, with this website being one of our locations: Five Bhai's
+Bhai Brothers is comprised of [Abdul A](https://www.linkedin.com/in/abdul-andha/) , [Jay N](https://www.linkedin.com/in/jay-noppone-pornpitaksuk-770462198/) , [Baljinder H](https://www.linkedin.com/in/baljinder-hothi/) , [Meftahul A](https://www.linkedin.com/in/meftahul-ahsan-0a339224a/) , and [Abrar H](https://www.linkedin.com/in/abrar-habib1/). The five of us together created, and run the **Bhai Brothers** Company, with this website being one of our locations: Five Bhai's
 
 
 ## What Is Five Bhai's?
