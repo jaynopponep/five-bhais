@@ -10,10 +10,7 @@ import {
 } from "@/components/ui/table"; // Adjust this import path to match your project's structure
 import { Checkbox } from "@/components/ui/checkbox"; // Adjust this import path to match your project's structure
 import { Pencil, Trash } from "lucide-react"; // Ensure lucide-react is installed
-import {
-  updateStaffDetails,
-  deleteStaff,
-} from "@/app/manager/edit-staff/actions";
+import { deleteStaff } from "@/app/manager/edit-staff/actions";
 import { useRouter } from "next/navigation";
 
 export default function StaffTable({ staff }) {
