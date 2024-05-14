@@ -17,6 +17,7 @@ from app.db import (
     place_order,
     get_all_staff,
     create_staff,
+    delete_staff_item,
 )
 
 from flask_cors import CORS
@@ -242,5 +243,18 @@ def api_create_staff():
         expect(role, str, "category")
         create_staff(staff=request_data)
         return jsonify({"message": f"Staff ({name}) was added"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@users_api_v1.route("/deleteStaff", methods=["POST"])
+def delete_staff():
+    if not request.is_json:
+        return jsonify({"error": "Not JSON request"}), 400
+    request_data = request.get_json()
+    try:
+        name = request_data["name"]
+        delete_staff_item(name=name)
+        return jsonify({"message": f"Menu item ({name}) deleted successfully"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
