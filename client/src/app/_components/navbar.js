@@ -91,6 +91,32 @@ const ManagerNavBar = () => {
   );
 };
 
+const EmployeeNavBar = () => {
+  return (
+    <>
+      <div className="bg-customBrown text-customLight flex justify-between items-center p-4">
+        <Link href="/" className="text-5xl font-extrabold">
+          Bhai Brothers
+        </Link>
+        <div className="text-2xl flex justify-around w-96 items-center">
+          <Link href="menu">
+            <div>Menu</div>
+          </Link>
+          <Link href="customers">
+            <div>Customers</div>
+          </Link>
+          <Link href="/employee/dashboard">
+            <div>Dashboard</div>
+          </Link>
+          <div className="cursor-pointer" onClick={handleLogout}>
+            <LogOut />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
 export default function Navbar() {
   const [userType, setUserType] = useState("surfer");
   useEffect(() => {
@@ -108,8 +134,10 @@ export default function Navbar() {
           case "customer":
           case "vipcustomer":
             return <CustomerNavBar />;
-          case "manager":
+          case "foodimporter":
           case "chef":
+            return <EmployeeNavBar />;
+          case "manager":
             return <ManagerNavBar />;
           default:
             return <SurferNavbar />;
