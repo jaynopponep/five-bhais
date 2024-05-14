@@ -7,15 +7,17 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table"; // Adjust this import path to match your project's structure
-import { Checkbox } from "@/components/ui/checkbox"; // Adjust this import path to match your project's structure
-import { Pencil, Trash } from 'lucide-react'; // Ensure lucide-react is installed
+} from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Pencil, Trash } from 'lucide-react';
 import { updateStaffDetails, deleteStaff } from '@/app/manager/edit-staff/actions';
+import { useRouter } from 'next/navigation';
 
 export default function StaffTable({ staff }) {
-    // This function handles clicking the pencil icon
-    const handleEditClick = async (item) => {
-        await updateStaffDetails(item);
+    const router = useRouter();
+
+    const handleEditClick = async (itemId) => {
+        router.push(`/manager/edit-staff?itemId=${itemId}`);
     };
 
     // This function handles clicking the trash icon
@@ -42,11 +44,11 @@ export default function StaffTable({ staff }) {
                             <TableCell className="flex mt-1"><Checkbox /></TableCell>
                             <TableCell className="text-center">{item.name}</TableCell>
                             <TableCell className="text-center text-ellipsis truncate w-[500px]">{item.role}</TableCell>
-                            <TableCell className="text-center">{item.netComplaints}</TableCell>
+                            <TableCell className="text-center">{item.netComplaints}0</TableCell>
                             <TableCell className="text-center">{item.pay}</TableCell>
                             <TableCell className="text-right">
                                 <div className="flex justify-around">
-                                    <Pencil className="cursor-pointer" onClick={() => handleEditClick(item)} />
+                                    <Pencil className="cursor-pointer" onClick={() => handleEditClick(item._id.$oid)} />
                                     <Trash className="cursor-pointer" onClick={() => handleDeleteClick(item)} />
                                 </div>
                             </TableCell>

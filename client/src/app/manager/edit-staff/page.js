@@ -1,79 +1,154 @@
-// imports
-import React, { useState, useEffect } from 'react';
-import Navbar from '../../components/Navbar';
-import Loading from '../../components/Loading';
-import MenuTable from './menuTable'; //its declared but isnt used at all
-// for this one make sure it lines up with what jay is currently working on
-import { fetchItemDetails, updateItemDetails } from './actions';
-export default function EditMenuItemPage({ itemId }) {
-    // State for managing the loading status to control rendering of the Loading component
+"use client"
+import Navbar from "../../_components/navbar";
+import { useState, useEffect, use } from "react";
+import { Alert, AlertTitle } from "@/components/ui/alert"
+import { useRouter, useSearchParams } from 'next/navigation'
+import { fetchUser } from "../../manageUser";
+import Loading from '../../_components/loading';
+import { fetchMenuItem, updateItemDetails, updateStaffDetails } from "./actions";
+import { fetchStaff } from "./actions";
+
+export default function EditItem() {
     const [isLoading, setIsLoading] = useState(true);
-
-    // State for storing and managing the current item's data
-    const [item, setItem] = useState({
-        name: '',
-        description: '',
-        price: '',
-        category: ''
+    const [formData, setFormData] = useState({
+        name: "",
+        description: "",
+        price: "",
+        category: "",
     });
+    const [errorMsg, setErrorMsg] = useState("");
+    const [successMsg, setSuccessMsg] = useState("");
 
-    // useEffect hook to fetch item details when component mounts or itemId changes
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const itemId = searchParams.get("itemId");
+    if (!itemId) {
+        router.push("/menu")
+    }
+
     useEffect(() => {
-        async function fetchData() {
-            try {
-                // Fetch item details using the itemId passed to the component
-                const data = await fetchItemDetails(itemId);
-                setItem(data);  // Store the fetched data in state
-                setIsLoading(false);  // Set loading to false once data is loaded
-            } catch (error) {
-                console.error('Failed to fetch item details:', error);  // Log any errors
-                setIsLoading(false);  // Ensure loading is set to false on error as well
-            }
-        }
+        fetchUser()
+            .then((user) => {
+                if (user.role != "manager") {
+                    router.push("/")
+                } else {
+                    fetchStaff(itemId)
+                        .then((data) => {
+                            if (data) {
+                                setFormData(data);
+                                setIsLoading(false);
+                            } else {
+                                router.push("/menu")
+                            }
+                        })
+                        .catch((error) => console.error(error));
+                }
+            })
+            .catch((error) => console.error(error));
+    }, []);
 
-        fetchData();
-    }, [itemId]);  // Dependency array with itemId to re-fetch data when it changes
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
 
-    // Function to handle saving changes made to the item
-    const handleSaveChanges = async () => {
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setErrorMsg("");
+        console.log('fdata', formData)
         try {
-            // Call the update API action
-            await updateItemDetails(item);
-            alert('Changes saved successfully!');  // Notify user of success
+            const data = await updateStaffDetails(formData);
+            if (data) {
+                setSuccessMsg("Staff member successfully");
+                setErrorMsg("");
+                setTimeout(() => router.push("/menu"), 2000);
+            }
         } catch (error) {
-            console.error('Error updating item:', error);  // Log any errors
-            alert('Failed to save changes.');  // Notify user of failure
+            setErrorMsg(error.message || "An error occurred. Try again.")
         }
     };
 
-    // Conditional rendering based on loading state
-    if (isLoading) return <Loading />;  // Show loading indicator while data is loading
-
+    if (isLoading) return <Loading />;
     return (
-        <>
+        <div className="bg-customLight h-screen">
             <Navbar />
-            <div className="edit-menu-item">
-                <h1>Edit Menu Item</h1>
-                <form>
-                    <label>Name</label>
-                    <input type="text" value={item.name} readOnly />  {/* Input for name, not editable */}
+            <div>
+                <div className="flex flex-col justify-center items-center text-customBlack">
+                    {errorMsg ? (
+                        <Alert
+                            variant="destructive"
+                            className="w-[250px] text-center absolute top-24"
+                        >
+                            <AlertTitle>{errorMsg}</AlertTitle>
+                        </Alert>
+                    ) : null}
+                    {successMsg ? (
+                        <Alert
+                            variant="default"
+                            className="w-[250px] text-center absolute top-24"
+                        >
+                            <AlertTitle>{successMsg}</AlertTitle>
+                        </Alert>
+                    ) : null}
+                    <div className="text-5xl font-bold mt-24 mb-4">Edit Staff</div>
+                    <form className="flex flex-col items-left w-[350px]">
+                        <label className="text-xl font-semibold text-left" htmlFor="email">
+                            Name
+                        </label>
+                        <input
+                            className="w-full bg-customLight text-customBlack/70 border-2 border-customBlack rounded-md p-1 mb-3"
+                            id="name"
+                            name="name"
+                            type="text"
+                            placeholder=""
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            required
+                            disabled
+                        />
+                        <label className="text-xl font-semibold text-left" htmlFor="email">
+                            Role
+                        </label>
+                        <input
+                            className="w-full bg-customLight text-customBlack/70 border-2 border-customBlack rounded-md p-1 mb-3"
+                            id="role"
+                            name="role"
+                            type="text"
+                            placeholder=""
+                            value={formData.role}
+                            onChange={handleInputChange}
+                            required
+                            disabled
+                        />
+                        <label className="text-xl font-semibold text-left" htmlFor="email">
+                            Pay (hr)
+                        </label>
+                        <input
+                            className="w-full bg-customLight text-customBlack border-2 border-customBlack rounded-md p-1 mb-3"
+                            id="pay"
+                            name="pay"
+                            type="text"
+                            placeholder=""
+                            value={formData.pay}
+                            onChange={handleInputChange}
+                            required
+                        />
 
-                    <label>Description</label>
-                    <input type="text" value={item.description} onChange={e => setItem({ ...item, description: e.target.value })} /> {/* Editable input for description */}
 
-                    <label>Price</label>
-                    <input type="number" value={item.price} onChange={e => setItem({ ...item, price: e.target.value })} /> {/* Editable input for price */}
 
-                    <label>Category</label>
-                    <select value={item.category} onChange={e => setItem({ ...item, category: e.target.value })}> {/* Dropdown for selecting category */}
-                        <option value="starter">Starter</option>
-                        <option value="main">Main</option>
-                        <option value="dessert">Dessert</option>
-                    </select>
-
-                    <button type="button" onClick={handleSaveChanges}>Save Changes</button>  {/* Button to trigger save operation */}
-                </form>
+                    </form>
+                    <button
+                        onClick={handleSubmit}
+                        className="w-[350px] mt-2 h-12 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300"
+                    >
+                        <p className="font-bold text-base md:text-xl">Save Changes</p>
+                    </button>
+                </div>
             </div>
-        </>
+        </div>
     );
 }
