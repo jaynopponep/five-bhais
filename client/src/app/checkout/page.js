@@ -113,10 +113,11 @@ export default function Checkout() {
     e.preventDefault();
     setErrorMsg("");
     if (
-      formData.address === "" ||
-      formData.city === "" ||
-      formData.state === "" ||
-      formData.zip === ""
+      formData.orderType === "delivery" &&
+      (formData.address === "" ||
+        formData.city === "" ||
+        formData.state === "" ||
+        formData.zip === "")
     ) {
       setErrorMsg("Please fill out all fields.");
       return;
@@ -129,6 +130,9 @@ export default function Checkout() {
         localStorage.setItem("cart", JSON.stringify([]));
         setCart([]);
         setErrorMsg("");
+        const user = JSON.parse(sessionStorage.getItem("user"));
+        user.balance = user.balance - total;
+        sessionStorage.setItem("user", JSON.stringify(user));
         setSuccessMsg("Order placed successfully!");
       }
     } catch (error) {

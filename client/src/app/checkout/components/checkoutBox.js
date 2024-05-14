@@ -58,11 +58,13 @@ export default function CheckoutBox({
             </>
           )}
         </div>
-        <AddressForm
-          formData={formData}
-          handleInputChange={handleInputChange}
-          handleSubmit={handleSubmit}
-        />
+        {formData.orderType === "delivery" && (
+          <AddressForm
+            formData={formData}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+          />
+        )}
         <div className="flex justify-between">
           <div>Subtotal</div>
           <div className="font-bold">${getSubTotal()}</div>
