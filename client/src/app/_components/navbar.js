@@ -46,9 +46,12 @@ const CustomerNavBar = () => {
         <Link href="/" className="text-5xl font-extrabold">
           Bhai Brothers
         </Link>
-        <div className="text-2xl flex justify-around w-96 items-center">
+        <div className="text-2xl flex justify-around w-[500px] items-center">
           <Link href="menu">
             <div>Menu</div>
+          </Link>
+          <Link href="reservations">
+            <div>Reservations</div>
           </Link>
           <Link href="about">
             <div>About</div>
