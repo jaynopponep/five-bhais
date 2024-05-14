@@ -68,7 +68,7 @@ export default function Login() {
   };
 
   if (isLoading) return <Loading />;
-  else if (userType != "customer") window.location.href = "/";
+  else if (userType != "customer" && userType != "vipcustomer") window.location.href = "/";
   else {
     return (
       <div className="bg-customLight h-screen">

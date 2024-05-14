@@ -70,7 +70,7 @@ export default function Landing() {
             <div className="flex justify-between w-9/12 items-center">
               <div className="w-[136px]"></div>
               <div className="text-5xl text-center font-bold mt-12 mb-6">Reviews</div>
-              {user.role === 'customer' ? (
+              {user.role === 'customer' || user.role === 'vipcustomer' ? (
                 <Link href='add-review'>
                   <div className="bg-green-600 text-customLight rounded-full p-2 mt-6 flex justify-between w-[136px]">
                     <CirclePlus />
@@ -97,7 +97,7 @@ export default function Landing() {
             <div className="flex justify-between w-9/12 items-center">
               <div className="w-[136px]"></div>
               <div className="text-5xl text-center font-bold mt-12 mb-6">Driver Reviews</div>
-              {user.role === 'customer' ? (
+              {user.role === 'customer' || user.role === 'vipcustomer' ? (
                 <Link href='add-review'>
                   <div className="bg-green-600 text-customLight rounded-full p-2 mt-6 flex justify-between w-[136px]">
                     <CirclePlus />

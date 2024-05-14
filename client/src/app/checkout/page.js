@@ -22,6 +22,7 @@ export default function Checkout() {
     zip: "",
   });
   const [cart, setCart] = useState([]);
+  const [successMsg, setSuccessMsg] = useState("");
 
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart")));
@@ -126,6 +127,9 @@ export default function Checkout() {
       if (data) {
         // Add cart^^
         localStorage.setItem("cart", JSON.stringify([]));
+        setCart([]);
+        setErrorMsg("");
+        setSuccessMsg("Order placed successfully!");
       }
     } catch (error) {
       setErrorMsg(error.message || "An error occurred. Try again.");
@@ -143,6 +147,14 @@ export default function Checkout() {
             className="w-[250px] text-center absolute top-24"
           >
             <AlertTitle>{errorMsg}</AlertTitle>
+          </Alert>
+        ) : null}
+        {successMsg ? (
+          <Alert
+            variant="default"
+            className="w-[250px] text-center absolute top-24"
+          >
+            <AlertTitle>{successMsg}</AlertTitle>
           </Alert>
         ) : null}
         <div className="w-7/12">
