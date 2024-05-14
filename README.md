@@ -20,4 +20,17 @@ You will need the latest version of Node.js and npm installed on your machine. Y
 3. Run the frontend server via `npm run dev`.
 
 ### Backend
-1. Create a python virtual environemtn in the `server` directory
+1. Create and activate a python virtual environment. This can be done through the following commands.
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
+2. Download the required python packages using:    
+    ```bash
+    pip install -r requirements.txt
+    ```
+3. Run the backend server by first navigating to server directory.
+    ```bash
+    cd server
+    python server.py
+    ```
