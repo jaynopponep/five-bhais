@@ -1,5 +1,5 @@
 # bhai-brothers-csc322
-![Next.js Logo](https://upload.wikimedia.org/wikipedia/commons/8/8e/Nextjs-logo.svg)
+
 ## What Is Five Bhai's?
 At Five Bhai's, our menu is a mosaic of the Indian subcontinent's diverse culinary regions, from the robust flavors of Punjab to the subtle, fish-based cuisine of Bangladesh, and beyond. Each dish is a homage to the area it represents, offering our guests a taste of local traditions and regional cooking styles that have been perfected over centuries.
 
