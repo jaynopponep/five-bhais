@@ -23,9 +23,6 @@ const SurferNavbar = () => {
           <Link href="menu">
             <div>Menu</div>
           </Link>
-          <Link href="about">
-            <div>About</div>
-          </Link>
           <Link
             href="login"
             className="font-extrabold flex items-center justify-between w-[105px]"
@@ -52,9 +49,6 @@ const CustomerNavBar = () => {
           </Link>
           <Link href="reservations">
             <div>Reservations</div>
-          </Link>
-          <Link href="about">
-            <div>About</div>
           </Link>
           <Link href="checkout" className="">
             <ShoppingCart />

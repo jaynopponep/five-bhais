@@ -17,24 +17,4 @@ const updateStaffDetails = async (itemData) => {
     }
 };
 
-async function deleteStaff(item) {
-    try {
-        const response = await fetch("http://localhost:8080/api/v1/users/deleteItem", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(item)
-        });
-        if (!response.ok) {
-            throw new Error('Failed to delete item');
-        }
-        return await response.json();
-    }
-    catch (error) {
-        console.error('Error deleting item:', error);
-        throw error;
-    }
-}
-
-export { updateStaffDetails, deleteStaff };
+export { updateStaffDetails };

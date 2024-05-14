@@ -10,12 +10,11 @@ import Loading from '../_components/loading';
 export default function Login() {
   const [isLoading, setIsLoading] = useState(true);
   const [thisUser, setThisUser] = useState(null);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
   const [errorMsg, setErrorMsg] = useState("");
   const router = useRouter();
+  const [formData, setFormData] = useState({
+    balance: "",
+  });
 
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("user"));
@@ -36,20 +35,27 @@ export default function Login() {
     }));
   };
 
-
-  const handleSubmit = async (e) => {
+  const handleBalanceSubmit = (e) => {
     e.preventDefault();
     setErrorMsg("");
     try {
-      const data = await login(formData);
-      if (data) {
-        setUser(data.user);
-        router.push("/")
+      const newBalance = parseFloat(formData.balance);
+      if (isNaN(newBalance)) {
+        setErrorMsg("Please enter a valid balance.");
+        return;
       }
+      thisUser.balance += newBalance;
+      sessionStorage.setItem("user", JSON.stringify(thisUser));
+      setThisUser(thisUser);
+      // wait 1 second
+      setTimeout(() => {
+        setFormData({ balance: "" });
+      }, 1000);
     } catch (error) {
       setErrorMsg(error.message || "An error occurred. Try again.")
     }
-  };
+  }
+
 
   if (isLoading) return <Loading />;
   return (
@@ -73,12 +79,33 @@ export default function Login() {
             </div>
             <div className="flex flex-row gap-3 text-xl text-left">
               <div className="font-semibold">Your Balance:</div>
-              <div>${thisUser.balance}</div>
+              <div>${thisUser.balance.toFixed(2)}</div>
             </div>
             <div className="flex flex-row gap-3 text-xl text-left">
               <div className="font-semibold">Status:</div>
               <div>{thisUser.role}</div>
             </div>
+          </div>
+          <div className="mt-8">
+            <form onSubmit={handleBalanceSubmit}>
+              <div className="flex flex-row gap-3">
+                <input
+                  type="number"
+                  name="balance"
+                  id="balance"
+                  placeholder="Enter new balance"
+                  value={formData.balance}
+                  onChange={handleInputChange}
+                  className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                >
+                  Update Balance
+                </button>
+              </div>
+            </form>
           </div>
 
         </div>

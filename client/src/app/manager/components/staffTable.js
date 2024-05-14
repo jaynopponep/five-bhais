@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table"; // Adjust this import path to match your project's structure
 import { Checkbox } from "@/components/ui/checkbox"; // Adjust this import path to match your project's structure
 import { Pencil, Trash } from 'lucide-react'; // Ensure lucide-react is installed
-import { updateStaffDetails, deleteStaff } from '@/app/manager/edit-staff/actions';
+import { updateStaffDetails, deleteStaff } from "../manage-staff/actions";
 
 export default function StaffTable({ staff }) {
     // This function handles clicking the pencil icon
@@ -21,6 +21,7 @@ export default function StaffTable({ staff }) {
     // This function handles clicking the trash icon
     const handleDeleteClick = async (item) => {
         await deleteStaff(item)
+        window.location.reload();
     };
 
     return (
