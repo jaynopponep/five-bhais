@@ -23,7 +23,7 @@ export default function AddEmployee() {
   useEffect(() => {
     fetchUser()
       .then((data) => {
-        if (data.role !== "manager") {
+        if (data.role !== "chef" && data.role !== "foodimporter") {
           router.push("/");
         } else {
           setIsLoading(false);
@@ -81,101 +81,73 @@ export default function AddEmployee() {
             <AlertTitle>{successMsg}</AlertTitle>
           </Alert>
         )}
-        <div className="text-5xl font-bold mt-24 mb-10">Employee Dashboard</div> 
+        <div className="text-5xl font-bold mt-24 mb-10">Employee Dashboard</div>
 
         <div className="flex flex-wrap justify-between px-10 mt-10">
-        <div className="w-full sm:w-1/2 lg:w-1/3 mb-4">
+          <div className="w-full sm:w-1/2 lg:w-1/3 mb-4">
             <div className="bg-white rounded-lg p-11 shadow-md mb-4 mr-6">
-            <h2 className="text-xl font-semibold mb-4 ">Orders</h2>
-            <button
-
-          className="w-[120px] mt-1 h-9 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300"
-        >
-          <p className="font-bold text-base md:text-l">View Orders</p>
-        </button>
-
+              <h2 className="text-xl font-semibold mb-4 ">Orders</h2>
+              <button className="w-[120px] mt-1 h-9 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300">
+                <p className="font-bold text-base md:text-l">View Orders</p>
+              </button>
             </div>
-        </div>
-        <div className="w-full sm:w-1/2 lg:w-1/3 mb-4">
+          </div>
+          <div className="w-full sm:w-1/2 lg:w-1/3 mb-4">
             <div className="bg-white rounded-lg p-11 shadow-md mb-4 mr-6">
-            <h2 className="text-xl font-semibold mb-4">Reviews</h2>
+              <h2 className="text-xl font-semibold mb-4">Reviews</h2>
 
-            <button
-
-          className="w-[150px] mt-1 h-9 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300"
-        >
-          <p className="font-bold text-base md:text-l">Browse Reviews</p>
-        </button>
-
+              <button className="w-[150px] mt-1 h-9 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300">
+                <p className="font-bold text-base md:text-l">Browse Reviews</p>
+              </button>
             </div>
-        </div>
-        <div className="w-full sm:w-1/2 lg:w-1/3 mb-4">
+          </div>
+          <div className="w-full sm:w-1/2 lg:w-1/3 mb-4">
             <div className="bg-white rounded-lg p-11 shadow-md">
-            <h2 className="text-xl font-semibold mb-4">HR</h2>
+              <h2 className="text-xl font-semibold mb-4">HR</h2>
 
-            <button
-        //   onClick={handleSubmit}
-          className="w-[120px] mt-1 h-9 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300"
-        >
-          <p className="font-bold text-base md:text-l">Resources</p>
-        </button>
-            {/* <p>Learn About Resources</p> */}
+              <button
+                //   onClick={handleSubmit}
+                className="w-[120px] mt-1 h-9 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300"
+              >
+                <p className="font-bold text-base md:text-l">Resources</p>
+              </button>
+              {/* <p>Learn About Resources</p> */}
             </div>
-        </div>
-        <div className="w-full sm:w-1/2 lg:w-1/3 mb-4">
+          </div>
+          <div className="w-full sm:w-1/2 lg:w-1/3 mb-4">
             <div className="bg-white rounded-lg p-11 shadow-md mb-4 mr-6">
-            <h2 className="text-xl font-semibold mb-4">Complaints</h2>
+              <h2 className="text-xl font-semibold mb-4">Complaints</h2>
 
-            <button
+              <button className="w-[150px] mt-1 h-9 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300">
+                <p className="font-bold text-base md:text-l">View Complaints</p>
+              </button>
 
-          className="w-[150px] mt-1 h-9 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300"
-        >
-          <p className="font-bold text-base md:text-l">View Complaints</p>
-        </button>
-
-            {/* <p>File / View Complaints</p> */}
+              {/* <p>File / View Complaints</p> */}
             </div>
-        </div>
-        <div className="w-full sm:w-1/2 lg:w-1/3 mb-4">
+          </div>
+          <div className="w-full sm:w-1/2 lg:w-1/3 mb-4">
             <div className="bg-white rounded-lg p-11 shadow-md mb-4 mr-6">
-            <h2 className="text-xl font-semibold mb-4">Delivery</h2>
+              <h2 className="text-xl font-semibold mb-4">Delivery</h2>
 
-            <button
+              <button className="w-[120px] mt-1 h-9 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300">
+                <p className="font-bold text-base md:text-l">View Delivery</p>
+              </button>
 
-          className="w-[120px] mt-1 h-9 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300"
-        >
-          <p className="font-bold text-base md:text-l">View Delivery</p>
-
-        </button>
-            
-            {/* <p>Check / Pick Up Delivery</p> */}
-
+              {/* <p>Check / Pick Up Delivery</p> */}
             </div>
-        </div>
-        <div className="w-full sm:w-1/2 lg:w-1/3 mb-4">
+          </div>
+          <div className="w-full sm:w-1/2 lg:w-1/3 mb-4">
             <div className="bg-white rounded-lg p-11 shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Rewards</h2>
-            {/* <p>Explore Rewards</p>*/}
-            <button
-
-          className="w-[120px] mt-1 h-9 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300"
-        >
-          <p className="font-bold text-base md:text-l">Perks At Work</p>
-        </button>
+              <h2 className="text-xl font-semibold mb-4">Rewards</h2>
+              {/* <p>Explore Rewards</p>*/}
+              <button className="w-[120px] mt-1 h-9 flex justify-center items-center rounded-lg bg-customOrange text-customLight hover:text-customBG hover:bg-customMain transition-colors duration-300">
+                <p className="font-bold text-base md:text-l">Perks At Work</p>
+              </button>
             </div>
+          </div>
         </div>
-        </div>
-
-
-        </div>
-
-
-
       </div>
+    </div>
     // </div>
   );
 }
-
-
-
-
