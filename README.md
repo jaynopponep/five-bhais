@@ -34,3 +34,15 @@ You will need the latest version of Node.js and npm installed on your machine. Y
     cd server
     python server.py
     ```
+
+## Technologies Used
+For the frontend, we chose to use next.js, a React framework that allows for server-side rendering and static site generation. This was chosen for its ease of use and flexibility, as well as its ability to optimize performance and SEO.
+
+For the backend, we chose to use Flask, a lightweight Python web framework that is easy to set up and use. We connected Flask to a MongoDB Atlas database to store and retrieve data, and used Flask's RESTful API capabilities to handle requests and responses.
+
+## Team Members
+- [Abdul Andha](https://github.com/Abdul-Andha)
+- [Jay Noppone](https://github.com/jaynopponep)
+- [Abrar Habib](https://github.com/dddictionary)
+- [Meftahul Ahsan](https://github.com/meftahul1)
+- [Baljinder Hothi](https://github.com/BaljinderHothi)
