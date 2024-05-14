@@ -67,7 +67,7 @@ def verify_new_user():
             "email": email,
             "password": password,
             "role": role,
-            "discount": discount
+            "discount": discount,
         }
         db.accounts.insert_one(account_data)
         newUser = db.accounts.find_one({"email": email})
@@ -157,8 +157,9 @@ def create_new_menu_item(item: dict):
 
 def edit_menu_item(item: dict):
     try:
-        name = item["name"]
-        db.menu.replace_one({"name": name}, item)
+        fixedID = ObjectId(item["_id"]["$oid"])
+        item["_id"] = fixedID
+        db.menu.replace_one({"_id": fixedID}, item)
         return True
     except Exception as e:
         # General error handling
@@ -253,19 +254,61 @@ def update_driver(email, driver_data):
 
 
 def place_order(orderDetails):
-    orderTotal: Union[int, float] = orderDetails["total"]
-    orderUser: bson.ObjectId = orderDetails["user"]
-    # select the user from the database, and update their balance with the order total
-    user = accounts.find_one({"_id": orderUser})
-    if user:
-        if orderTotal > user["balance"]:
-            return 400
-        else:
-            # Update the user's balance
-            accounts.update_one(
-                {"_id": orderUser}, {"$inc": {"balance": -orderTotal}}
-            )
-            # Insert the order into the collection
-            order_id = orders.insert_one(orderDetails).inserted_id
-            #  return the new balance
-            return user["balance"] - orderTotal
+    orderUserEmail = orderDetails["email"]
+    orderTotal = float(orderDetails["total"])  # Ensure this is a float
+    userEmail = accounts.find_one({"email": orderUserEmail})
+
+    if not userEmail:
+        print("User not found")
+        return False
+    if "balance" not in userEmail:
+        print("Balance not found")
+        return False
+
+    userBalance = userEmail["balance"]
+    print(userBalance)
+    if orderTotal > userBalance:
+        print("Insufficient funds")
+        return False
+
+    accounts.update_one({"email": orderUserEmail}, {"$inc": {"balance": -orderTotal}})
+    orders.insert_one(orderDetails)
+    return True
+
+
+## Staff functions:
+def get_all_staff():
+    try:
+        return bson.json_util.dumps(list(db.employees.find({})))
+    except Exception as e:
+        print(f"Error getting all staff members:  {str(e)}")
+        return False
+
+
+def create_staff(staff: dict):
+    try:
+        db.employees.insert_one(staff)
+        fname, lname = staff["name"].split()
+        email = staff["email"]
+        balance = 0
+        password = staff["password"]
+        role = staff["role"]
+        balance = float(balance)
+
+        staff_account = {
+            "fname": fname,
+            "lname": lname,
+            "balance": balance,
+            "email": email,
+            "password": password,
+            "role": role,
+        }
+        db.accounts.insert_one(staff_account)
+        newUser = db.accounts.find_one({"email": email})
+        return newUser
+
+    except pymongo.errors.DuplicateKeyError as e:
+        return False
+    except Exception as e:
+        print(f"Error inserting staff: {str(e)}")
+        return False

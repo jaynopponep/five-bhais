@@ -15,6 +15,8 @@ from app.db import (
     login,
     post_review,
     place_order,
+    get_all_staff,
+    create_staff,
 )
 
 from flask_cors import CORS
@@ -125,6 +127,7 @@ def edit_item():
     if not request.is_json:
         return jsonify({"error": "Not JSON request"}), 400
     request_data = request.get_json()
+    print(request_data)
     try:
         name, description, price, category, chef = (
             request_data["name"],
@@ -136,11 +139,13 @@ def edit_item():
         expect(name, str, "name")
         expect(description, str, "description")
         expect(price, (int, float), "price")
+        print(222)
         expect(category, str, "category")
         expect(chef, str, "chef")
         edit_menu_item(item=request_data)
         return jsonify({"message": f"Menu item ({name}) edited successfully"}), 201
     except Exception as e:
+        print(10001)
         return jsonify({"error": str(e)}), 400
 
 
@@ -193,17 +198,49 @@ def get_highest_reviews():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-      
-@users_api_v1.route("/order", methods=["GET"])
+
+@users_api_v1.route("/order", methods=["POST"])
 def order():
     if not request.is_json:
         return jsonify({"error": "Not JSON request"}), 400
+    request_data = request.get_json()
     try:
-        request_data = request.get_json()
-        response = place_order(request_data)
-        if response == 400:
-            return jsonify({"error": response}), 400
+        placed = place_order(request_data)
+        if placed:
+            return jsonify({"message": f"Order placed successfully. "}), 201
         else:
-            return jsonify({"message": f"Order placed successfully. New balance: {response}"}), 201
+            return jsonify({"error": placed}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+## STAFF APIS:
+@users_api_v1.route("/getStaff", methods=["GET"])
+def api_get_staff():
+    try:
+        staff_members = get_all_staff()
+        return jsonify({"staff_members": json.loads(staff_members)}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@users_api_v1.route("/createStaff", methods=["POST"])
+def api_create_staff():
+    if not request.is_json:
+        return jsonify({"error": "No JSON request found"}), 400
+    request_data = request.get_json()
+    try:
+        name = request_data["name"]
+        pay = request_data["pay"]
+        email = request_data["email"]
+        password = request_data["password"]
+        role = request_data["role"]
+        expect(name, str, "name")
+        expect(pay, (int, float), "pay")
+        expect(email, str, "email")
+        expect(password, str, "password")
+        expect(role, str, "category")
+        create_staff(staff=request_data)
+        return jsonify({"message": f"Staff ({name}) was added"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400

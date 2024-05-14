@@ -4,7 +4,6 @@ import { redirect } from "next/dist/server/api-utils";
 
 export async function fetchMenu() {
   try {
-    // TODO: get req /get-menu endpoint when its implemented
     const menu = [
       { sectionTitle: "Appetizer", items: [] },
       { sectionTitle: "Main", items: [] },
@@ -29,6 +28,7 @@ export async function fetchMenu() {
         menu[4].items.push(item);
       }
     }
+    console.log(menu)
     return menu;
   } catch (error) {
     throw error;

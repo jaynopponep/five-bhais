@@ -46,6 +46,15 @@ export default function Checkout() {
       .catch((error) => console.error(error));
   }, []);
 
+  const [userEmail, setUserEmail] = useState("");
+  useEffect(() => {
+    fetchUser()
+      .then((data) => {
+        setUserEmail(data.email);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -113,10 +122,10 @@ export default function Checkout() {
     }
     try {
       const total = userType === "vipcustomer" ? discountedTotal() : getTotal();
-      const data = await placeOrder(cart, formData, total);
+      const data = await placeOrder(cart, formData, userEmail, total);
       if (data) {
+        // Add cart^^
         localStorage.setItem("cart", JSON.stringify([]));
-        window.location.href = "/order-confirmation";
       }
     } catch (error) {
       setErrorMsg(error.message || "An error occurred. Try again.");
