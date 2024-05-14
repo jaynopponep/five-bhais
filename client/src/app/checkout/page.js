@@ -23,12 +23,13 @@ export default function Checkout() {
   });
   const [cart, setCart] = useState([]);
   const [successMsg, setSuccessMsg] = useState("");
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart")));
     fetchUser()
       .then((user) => {
-        console.log(user);
+        setUser(user);
         if (user.role === "surfer") {
           router.push("/");
         } else {
@@ -120,6 +121,10 @@ export default function Checkout() {
         formData.zip === "")
     ) {
       setErrorMsg("Please fill out all fields.");
+      return;
+    }
+    if (user.balance < getTotal()) {
+      setErrorMsg("Insufficient balance.");
       return;
     }
     try {
