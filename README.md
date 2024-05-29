@@ -29,7 +29,7 @@ Requirements: [Node.js](https://nodejs.org/en/download/) and [Python](https://ww
     ```
 
 ### Technologies Used
-Frontend: NextJS
+Frontend: NextJS </br>
 Backend: Flask & MongoDB Atlas, including the pymongo library for building API endpoints
 
 ### Contributors:
